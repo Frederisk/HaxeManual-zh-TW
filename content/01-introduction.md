@@ -28,4 +28,6 @@ C# | 原始碼 | 桌面、行動裝置、伺服器
 
 本節的其餘部分簡要概述了 Haxe 程式的概覽以及自 2005 年成立以來 Haxe 的發展情況。
 
-[型別](types)介紹
+[型別](types)介紹了Haxe中的7種不同型別，以及這些型別是如何互動的。在[型別系統](type-system)中則有對型別的更進一步討論，其中解釋了例如<!--TODO--> *unification* 、 *type parameters* 以及 *type inference* 等的特徵。
+
+[類別欄位](class-field)
