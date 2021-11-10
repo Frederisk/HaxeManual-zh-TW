@@ -36,7 +36,7 @@ C# | 原始碼 | 桌面、行動裝置、伺服器
 
 [語言特徵](lf)透過詳細描述一些諸如**模式匹配**、**字串插值**和**死碼刪除**來總結了 Haxe 語言參考。
 
-我們與 Haxe 編譯器引用繼續先是處理了基本的[編譯器使用](compiler-usage)隨後是在[編譯器特徵](cr-features)中的進階特徵。最後，我們在[巨集](macro)將冒險進入** Haxe 巨集**令人興奮的土地，並以此了解如何大大簡化一些共同任務。
+我們與 Haxe 編譯器引用繼續先是處理了基本的[編譯器使用](compiler-usage)隨後是在[編譯器特徵](cr-features)中的進階特徵。最後，我們在[巨集](macro)將冒險進入 **Haxe 巨集**令人興奮的土地，並以此了解如何大大簡化一些共同任務。
 
 在接下來的[標準函式庫](std)章節中，我們將從 Haxe 標準函式庫探索重要的型別和概念。然後我們會在 [Haxelib](haxelib) 中學到有關 Haxe 包管理器的相關知識。
 
@@ -105,15 +105,25 @@ class Main {
 * Haxe 程式具有類別（`Main`，大寫），其中又有函數（`main`，小寫）；
 * 包含 Haxe 程式的檔案名稱和類別名稱相同（在此例中是`Main.hx`）；
 
-#### 相關內容
+### 相關內容
 
 * 《Haxe Code Cookbook》中的[初學者教程和範例](http://code.haxe.org/category/beginner/)。
 
 <!--label:introduction-haxe-history-->
 ## 歷史
 
-Haxe 專案由法國開發者**尼古拉斯&middot;坎納斯**（Nicolas Cannasse）於 2005 年 10 月 22 日作為流行開源的 ActionScript 2 編譯器**MTASC**（Motion-Twin Action Script Compiler）以及內部**MTypes**語言的繼承者啟動，其中後者實驗了物件導向語言的型別推斷的應用。尼古拉斯對程式語言設計的持久熱情，與做為一名就職於**Motion-Twin**遊戲開發員的一部份的混和兩種技術機會的出現，導致了一種全新語言的創造。
+Haxe 專案由法國開發者**尼古拉斯&middot;坎納斯**（Nicolas Cannasse）於 2005 年 10 月 22 日作為流行開源的 ActionScript 2 編譯器 **MTASC**（Motion-Twin Action Script Compiler）以及內部 **MTypes** 語言的繼承者啟動，其中後者實驗了物件導向語言的型別推斷的應用。尼古拉斯對程式語言設計的持久熱情，與做為一名就職於 **Motion-Twin** 遊戲開發員的一部份的混和兩種技術機會的出現，導致了一種全新語言的創造。
 
 Haxe 起初拚寫作 haXe ，其 beta 版本於 2006 年 2 月發布，首先支援的平台是 AVM 位元組碼以及尼古拉斯自己的 **Neko** 虛擬機器。
 
-尼古拉斯&middot;坎納斯
+時至今日依然在作為 Haxe 項目的負責人尼古拉斯&middot;坎納斯繼續以明晰的願景開發 Haxe，並在 2006 年 5 月發布了 Haxe 1.0，這第一個主要版本提供了 JavaScript 程式碼生成支援，並且已經有了一些定義了現在的 Haxe 的功能，例如型別推斷和<!--TODO:structural sub-typing-->結構子型別。
+
+Haxe 1 在兩年內迎來了幾個小版本發布，在 2006 年 8 月 Flash AVM2 目標以及 haxelib 工具， 2007 年 3 月添加了 ActionScript 3 目標。在此期間，穩定性成為重點，所以又有幾個小錯誤修正版本。
+
+Haxe 2.0 在 2008 年 7 月發布，其包括了由<!--TODO--> **Franco Ponticelli** 提供的 PHP 目標支援，之後 TODO **Hugh Sanderson** 在相似的努力下於 2009 年 7 月 Haxe 2.04 版本中 C++ 目標添加。
+
+與 Haxe 1 相同，接下來的是幾個月的穩定性發布。之後在 2011 年 1 月 Haxe 2.07 與巨集支援一同發布，大約在此時機，<!--TODO-->**Bruno Garcia**以 JavaScript 目標維護者的身分加入了團隊，並在隨後的 2.08 與 2.09 中對其帶來了巨大改進。
+
+2.09 發布之後，<!--TODO-->，**Simon Krajewski**加入了團隊，並開始了 Haxe 3 的工作。此外，**Cauê Waneck**的 Java 和 C# 目標在此時機也入了 Haxe 構建。2012 年 7 月，作為 Haxe 2 的最後一個版本，Haxe 2.10 發布。
+
+2012 年末，Haxe 3 做出了巨大變動，並由 Haxe 編譯器團隊專注於下一個大版本的開發，該團隊現在由 **Haxe 基金會**所支援。隨後 Haxe 3 在 2013 年 5 月發布。
