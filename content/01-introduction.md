@@ -90,6 +90,9 @@ Haxe code here
 
 <!--[code asset](assets/HelloWorld.hx)-->
 ```haxe
+/**
+    多行文檔註釋。
+**/
 class Main {
     static public function main():Void {
         // 單行註釋
