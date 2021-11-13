@@ -256,42 +256,40 @@ class Point3 extends Point {
 }
 ```
 
-This relation is often described as "is-a": any instance of class `Point3` is also an instance of `Point`. `Point` is then known as the **parent class** of `Point3`, which is a **child class** of `Point`. A class may have many child classes, but only one parent class. The term "a parent class of class X" usually refers to its direct parent class, the parent class of its parent class and so on.
+這種關係通常描述做「是一個」：任何 `Point3` 類別的實例也都是 `Point` 的實例。`Point` 是 `Point3` 的**父類別**，`Point3` 是 `Point` 的**子類別**。一個類別可以有多個子類別，但是只有一個父類別。術語「類別 X 的父類別」通常是說它的直接父類別、他的父類別的父類別，以此類推。
 
-The code above is very similar to the original `Point` class, with two new constructs being shown:
+上面的程式碼與最初的 `Point` 類別非常像似，其展示了兩個新的構造：
 
- * `extends Point` denotes that this class inherits from class `Point`
-* `super(x, y)` is the call to the constructor of the parent class, in this case, `Point.new`
+- `extend Point` 宣告這個類別衍生自類別 `Point`
+- `super(x, y)` 呼叫父類別的構造器，在此例中是 `Point.new`
 
-It is not necessary for child classes to define their own constructors, but if they do, a call to `super()` is mandatory. Unlike some other object-oriented languages, this call can appear anywhere in the constructor code and does not have to be the first expression.
+為子類別定義其自己的構造器並不是必要的，但只要定義了，則定義內對 `super()` 是必要的，與其他物件導向的語言不同，這個呼叫可以出現在構造器的任何位置而不必只能是第一個表達式。
 
-A class may override [methods](class-field-method) of its parent class, which requires the explicit `override` keyword. The effects and restrictions of this are detailed in [Overriding Methods](class-field-overriding).
+類別也可通過 `override` 關鍵字多載其父類的[方法](class-field-method)，其效果和限制在[多載方法](class-field-overriding)中有更多詳細描述。
 
-##### since Haxe 4.0.0
+#### 自 Haxe 4.0.0
 
-Classes can be declared with the keyword `final` to prevent them from being extended.
+類別可使用關鍵字 `final` 宣告以阻止其他類別衍生。
 
-> ##### Trivia: `:final` metadata
+> #### 瑣事：`final` 元資料
 >
-> Prior to Haxe 4, marking classes as final was possible using the `:final` metadata.
-
-
+> 在 Haxe 4 之前，標記一個類列別是最終的也是可以的，不過需要使用 `:final` 元資料標記。
 
 <!--label:types-interfaces-->
-#### Interfaces
+### 介面
 
-An interface can be understood as the signature of a class because it describes the public fields of a class. Interfaces do not provide implementations, but rather offer purely structural information:
+介面可視作類別的簽章，它描述了類別的公共欄位。介面並不提供實作，而只是提供純粹的結構資料。
 
 ```haxe
 interface Printable {
 	public function toString():String;
 }
 ```
-The syntax is similar to classes, with the following exceptions:
+語法與類別相似，但有一些差異:
 
-* The `interface` keyword is used instead of the `class` keyword.
-* Functions do not have any [expressions](expression).
-* Every field must have an explicit type.
+- 使用關鍵字 `interface` 而不是 `class`。
+- 函式沒有任何[表達式](expression)。
+- 所有欄位都必須具有顯示的型別。
 
 Interfaces, unlike [structural subtyping](type-system-structural-subtyping), describe a **static relation** between classes. A given class is only considered to be compatible to an interface if it explicitly states as much:
 
