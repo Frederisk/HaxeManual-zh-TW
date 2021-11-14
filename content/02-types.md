@@ -62,14 +62,14 @@ Haxe 型別系統可得知的七個觲別組：
 雖然每個 `Int` 都可以在預期為 `Float` 的地方使用，也就是說，`Int` 可**分配為** `Float` 或者是與 `Float` **相統一**，但是事實並非如此：將 `Float` 分配為 `Int` 可能會導致精度損失，因此並不允許這樣的隱含轉換。
 
 <!--label:types-overflow-->
-### 溢出
+### 溢位
 
-出於效能原因，Haxe 編譯器不會強制檢查任何溢出行為，檢查溢出的負擔落在了目標平台上。以下是一些特定平台上溢出行為的註解：
+出於效能原因，Haxe 編譯器不會強制檢查任何溢位行為，檢查溢位的負擔落在了目標平台上。以下是一些特定平台上溢位行為的註解：
 
-- C++、Java、C#、Neko、Flash：與 32 位整型數有相同的溢出機理
+- C++、Java、C#、Neko、Flash：與 32 位整型數有相同的溢位機理
 - PHP、JS、Flash 8：沒有原生的 **Int** 型別，當數字達到浮點限制時會有精度損失。
 
-作為替代，可以使用 **haxe.Int32** 與 **haxe.Int64** 類別來確保正確的溢出行為，但這在某些平台上需要以額外計算作為代價。
+作為替代，可以使用 **haxe.Int32** 與 **haxe.Int64** 類別來確保正確的溢位行為，但這在某些平台上需要以額外計算作為代價。
 
 <!--label:types-bool-->
 ### Bool
@@ -87,7 +87,7 @@ Haxe 型別系統可得知的七個觲別組：
 >
 > 表示沒有型別，其通常用於表示一些東西（通常是函式）沒有值。
 
-`Void` 是型別系統中的一個特例，因為它事實上不是型別，這用於表示沒有型別，主要用於函式的引數和傳回值。
+`Void` 是型別系統中的一個特例，因為它事實上不是型別，這用於表示沒有型別，主要用於函式的引數和回傳型別。
 
 在一開始的 Hello World 例子中，我們已經見過 `Void`了：
 
@@ -104,7 +104,7 @@ class Main {
 }
 ```
 
-函式的型別將在[函式型別](types-function)部分中詳細探索，但快速預覽在此處有助益：在上面例子中的 `main` 函式的型別是 `Void->Void`，也就是「沒有引數也不回傳任何東西」。Haxe 不容許 `Void` 的欄位或變數，如果有此類聲明，會發生錯誤：
+函式的型別將在[函式型別](types-function)部分中詳細探索，但快速預覽在此處有助益：在上面例子中的 `main` 函式的型別是 `Void->Void`，也就是「沒有引數也不回傳任何東西」。Haxe 不容許 `Void` 的欄位或變數，如果有此類宣告，會發生錯誤：
 
 ```haxe
 // 不容許 Void 的引數和變數
@@ -118,7 +118,7 @@ var x:Void;
 >
 > 在 Haxe 中，如果 `null` 可以分配給一個型別，那這個型別就是可空的。
 
-通常而言，程式語言會對可空性有單一清晰的定義。然而，由於 Haxe 目標語言的性質，Haxe 必在這方面取得妥協，雖然其中有一些語言容許並事實上對一切的默認值設為 `null`，但另一些卻甚至不容許某些型別有 `null` 值。因此，這需要區分兩種類型的目標語言：
+通常而言，程式語言會對可空性有單一清晰的定義。然而，由於 Haxe 目標語言的性質，Haxe 必在這方面取得妥協，雖然其中有一些語言容許並事實上對一切的預設值設為 `null`，但另一些卻甚至不容許某些型別有 `null` 值。因此，這需要區分兩種類型的目標語言：
 
 > #### 定義：靜態目標
 >
@@ -128,11 +128,11 @@ var x:Void;
 >
 > 動態目標的型別系統更寬鬆，並容許基本型別使用 `null` 作為值。這適用於 JavaScript、PHP、Neko與 Flash 6-8 目標。
 
-在動態目標上使用 `null` 時並沒有好擔心的，不過，對靜態目標則需要進一步考慮。首先，基本型別會初始化為它們的默認值。
+在動態目標上使用 `null` 時並沒有好擔心的，不過，對靜態目標則需要進一步考慮。首先，基本型別會初始化為它們的預設值。
 
-> #### 定義：默認值
+> #### 定義：預設值
 >
-> 靜態目標的基本型別具有下列默認值：
+> 靜態目標的基本型別具有下列預設值：
 >
 > - `Int`：0
 > - `Float`：在 Flash 上為 `NaN`，在其他靜態目標上則為 `0.0`
@@ -162,7 +162,7 @@ if( b != null) { ... } // 容許
 >
 > 在靜態目標上，可以使用 `Null<Int>`、`Null<Float>` 以及 `Null<Bool>` 來使之容許 `null` 作為值，這在動態目標上不會造成影響。`Null<T>` 也可以與其他型別一起使用以標記 `null` 是一個可接受的值。
 
-如果 `Null<T>` 或 `Dynamic` 「隱含」有 `null` 值並分配給了基本型別，則受分配者會使用默認值：
+如果 `Null<T>` 或 `Dynamic` 「隱含」有 `null` 值並分配給了基本型別，則受分配者會使用預設值：
 
 ```haxe
 var n:Null<Int> = null;
@@ -212,11 +212,11 @@ class Point {
 
 從語意上說，該類別表示離散二為空間上的一個點，不過這不重要。相反，讓我們描述一下基本結構：
 
-- 關鍵字 `class` 表明我們正在宣告一個類別。
+- 關鍵字 `class` 表明我們正在表示一個類別。
 - `Point` 是類別的名稱並且可以是符合[型別標識規則](define-identifier)的任何東西。
 - 用花括號 `{}` 包裹著的是類別的欄位，
 - 其由兩個變數欄位 `x` 和 `y` 組成，
-- 接下來是一個名為 `new` 的特殊函數欄位，這是類別的構造器，
+- 接下來是一個名為 `new` 的特殊函數欄位，這是類別的建構式，
 - 以及一個名為 `toString` 的通常函數。
 
 Haxe 中有一種特殊型別與所有類別相容：
@@ -230,20 +230,20 @@ Haxe 中有一種特殊型別與所有類別相容：
 > 當 API 要求**一個**類別而不是特定類別時，這種型別十分有用。這適用於 [[Haxe 反射 API]]中的幾個方法。
 
 <!--label:types-class-constructor-->
-### 類別構造器
+### 類別建構式
 
-類別實例是通過呼叫類別構造器建立的，這個過程通常稱作**實例化**。類別實例的另一個名稱是**物件**。儘管如此，我們更喜歡用術語類別實例來強調類別實例與[枚舉實例](types-enum-instance)的相似。
+類別實例是通過呼叫類別建構式建立的，這個過程通常稱作**實例化**。類別實例的另一個名稱是**物件**。儘管如此，我們更喜歡用術語類別實例來強調類別實例與[枚舉實例](types-enum-instance)的相似。
 
 ```haxe
 var p = new Point(-1, 65);
 ```
 
-上述程式碼將生成類別 `Point` 的實例，該實例分配給了名為 `p` 的變數。`Point`的構造器接收到了兩個引數 `x` 和 `y`（可在[類別實例](types-class-instance)比較其定義）。我們將在之後的 [new](expression-new) 部分重新審視 `new` 表達式的確切含意。目前，先將其視為呼叫類別構造器並返回了適合的物件。
+上述程式碼將生成類別 `Point` 的實例，該實例分配給了名為 `p` 的變數。`Point`的建構式接收到了兩個引數 `x` 和 `y`（可在[類別實例](types-class-instance)比較其定義）。我們將在之後的 [new](expression-new) 部分重新審視 `new` 表達式的確切含意。目前，先將其視為呼叫類別建構式並返回了適合的物件。
 
 <!--label:types-class-inheritance-->
-### 衍生
+### 繼承
 
-類別可以用關鍵字 `extends` 宣告從其他類別衍生：
+類別可以用關鍵字 `extends` 表示從其他類別繼承：
 
 ```haxe
 class Point3 extends Point {
@@ -260,16 +260,16 @@ class Point3 extends Point {
 
 上面的程式碼與最初的 `Point` 類別非常像似，其展示了兩個新的構造：
 
-- `extend Point` 宣告這個類別衍生自類別 `Point`
-- `super(x, y)` 呼叫父類別的構造器，在此例中是 `Point.new`
+- `extend Point` 表示這個類別繼承自類別 `Point`
+- `super(x, y)` 呼叫父類別的建構式，在此例中是 `Point.new`
 
-為子類別定義其自己的構造器並不是必要的，但只要定義了，則定義內對 `super()` 是必要的，與其他物件導向的語言不同，這個呼叫可以出現在構造器的任何位置而不必只能是第一個表達式。
+為子類別定義其自己的建構式並不是必要的，但只要定義了，則定義內對 `super()` 是必要的，與其他物件導向的語言不同，這個呼叫可以出現在建構式的任何位置而不必只能是第一個表達式。
 
-類別也可通過 `override` 關鍵字多載其父類的[方法](class-field-method)，其效果和限制在[多載方法](class-field-overriding)中有更多詳細描述。
+類別也可通過 `override` 關鍵字覆寫其父類的[方法](class-field-method)，其效果和限制在[覆寫方法](class-field-overriding)中有更多詳細描述。
 
 #### 自 Haxe 4.0.0
 
-類別可使用關鍵字 `final` 宣告以阻止其他類別衍生。
+類別可使用關鍵字 `final` 宣告以阻止其他類別繼承。
 
 > #### 瑣事：`final` 元資料
 >
@@ -282,20 +282,22 @@ class Point3 extends Point {
 
 ```haxe
 interface Printable {
-	public function toString():String;
+    public function toString():String;
 }
 ```
+
 語法與類別相似，但有一些差異:
 
 - 使用關鍵字 `interface` 而不是 `class`。
 - 函式沒有任何[表達式](expression)。
 - 所有欄位都必須具有顯示的型別。
 
-Interfaces, unlike [structural subtyping](type-system-structural-subtyping), describe a **static relation** between classes. A given class is only considered to be compatible to an interface if it explicitly states as much:
+介面不同於<!--TODO-->[structural subtyping](type-system-structural-subtyping)描述的是類別之間的靜態關係。給定的類別需要明確宣告才會視為與介面兼容：
 
 ```haxe
 class Point implements Printable { }
 ```
+
 Here, the `implements` keyword denotes that `Point` has an "is-a" relationship with `Printable`, i.e. each instance of `Point` is also an instance of `Printable`. While a class may only have one parent class, it may implement multiple interfaces through multiple `implements` keywords:
 
 ```haxe
