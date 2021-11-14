@@ -97,10 +97,10 @@ Haxe 型別系統可得知的七個觲別組：
     多行文檔註釋。
 **/
 class Main {
-    static public function main():Void {
-        // 單行註釋
-        trace("Hello World");
-    }
+  static public function main():Void {
+    // 單行註釋
+    trace("Hello World");
+  }
 }
 ```
 
@@ -156,7 +156,7 @@ var b:Null<Int> = 0;
 if( b != null) { ... } // 容許
 ```
 
-此限制適用於一切執行 <!--TODO-->unification(type-system-unification) 的情況。
+此限制<!--TODO:適用於-->擴充至一切執行 <!--TODO-->unification(type-system-unification) 的情況。
 
 > #### 定義：`Null<T>`
 >
@@ -196,17 +196,17 @@ function opt(?z:Int = -1) {}
 
 ```haxe
 class Point {
-    var x:Int;
-    var y:Int;
+  var x:Int;
+  var y:Int;
 
-    public function new(x, y) {
-        this.x = x;
-        this.y = y;
-    }
+  public function new(x, y) {
+    this.x = x;
+    this.y = y;
+  }
 
-    public function toString() {
-        return "Point(" + x + "," + y + ")";
-    }
+  public function toString() {
+    return "Point(" + x + "," + y + ")";
+  }
 }
 ```
 
@@ -247,12 +247,12 @@ var p = new Point(-1, 65);
 
 ```haxe
 class Point3 extends Point {
-    var z:Int;
+  var z:Int;
 
-    public function new(x, y, z) {
-        super(x, y);
-        this.z = z;
-    }
+  public function new(x, y, z) {
+    super(x, y);
+    this.z = z;
+  }
 }
 ```
 
@@ -269,7 +269,7 @@ class Point3 extends Point {
 
 #### 自 Haxe 4.0.0
 
-類別可使用關鍵字 `final` 宣告以阻止其他類別衍生。
+類別可使用關鍵字 `final` 宣告以阻止其他類別擴充。
 
 > #### 瑣事：`final` 元資料
 >
@@ -282,9 +282,10 @@ class Point3 extends Point {
 
 ```haxe
 interface Printable {
-	public function toString():String;
+  public function toString():String;
 }
 ```
+
 語法與類別相似，但有一些差異:
 
 - 使用關鍵字 `interface` 而不是 `class`。
@@ -296,40 +297,53 @@ Interfaces, unlike [structural subtyping](type-system-structural-subtyping), des
 ```haxe
 class Point implements Printable { }
 ```
-Here, the `implements` keyword denotes that `Point` has an "is-a" relationship with `Printable`, i.e. each instance of `Point` is also an instance of `Printable`. While a class may only have one parent class, it may implement multiple interfaces through multiple `implements` keywords:
+
+此處的 `implements` 關鍵字表明 `Point` 與 `Printable` 之間存在著「是一個」的關係，比如說每一個 `Point` 的實例都是 `Printable` 的實例。雖然一個類別只能有一個父類別，但可以透過多個 `implements` 關鍵字<!--TODO-->實現多個介面：
 
 ```haxe
 class Point implements Printable
   implements Serializable
 ```
 
-The compiler checks if the `implements` assumption holds. That is, it makes sure the class actually does implement all the fields required by the interface. A field is considered implemented if the class or any of its parent classes provide an implementation.
+編譯器會檢查 `implements` 的假設是否成立。也就是確認類別是否已實現介面所有的欄位。如果類別或其任何父類別對一個欄位有實現，那麼這個欄位就會被視為已實現。
 
-Interface fields are not limited to methods. They can be variables and properties as well:
+介面欄位並不僅限為方法，他們也可以是變數和屬性：
 
-[code asset](assets/InterfaceWithVariables.hx)
+<!-- [code asset](assets/InterfaceWithVariables.hx) -->
+```haxe
+interface Placeable {
+  public var x:Float;
+  public var y:Float;
+}
 
-Interfaces can extend multiple other interfaces using the `extends` keyword:
+class Main implements Placeable {
+  public var x:Float;
+  public var y:Float;
+
+  static public function main() {}
+}
+```
+
+介面也可使用 `extends` 關鍵詞與多個其他介面<!--TODO-->擴充：
+
 ```haxe
 interface Debuggable extends Printable extends Serializable
 ```
 
-##### since Haxe 4.0.0
+#### 自 Haxe 4.0.0
 
-Like classes, interfaces can be marked with the `final` keyword, preventing them from being extended.
+如同類別，介面也可使用關鍵字 `final` 宣告以阻止其他介面<!--TODO-->擴充。
 
-> ##### Trivia: Implements Syntax
+> #### implements 語法
 >
-> Haxe versions prior to 3.0 required multiple `implements` keywords to be separated by a comma. We decided to adhere to the de-facto standard of Java and got rid of the comma. This was one of the breaking changes between Haxe 2 and 3.
-
-
+> Haxe 版本 3.0 之前多個 `implements` 關鍵字必須用逗號分割，我們決定遵照 Java 的事實標準棄用逗號，這是 Haxe 2 與 Haxe 之間的<!--TODO-->不相容變化之一。
 
 <!--label:types-abstract-class-->
-#### Abstract Class
+### 抽象類別
 
-##### since Haxe 4.2.0
+#### 自 Haxe 4.2.0
 
-Abstract classes (not to be confused with [Abstract](type-system-type-inference)) are classes with partial implementation. As such, an abstract class cannot be instantiated but must first be extended, with the child class either providing implementation of all abstract methods or being declared abstract itself.
+抽象類別（不要與[抽象](type-system-type-inference)相混淆）是具有部分實現的類別。因此，抽象類別無法實作而必須首先擴充，其子類要麼提供所有抽象方法的實現，要麼宣告自己也是抽象的。
 
 In constrast to abstract classes, a class that implements all its methods is known as a concrete class. Concrete classes inheriting from abstract classes must be declared without the `abstract` keyword, and all abstract methods in the parent classes must be implemented.
 
