@@ -1,9 +1,9 @@
 <!--label:types-->
-# 型別
+# 型式
 
-Haxe 編譯器採用豐富的型別系統，其有助於在編譯時檢測程式中與型別相關的錯誤。型別錯誤是指對給定型別以無效操作的情況，例如嘗試除以一個字串、嘗試對數字欄位的存取或在呼叫一個函式時使用過多或過少的引數。
+Haxe 編譯器採用豐富的型式系統，其有助於在編譯時檢測程式中與型式相關的錯誤。型式錯誤是指對給定型式以無效操作的情況，例如嘗試除以一個字串、嘗試對數字欄位的存取或在呼叫一個函式時使用過多或過少的引數。
 
-在某些語言中，這種額外的安全性是有代價的，程式設計師不得不將型別顯式分配給語法結構：
+在某些語言中，這種額外的安全性是有代價的，程式設計師不得不將型式顯式賦值給語法結構：
 
 ```as3
 var myButton:MySpecialButton = new MySpecialButton(); // As3
@@ -13,34 +13,34 @@ var myButton:MySpecialButton = new MySpecialButton(); // As3
 MySpecialButton* myButton = new MySpecialButton(); // C++
 ```
 
-在 Haxe 中則不需要顯式類型註釋，因為 Haxe 編譯器會推斷出型別：
+在 Haxe 中則不需要顯式類型註釋，因為 Haxe 編譯器會推斷出型式：
 
 ```haxe
 var myButton = new MySpecialButton(); // Haxe
 ```
 
-我們將在稍後的[型別推斷](type-system-type-inference)中詳細探討 Haxe 的型別推斷。目前，只需要說明上述程式碼中的變數 `myButton` 是一個 `MySpecialButton` **類的實例**即可。
+我們將在稍後的[型式推理](type-system-type-inference)中詳細探討 Haxe 的型式推理。目前，只需要說明上述程式碼中的變數 `myButton` 是一個 `MySpecialButton` **類的實例**即可。
 
-Haxe 型別系統可得知的七個觲別組：
+Haxe 型式系統可得知的七個觲別組：
 
 - **類別實例**：給定了類別或介面的物件
 - **列舉實例**：Haxe 列舉的值
 - **結構**：匿名結構，即命名欄位的集合
-- **函式**：可以接受一個或多個引數並且有回傳值的複合型別
-- **動態**：與任何其他型別相容的萬用型別
-- **抽象**：在執行期會由不同型別表示的編譯期型別
-- **單態**：未知型別，在隨後可能會變為另一種型別。
+- **函式**：可以接受一個或多個引數並且有回傳值的複合型式
+- **動態**：與任何其他型式相容的萬用型式
+- **抽象**：在執行期會由不同型式表示的編譯期型式
+- **單型**：未知型式，在隨後可能會變為另一種型式。
 
-我們將在隨後的章節中描述這些型別組以及它們之間的關係。
+我們將在隨後的章節中描述這些型式組以及它們之間的關係。
 
-> #### 定義：複合型別
+> #### 定義：複合型式
 >
-> 複合型別是具有子型別的型別，其包括任何具有[型別參數](type-system-type-parameters)與[函式](types-function)型別的型別。
+> 複合型式是具有子型式的型式，其包括任何具有[型式參數](type-system-type-parameters)與[函式](types-function)型式的型式。
 
 <!--label:types-basic-types-->
-## 基本型別
+## 基本型式
 
-**基本型別**有 `Bool`、`Float` 和 `Int`，他們具有以下的值所以可以在語法中輕易識別：
+**基本型式**有 `Bool`、`Float` 和 `Int`，他們具有以下的值所以可以在語法中輕易識別：
 
 - `Bool` 有 `true` 和 `false`
 - `Int` 有類如 `1`、`0`、`-1` 和 `0xFF0000`
@@ -49,7 +49,7 @@ Haxe 型別系統可得知的七個觲別組：
 基本類別在 Haxe 中並非類別，而是以抽象實作，並與編譯器的內部算子相繫結，如同下文所述。
 
 <!--label:types-numeric-types-->
-### 數字型別
+### 數字型式
 
 > #### 定義：Float
 >
@@ -59,7 +59,7 @@ Haxe 型別系統可得知的七個觲別組：
 >
 > 表示整型數。
 
-雖然每個 `Int` 都可以在預期為 `Float` 的地方使用，也就是說，`Int` 可**分配為** `Float` 或者是與 `Float` **相統一**，但是事實並非如此：將 `Float` 分配為 `Int` 可能會導致精度損失，因此並不允許這樣的隱含轉換。
+雖然每個 `Int` 都可以在預期為 `Float` 的地方使用，也就是說，`Int` 可**賦值為** `Float` 或者是與 `Float` **相統一**，但是事實並非如此：將 `Float` 賦值為 `Int` 可能會導致精度損失，因此並不允許這樣的隱含轉換。
 
 <!--label:types-overflow-->
 ### 溢位
@@ -67,7 +67,7 @@ Haxe 型別系統可得知的七個觲別組：
 出於效能原因，Haxe 編譯器不會強制檢查任何溢位行為，檢查溢位的負擔落在了目標平台上。以下是一些特定平台上溢位行為的註解：
 
 - C++、Java、C#、Neko、Flash：與 32 位整型數有相同的溢位機理
-- PHP、JS、Flash 8：沒有原生的 **Int** 型別，當數字達到浮點限制時會有精度損失。
+- PHP、JS、Flash 8：沒有原生的 **Int** 型式，當數字達到浮點限制時會有精度損失。
 
 作為替代，可以使用 **haxe.Int32** 與 **haxe.Int64** 類別來確保正確的溢位行為，但這在某些平台上需要以額外計算作為代價。
 
@@ -78,16 +78,16 @@ Haxe 型別系統可得知的七個觲別組：
 >
 > 表示**真**或**假**的值。
 
-`Bool` 型別的值在 `if` 和 `while` 等的條件式中很常見。
+`Bool` 型式的值在 `if` 和 `while` 等的條件式中很常見。
 
 <!--label:types-void-->
 ### Void
 
 > #### 定義：Void
 >
-> 表示沒有型別，其通常用於表示一些東西（通常是函式）沒有值。
+> 表示沒有型式，其通常用於表示一些東西（通常是函式）沒有值。
 
-`Void` 是型別系統中的一個特例，因為它事實上不是型別，這用於表示沒有型別，主要用於函式的引數和回傳型別。
+`Void` 是型式系統中的一個特例，因為它事實上不是型式，這用於表示沒有型式，主要用於函式的引數和回傳型式。
 
 在一開始的 Hello World 例子中，我們已經見過 `Void`了：
 
@@ -104,7 +104,7 @@ class Main {
 }
 ```
 
-函式的型別將在[函式型別](types-function)部分中詳細探索，但快速預覽在此處有助益：在上面例子中的 `main` 函式的型別是 `Void->Void`，也就是「沒有引數也不回傳任何東西」。Haxe 不容許 `Void` 的欄位或變數，如果有此類宣告，會發生錯誤：
+函式的型式將在[函式型式](types-function)部分中詳細探索，但快速預覽在此處有助益：在上面例子中的 `main` 函式的型式是 `Void->Void`，也就是「沒有引數也不回傳任何東西」。Haxe 不容許 `Void` 的欄位或變數，如果有此類宣告，會發生錯誤：
 
 ```haxe
 // 不容許 Void 的引數和變數
@@ -116,29 +116,29 @@ var x:Void;
 
 > #### 定義：可空
 >
-> 在 Haxe 中，如果 `null` 可以分配給一個型別，那這個型別就是可空的。
+> 在 Haxe 中，如果 `null` 可以賦值給一個型式，那這個型式就是可空的。
 
-通常而言，程式語言會對可空性有單一清晰的定義。然而，由於 Haxe 目標語言的性質，Haxe 必在這方面取得妥協，雖然其中有一些語言容許並事實上對一切的預設值設為 `null`，但另一些卻甚至不容許某些型別有 `null` 值。因此，這需要區分兩種類型的目標語言：
+通常而言，程式語言會對可空性有單一清晰的定義。然而，由於 Haxe 目標語言的性質，Haxe 必在這方面取得妥協，雖然其中有一些語言容許並事實上對一切的預設值設為 `null`，但另一些卻甚至不容許某些型式有 `null` 值。因此，這需要區分兩種類型的目標語言：
 
 > #### 定義：靜態目標
 >
-> 靜態目標使用自己的型別系統，對這些來說 `null` 不是基本型別的有效值。Flash、C++、Java與C#目標屬於此類。
+> 靜態目標使用自己的型式系統，對這些來說 `null` 不是基本型式的有效值。Flash、C++、Java與C#目標屬於此類。
 <!---->
 > #### 定義：動態目標
 >
-> 動態目標的型別系統更寬鬆，並容許基本型別使用 `null` 作為值。這適用於 JavaScript、PHP、Neko與 Flash 6-8 目標。
+> 動態目標的型式系統更寬鬆，並容許基本型式使用 `null` 作為值。這適用於 JavaScript、PHP、Neko與 Flash 6-8 目標。
 
-在動態目標上使用 `null` 時並沒有好擔心的，不過，對靜態目標則需要進一步考慮。首先，基本型別會初始化為它們的預設值。
+在動態目標上使用 `null` 時並沒有好擔心的，不過，對靜態目標則需要進一步考慮。首先，基本型式會初始化為它們的預設值。
 
 > #### 定義：預設值
 >
-> 靜態目標的基本型別具有下列預設值：
+> 靜態目標的基本型式具有下列預設值：
 >
 > - `Int`：0
 > - `Float`：在 Flash 上為 `NaN`，在其他靜態目標上則為 `0.0`
 > - `Bool`：`false`
 
-因此，Haxe編譯器並不容許將 `null` 分配至靜態目標上的基本型別。為了實現分配 `null` 值，基本型別必須首先包裝為 `Null<T>`：
+因此，Haxe編譯器並不容許將 `null` 賦值至靜態目標上的基本型式。為了實現賦值 `null` ，基本型式必須首先包裝為 `Null<T>`：
 
 ```haxe
 // 在靜態目標上錯誤
@@ -146,7 +146,7 @@ var a:Int = null;
 var b:Null<Int> = null; // 容許
 ```
 
-同樣，除非經過包裝，否則基本型別不能與 `null` 比較：
+同樣，除非經過包裝，否則基本型式不能與 `null` 比較：
 
 ```haxe
 var a:Int = 0;
@@ -160,9 +160,9 @@ if( b != null) { ... } // 容許
 
 > #### 定義：`Null<T>`
 >
-> 在靜態目標上，可以使用 `Null<Int>`、`Null<Float>` 以及 `Null<Bool>` 來使之容許 `null` 作為值，這在動態目標上不會造成影響。`Null<T>` 也可以與其他型別一起使用以標記 `null` 是一個可接受的值。
+> 在靜態目標上，可以使用 `Null<Int>`、`Null<Float>` 以及 `Null<Bool>` 來使之容許 `null` 作為值，這在動態目標上不會造成影響。`Null<T>` 也可以與其他型式一起使用以標記 `null` 是一個可接受的值。
 
-如果 `Null<T>` 或 `Dynamic` 「隱含」有 `null` 值並分配給了基本型別，則受分配者會使用預設值：
+如果 `Null<T>` 或 `Dynamic` 「隱含」有 `null` 值並賦值給了基本型式，則受賦值者會使用預設值：
 
 ```haxe
 var n:Null<Int> = null;
@@ -185,7 +185,7 @@ function opt(?z:Int = -1) {}
 ```
 
 > #### 瑣事：引數與參數
-> 在一些其他程式語言中，**引數**（argument）與**參數**（parameter）是可混用的。而在 Haxe 中，對方法使用的是**引數**，而對[型別引數](type-system-type-parameters)則使用**參數**。
+> 在一些其他程式語言中，**引數**（argument）與**參數**（parameter）是可混用的。而在 Haxe 中，對方法使用的是**引數**，而對[型式引數](type-system-type-parameters)則使用**參數**。
 
 <!--label:types-class-instance-->
 ## 類別實例
@@ -213,21 +213,21 @@ class Point {
 從語意上說，該類別表示離散二為空間上的一個點，不過這不重要。相反，讓我們描述一下基本結構：
 
 - 關鍵字 `class` 表明我們正在表示一個類別。
-- `Point` 是類別的名稱並且可以是符合[型別標識規則](define-identifier)的任何東西。
+- `Point` 是類別的名稱並且可以是符合[型式標識規則](define-identifier)的任何東西。
 - 用花括號 `{}` 包裹著的是類別的欄位，
 - 其由兩個變數欄位 `x` 和 `y` 組成，
 - 接下來是一個名為 `new` 的特殊函數欄位，這是類別的建構式，
 - 以及一個名為 `toString` 的通常函數。
 
-Haxe 中有一種特殊型別與所有類別相容：
+Haxe 中有一種特殊型式與所有類別相容：
 
 > #### 定義：`Class<T>`
 >
-> 該型別與所有類別型別相容，這意味著所有類別都可以分配給它。不過類別的實例不能分配給該類別。
+> 該型式與所有類別型式相容，這意味著所有類別都可以賦值給它。不過類別的實例不能賦值給該類別。
 >
-> 在編譯時，`Class<T>` 是所有類別型別的共同基型別。這種關係不會反映在生成程式碼中。
+> 在編譯時，`Class<T>` 是所有類別型式的共同基底型式。這種關係不會反映在生成程式碼中。
 >
-> 當 API 要求**一個**類別而不是特定類別時，這種型別十分有用。這適用於 [[Haxe 反射 API]]中的幾個方法。
+> 當 API 要求**一個**類別而不是特定類別時，這種型式十分有用。這適用於 [[Haxe 反射 API]]中的幾個方法。
 
 <!--label:types-class-constructor-->
 ### 類別建構式
@@ -238,7 +238,7 @@ Haxe 中有一種特殊型別與所有類別相容：
 var p = new Point(-1, 65);
 ```
 
-上述程式碼將生成類別 `Point` 的實例，該實例分配給了名為 `p` 的變數。`Point`的建構式接收到了兩個引數 `x` 和 `y`（可在[類別實例](types-class-instance)比較其定義）。我們將在之後的 [new](expression-new) 部分重新審視 `new` 表達式的確切含意。目前，先將其視為呼叫類別建構式並返回了適合的物件。
+上述程式碼將生成類別 `Point` 的實例，該實例賦值給了名為 `p` 的變數。`Point`的建構式接收到了兩個引數 `x` 和 `y`（可在[類別實例](types-class-instance)比較其定義）。我們將在之後的 [new](expression-new) 部分重新審視 `new` 表達式的確切含意。目前，先將其視為呼叫類別建構式並返回了適合的物件。
 
 <!--label:types-class-inheritance-->
 ### 繼承
@@ -290,22 +290,22 @@ interface Printable {
 
 - 使用關鍵字 `interface` 而不是 `class`。
 - 函式沒有任何[表達式](expression)。
-- 所有欄位都必須具有顯示的型別。
+- 所有欄位都必須具有顯示的型式。
 
-介面不同於<!--TODO-->[structural subtyping](type-system-structural-subtyping)描述的是類別之間的靜態關係。給定的類別需要明確宣告才會視為與介面兼容：
+介面不同於<!--TODO-->[結構子型態](type-system-structural-subtyping)描述的是類別之間的靜態關係。給定的類別需要明確宣告才會視為與介面兼容：
 
 ```haxe
 class Point implements Printable { }
 ```
 
-此處的 `implements` 關鍵字表明 `Point` 與 `Printable` 之間存在著「是一個」的關係，比如說每一個 `Point` 的實例都是 `Printable` 的實例。雖然一個類別只能有一個父類別，但可以透過多個 `implements` 關鍵字<!--TODO-->實現多個介面：
+此處的 `implements` 關鍵字表明 `Point` 與 `Printable` 之間存在著「是一個」的關係，比如說每一個 `Point` 的實例都是 `Printable` 的實例。雖然一個類別只能有一個父類別，但可以透過多個 `implements` 關鍵字實作多個介面：
 
 ```haxe
 class Point implements Printable
   implements Serializable
 ```
 
-編譯器會檢查 `implements` 的假設是否成立。也就是確認類別是否已實現介面所有的欄位。如果類別或其任何父類別對一個欄位有實現，那麼這個欄位就會被視為已實現。
+編譯器會檢查 `implements` 的假設是否成立。也就是確認類別是否已實作介面所有的欄位。如果類別或其任何父類別對一個欄位有實作，那麼這個欄位就會被視為已實作。
 
 介面欄位並不僅限為方法，他們也可以是變數和屬性：
 
@@ -324,7 +324,7 @@ class Main implements Placeable {
 }
 ```
 
-介面也可使用 `extends` 關鍵詞與多個其他介面<!--TODO-->擴充：
+介面也可使用 `extends` 關鍵詞與多個其他介面擴充：
 
 ```haxe
 interface Debuggable extends Printable extends Serializable
@@ -332,7 +332,7 @@ interface Debuggable extends Printable extends Serializable
 
 #### 自 Haxe 4.0.0
 
-如同類別，介面也可使用關鍵字 `final` 宣告以阻止其他介面<!--TODO-->擴充。
+如同類別，介面也可使用關鍵字 `final` 宣告以阻止其他介面擴充。
 
 > #### implements 語法
 >
@@ -343,11 +343,11 @@ interface Debuggable extends Printable extends Serializable
 
 #### 自 Haxe 4.2.0
 
-抽象類別（不要與[抽象](type-system-type-inference)相混淆）是具有部分實現的類別。因此，抽象類別無法實作而必須首先擴充，其子類要麼提供所有抽象方法的實現，要麼宣告自己也是抽象的。
+抽象類別（不要與[抽象](type-system-type-inference)相混淆）是具有部分實作的類別。因此，抽象類別無法實作而必須首先擴充，其子類要麼提供所有抽象方法的實作，要麼宣告自己也是抽象的。
 
-In constrast to abstract classes, a class that implements all its methods is known as a concrete class. Concrete classes inheriting from abstract classes must be declared without the `abstract` keyword, and all abstract methods in the parent classes must be implemented.
+與抽象類別相反，實作了所有自身方法的類別稱之為具體類別。具體型式宣告時不能使用 `abstract` 關鍵字，且父類別中的抽象方法必須全部實作。
 
-Abstract classes support all language features that concrete classes support, thus any class can be declared abstract. Furthermore, abstract class methods behave similarly to interfaces; implementations of the methods do not use the `override` keyword.
+抽象類別支援具體類別中的所有語言特徵，任何類別都可宣告為抽象的。此外，抽象類別方法與介面相似，方法的實作不須使用 `override` 關鍵字。
 
 ```haxe
 abstract class Vehicle {
@@ -379,7 +379,7 @@ class Bike extends Vehicle {
 }
 ```
 
-An abstract class can be used to provide a partial implementation of an interface, leaving the implementation of other methods up to the child classes.
+抽象類別可只提供實作介面的部分，其餘的實作交由子類別。
 
 ```haxe
 interface Vehicle {
@@ -402,8 +402,7 @@ class EBike extends Bike {
 }
 ```
 
-
-As with other inheritance relationships, child classes can be assigned to a type of their abstract parent class.
+如同其他繼承關係，子類別可賦值至其抽象父類別類型。
 
 ```haxe
 abstract class Base {
@@ -425,8 +424,7 @@ class Main {
 }
 ```
 
-
-A class can be declared abstract even if it has no abstract methods. Even in this case it cannot be instantiated, but non-abstract child classes can be.
+類別即便沒有抽象方法也可宣告為抽象的。在此例中，這個抽象類別無法實例化，但是非抽象的子類別可以。
 
 ```haxe
 abstract class Spaceship {
@@ -441,13 +439,13 @@ class Rocket extends Spaceship {}
 
 class Main {
   public static function main() {
-    // var spaceship = new Spaceship();  // Error: Spaceship is abstract and cannot be constructed
-    var rocket = new Rocket(); // Succeed
+    // var spaceship = new Spaceship();  // 錯誤：Spaceship 是抽象的，無法建構
+    var rocket = new Rocket(); // 成功
   }
 }
 ```
 
-Even though they can't be instantiated, abstract classes can still have a constructor that the child class can call with `super()`.
+儘管其無法實例化，但抽象類別依然可以有建構式，其可以由子類別透過 `super()` 呼叫。
 
 ```haxe
 abstract class Parent {
@@ -464,45 +462,52 @@ class Child extends Parent {
 }
 ```
 
-
-
 <!--label:types-enum-instance-->
-### Enum Instance
+### 枚舉實例
 
-Haxe provides powerful enumeration (short: enum) types, which are actually an **algebraic data type** (ADT). While they cannot have any [expressions](expression), they are very useful for describing data structures:
+Haxe 提供了極其強大的枚舉型式，其實質上是**代數資料型式**（ADT）。雖然此種型式不能擁有任何表達式，但其在描述資料時十分有用。
 
-[code asset](assets/Color.hx)
+<!-- [code asset](assets/Color.hx) -->
+```haxe
+enum Color {
+  Red;
+  Green;
+  Blue;
+  Rgb(r:Int, g:Int, b:Int);
+}
+```
 
-Semantically, this enum describes a color which is either red, green, blue or a specified RGB value. The syntactic structure is as follows:
+該枚舉在語意上描述了一個顏色：紅、綠、藍、或者一個特定的 RGB 值。語法結構如下：
 
-* The keyword `enum` denotes that we are declaring an enum.
-* `Color` is the name of the enum and could be anything conforming to the rules for [type identifiers](define-identifier).
-* Enclosed in curly braces `{}` are the **enum constructors**,
-* which are `Red`, `Green`, and `Blue` taking no arguments,
-* as well as `Rgb` taking three `Int` arguments named `r`, `g` and `b`.
+- 關鍵字 `enum` 表示我們正在宣告枚舉。
+- `Color` 表示枚舉名稱並且可以是符合[型式標識規則](define-identifier)的任何東西。
+- 用花括號 `{}` 包裹著的是**枚舉建構式**，
+- 其中 `Red`、`Green` 和 `Blue` 不需要引數，
+- 另外的 `Rgb` 要有三個 `Int` 引數，分別名為 `r`, `g` 和 `b`。
 
-The Haxe type system provides a type which unifies with all enum types:
+Haxe 的型式系統提供了一種統一了所有枚舉的型式：
 
-> ##### Define: `Enum<T>`
+> #### 定義：`Enum<T>`
 >
-> This type is compatible with all enum types. At compile-time, `Enum<T>` can be seen as the common base type of all enum types. However, this relation is not reflected in generated code.
+> 此型式與所有枚舉型式相容。在編譯期 `Enum<T>` 可視作所有枚舉型式的共同基底型式，不過這種關係不會反映在生成程式碼中。
 
 <!--label:types-enum-constructor-->
-#### Enum Constructor
+#### 枚舉建構式
 
-Similar to classes and their constructors, enums can be instantiated using their constructors. However, unlike classes, enums provide multiple constructors which can accessed through their name:
+與類別與其建構器類似，枚舉可透過建構器實例化。不過與類別同的是，枚舉提供了多個建構器，這些建構器可以透過各自的名稱呼叫：
 
 ```haxe
 var a = Red;
 var b = Green;
 var c = Rgb(255, 255, 0);
 ```
-In this code, the type of variables `a`, `b` and `c` is `Color`. Variable `c` is initialized using the `Rgb` constructor with arguments.
 
-All enum instances can be assigned to a special type named `EnumValue`.
+在此處的程式碼中，`a`、`b` 和 `c` 是 `Color` 枚舉的實例，變數 `c` 以引數的方式呼叫 `Rgb` 建構器實例化。
+
+所有的枚舉實例都可賦值至一個殊型式 `EnumValue`。
 
 > ##### Define: EnumValue
->
+> 標準函式庫
 > EnumValue is a special type which unifies with all enum instances. It is used by the [Haxe Standard Library](std) to provide certain operations for all enum instances and can be employed in user-code accordingly in cases where an API requires **an** enum instance, but not a specific one.
 
 It is important to distinguish between enum types and enum constructors, as this example demonstrates:
