@@ -349,7 +349,7 @@ interface Debuggable extends Printable extends Serializable
 
 抽象類別支援具體類別中的所有語言特徵，任何類別都可宣告為抽象的。此外，抽象類別方法與介面相似，方法的實作不須使用 `override` 關鍵字。
 
-```haxe
+k
 abstract class Vehicle {
   var speed:Float = 0;
 
@@ -504,32 +504,75 @@ var c = Rgb(255, 255, 0);
 
 在此處的程式碼中，`a`、`b` 和 `c` 是 `Color` 枚舉的實例，變數 `c` 以引數的方式呼叫 `Rgb` 建構器實例化。
 
-所有的枚舉實例都可賦值至一個殊型式 `EnumValue`。
+所有的枚舉實例都可賦值至一個特殊型式 `EnumValue`。
 
 > ##### Define: EnumValue
-> 標準函式庫
-> EnumValue is a special type which unifies with all enum instances. It is used by the [Haxe Standard Library](std) to provide certain operations for all enum instances and can be employed in user-code accordingly in cases where an API requires **an** enum instance, but not a specific one.
-
-It is important to distinguish between enum types and enum constructors, as this example demonstrates:
-
-[code asset](assets/EnumUnification.hx)
-
-If the commented line is uncommented, the program does not compile because `Red` (an enum constructor) cannot be assigned to a variable of type `Enum<Color>` (an enum type). The relation is analogous to a class and its instance.
-
-> ##### Trivia: Concrete type parameter for `Enum<T>`
 >
-> One of the reviewers of this manual was confused about the difference between `Color` and `Enum<Color>` in the example above. Indeed, using a concrete type parameter there is pointless and only serves the purpose of demonstration. Usually, we would omit the type there and let [type inference](type-system-type-inference) deal with it.
+> EnumValue 是一種與所有枚舉實例相統一的特殊型式。其由[標準函式庫](std)所用於為所有枚舉實例提供某些操作，以及在 API 需要的情況下容許在用戶程式碼中使用不特定枚舉實例。
+
+區別枚舉型式與枚舉建構式十分重要，如此例所示：
+
+<!-- [code asset](assets/EnumUnification.hx) -->
+```haxe
+enum Color {
+  Red;
+  Green;
+  Blue;
+  Rgb(r:Int, g:Int, b:Int);
+}
+
+class Main {
+  static public function main() {
+    var ec:EnumValue = Red; // 有效
+    var en:Enum<Color> = Color; // 有效
+    // 錯誤：Color 應為 Enum<Color>
+    // var x:Enum<Color> = Red;
+  }
+}
+```
+
+如果對註釋內容取消註釋，程式將因為 `Red`（枚舉建構式）無法賦值給型式為 `Enum<Color>`（枚舉型式）而無法編譯。這種關係和類別與其實作的關係是類似的。
+
+> 瑣事：`Enum<T>`的具體型別參數
 >
-> However, the inferred type would be different from `Enum<Color>`. The compiler infers a pseudo-type which has the enum constructors as "fields". As of Haxe 3.2.0, it is not possible to express this type in syntax but also, it is never necessary to do so.
-
-
+> 本手冊的其中一位審閱者對上面例子中 `Color` 與 `Enum<Color>` 的區別表示困惑。實際上在這兒使用具體型式只是提供示範而沒有實際意義。通常來說，我們會省略那兒的型式然後讓[型式推理](type-system-type-inference)去處理。
+>
+> 不過推理的型式會與 `Enum<Color>` 有差別。編譯器會推理出一個將枚舉建構器作為「欄位」的偽型式。Haxe 3.2.0 後沒有任何語法能夠表達這種型式，當然也沒有任何這樣做的必要。
 
 <!--label:types-enum-using-->
-#### Using enums
+### 使用枚舉
 
-Enums are a good choice if only a finite set of values should be allowed. The individual [constructors](types-enum-constructor) then represent the allowed variants and enable the compiler to check if all possible values are respected:
+如果想要只允許使用有限的值集合，枚舉會是不錯的選擇。然後各個建構器表示允許的變體，這樣編譯器就能夠檢查是否所有可能的值都得到了遵守：
 
-[code asset](assets/Color2.hx)
+<!-- [code asset](assets/Color2.hx) -->
+```haxe
+enum Color {
+  Red;
+  Green;
+  Blue;
+  Rgb(r:Int, g:Int, b:Int);
+}
+
+class Main {
+  static function main() {
+    var color = getColor();
+    switch (color) {
+      case Red:
+        trace("Color was red");
+      case Green:
+        trace("Color was green");
+      case Blue:
+        trace("Color was blue");
+      case Rgb(r, g, b):
+        trace("Color had a red value of " + r);
+    }
+  }
+
+  static function getColor():Color {
+    return Rgb(255, 0, 255);
+  }
+}
+```
 
 After retrieving the value of `color` by assigning the return value of `getColor()` to it, a [`switch` expression](expression-switch) is used to branch depending on the value. The first three cases, `Red`, `Green`, and `Blue`, are trivial and correspond to the constructors of `Color` that have no arguments. The final case, `Rgb(r, g, b)`, shows how the argument values of a constructor can be extracted; they are available as local variables within the case body expression, just as if a [`var` expression](expression-var) had been used.
 
