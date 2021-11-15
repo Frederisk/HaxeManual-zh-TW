@@ -115,7 +115,7 @@ class Main {
 <!--label:introduction-haxe-history-->
 ## 歷史
 
-Haxe 專案由法國開發者**尼古拉斯&middot;坎納斯**（Nicolas Cannasse）於 2005 年 10 月 22 日作為流行開源的 ActionScript 2 編譯器 **MTASC**（Motion-Twin Action Script Compiler）以及內部 **MTypes** 語言的繼承者啟動，其中後者實驗了物件導向語言的型別推斷的應用。尼古拉斯對程式語言設計的持久熱情，和成為 **Motion-Twin** 中遊戲開發員的一部份的混和兩種技術機會的出現，導致了一種全新語言的創造。
+Haxe 專案由法國開發者**尼古拉斯&middot;坎納斯**（Nicolas Cannasse）於 2005 年 10 月 22 日作為流行開源的 ActionScript 2 編譯器 **MTASC**（Motion-Twin Action Script Compiler）以及內部 **MTypes** 語言的繼承者啟動，其中後者實驗了物件導向語言的型別推斷的應用。對程式語言設計的持久熱情，以及作為 **Motion-Twin** 遊戲開發員之一，使混和兩種不同技術機會的出現，促使他創造了一種全新語言。
 
 Haxe 起初拚寫作 haXe，其 beta 版本於 2006 年 2 月發布，首先支援的平台是 AVM 位元組碼以及尼古拉斯自己的 **Neko** 虛擬機器。
 
