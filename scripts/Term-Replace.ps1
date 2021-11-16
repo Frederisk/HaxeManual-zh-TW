@@ -11,7 +11,7 @@ if ((Get-Item -Path $file).Exists) {
     # create terms list
     [List[String[]]]$terms = [List[String[]]]::new();
     Get-Content -Path .\Terminology.md
-    | Select-String -Pattern '^[a-z0-9\s]*?\|' -Raw
+    | Select-String -Pattern '^[\sa-z0-9_-]*?\|' -Raw
     | ForEach-Object -Process {
         $terms.Add(
             [Enumerable]::Select(
@@ -22,12 +22,14 @@ if ((Get-Item -Path $file).Exists) {
     }
     # replace
     [String]$content = Get-Content -Path $file -Raw;
-    [StringBuilder]$builder = [StringBuilder]::new($content);
+    # [StringBuilder]$builder = [StringBuilder]::new($content);
     $terms | ForEach-Object -Process {
-        [Void]$builder.Replace($_[0], "$($_[0])($($_[1])|$($_[2]))");
+        # [Void]$builder.Replace($_[0], "$($_[0])($($_[1])|$($_[2]))", [StringComparison]::OrdinalIgnoreCase);
+        $content = $content.Replace($_[0], "$($_[0])($($_[1])|$($_[2]))", [StringComparison]::OrdinalIgnoreCase);
     }
     # write
-    Set-Content -Path $file -Value $builder.ToString();
+    # Set-Content -Path $file -Value $builder.ToString();
+    Set-Content -Path $file -Value $content;
 }
 else {
     Write-Host -Object "File does not exist" -ErrorAction;
