@@ -3,7 +3,7 @@
 
 Haxe 編譯器採用豐富的型式系統，其有助於在編譯時檢測程式中與型式相關的錯誤。型式錯誤是指對給定型式以無效操作的情況，例如嘗試除以一個字串、嘗試對數字欄位的存取或在呼叫一個函式時使用過多或過少的引數。
 
-在某些語言中，這種額外的安全性是有代價的，程式設計師不得不將型式顯式賦值給語法結構：
+在某些語言中，這種額外的安全性是有代價的，程式設計師不得不將型式明確賦值給語法結構：
 
 ```as3
 var myButton:MySpecialButton = new MySpecialButton(); // As3
@@ -13,7 +13,7 @@ var myButton:MySpecialButton = new MySpecialButton(); // As3
 MySpecialButton* myButton = new MySpecialButton(); // C++
 ```
 
-在 Haxe 中則不需要顯式類型註釋，因為 Haxe 編譯器會推斷出型式：
+在 Haxe 中則不需要明確類型註釋，因為 Haxe 編譯器會推斷出型式：
 
 ```haxe
 var myButton = new MySpecialButton(); // Haxe
@@ -190,7 +190,7 @@ function opt(?z:Int = -1) {}
 <!--label:types-class-instance-->
 ## 類別實例
 
-與許多物件導向的程式設計語言相似，類別是 Haxe 中大多數程式中主要的資料結構。每一個 Haxe 類別有一個顯式的名稱、一個隱式的<!--TODO-->路徑以及若干類別欄位。在此處，我們將專注於類別的一般結構與其基本關係，同時將類別欄位的細節留給[類別欄位](class-field)。
+與許多物件導向的程式設計語言相似，類別是 Haxe 中大多數程式中主要的資料結構。每一個 Haxe 類別有一個明確的名稱、一個隱式的<!--TODO-->路徑以及若干類別欄位。在此處，我們將專注於類別的一般結構與其基本關係，同時將類別欄位的細節留給[類別欄位](class-field)。
 
 以下的程式碼樣例是本節其餘部分的基礎：
 
@@ -213,8 +213,8 @@ class Point {
 從語意上說，該類別表示離散二為空間上的一個點，不過這不重要。相反，讓我們描述一下基本結構：
 
 - 關鍵字 `class` 表明我們正在表示一個類別。
-- `Point` 是類別的名稱並且可以是符合[型式標識規則](define-identifier)的任何東西。
-- 用花括號 `{}` 包裹著的是類別的欄位，
+- `Point` 是類別的名稱並且可以是符合[型式識別符規則](define-identifier)的任何東西。
+- 用大括號 `{}` 括住著的是類別的欄位，
 - 其由兩個變數欄位 `x` 和 `y` 組成，
 - 接下來是一個名為 `new` 的特殊函數欄位，這是類別的建構式，
 - 以及一個名為 `toString` 的通常函數。
@@ -290,7 +290,7 @@ interface Printable {
 
 - 使用關鍵字 `interface` 而不是 `class`。
 - 函式沒有任何[表達式](expression)。
-- 所有欄位都必須具有顯示的型式。
+- 所有欄位都必須具有明確的型式。
 
 介面不同於<!--TODO-->[結構子型態](type-system-structural-subtyping)描述的是類別之間的靜態關係。給定的類別需要明確宣告才會視為與介面兼容：
 
@@ -336,7 +336,7 @@ interface Debuggable extends Printable extends Serializable
 
 > #### implements 語法
 >
-> Haxe 版本 3.0 之前多個 `implements` 關鍵字必須用逗號分割，我們決定遵照 Java 的事實標準棄用逗號，這是 Haxe 2 與 Haxe 之間的<!--TODO-->不相容變化之一。
+> Haxe 版本 3.0 之前多個 `implements` 關鍵字必須用逗號分隔，我們決定遵照 Java 的事實標準棄用逗號，這是 Haxe 2 與 Haxe 之間的重大變更之一。
 
 <!--label:types-abstract-class-->
 ### 抽象類別
@@ -349,7 +349,7 @@ interface Debuggable extends Printable extends Serializable
 
 抽象類別支援具體類別中的所有語言特徵，任何類別都可宣告為抽象的。此外，抽象類別方法與介面相似，方法的實作不須使用 `override` 關鍵字。
 
-k
+```haxe
 abstract class Vehicle {
   var speed:Float = 0;
 
@@ -480,8 +480,8 @@ enum Color {
 該枚舉在語意上描述了一個顏色：紅、綠、藍、或者一個特定的 RGB 值。語法結構如下：
 
 - 關鍵字 `enum` 表示我們正在宣告枚舉。
-- `Color` 表示枚舉名稱並且可以是符合[型式標識規則](define-identifier)的任何東西。
-- 用花括號 `{}` 包裹著的是**枚舉建構式**，
+- `Color` 表示枚舉名稱並且可以是符合[型式識別符規則](define-identifier)的任何東西。
+- 用大括號 `{}` 括住著的是**枚舉建構式**，
 - 其中 `Red`、`Green` 和 `Blue` 不需要引數，
 - 另外的 `Rgb` 要有三個 `Int` 引數，分別名為 `r`, `g` 和 `b`。
 
@@ -494,7 +494,7 @@ Haxe 的型式系統提供了一種統一了所有枚舉的型式：
 <!--label:types-enum-constructor-->
 #### 枚舉建構式
 
-與類別與其建構器類似，枚舉可透過建構器實例化。不過與類別同的是，枚舉提供了多個建構器，這些建構器可以透過各自的名稱呼叫：
+與類別與其建構式類似，枚舉可透過建構式實例化。不過與類別同的是，枚舉提供了多個建構式，這些建構式可以透過各自的名稱呼叫：
 
 ```haxe
 var a = Red;
@@ -502,7 +502,7 @@ var b = Green;
 var c = Rgb(255, 255, 0);
 ```
 
-在此處的程式碼中，`a`、`b` 和 `c` 是 `Color` 枚舉的實例，變數 `c` 以引數的方式呼叫 `Rgb` 建構器實例化。
+在此處的程式碼中，`a`、`b` 和 `c` 是 `Color` 枚舉的實例，變數 `c` 以引數的方式呼叫 `Rgb` 建構式實例化。
 
 所有的枚舉實例都可賦值至一個特殊型式 `EnumValue`。
 
@@ -537,12 +537,12 @@ class Main {
 >
 > 本手冊的其中一位審閱者對上面例子中 `Color` 與 `Enum<Color>` 的區別表示困惑。實際上在這兒使用具體型式只是提供示範而沒有實際意義。通常來說，我們會省略那兒的型式然後讓[型式推理](type-system-type-inference)去處理。
 >
-> 不過推理的型式會與 `Enum<Color>` 有差別。編譯器會推理出一個將枚舉建構器作為「欄位」的偽型式。Haxe 3.2.0 後沒有任何語法能夠表達這種型式，當然也沒有任何這樣做的必要。
+> 不過推理的型式會與 `Enum<Color>` 有差別。編譯器會推理出一個將枚舉建構式作為「欄位」的偽型式。Haxe 3.2.0 後沒有任何語法能夠表達這種型式，當然也沒有任何這樣做的必要。
 
 <!--label:types-enum-using-->
 ### 使用枚舉
 
-如果想要只允許使用有限的值集合，枚舉會是不錯的選擇。然後各個建構器表示允許的變體，這樣編譯器就能夠檢查是否所有可能的值都得到了遵守：
+如果想要只允許使用有限的值集合，枚舉會是不錯的選擇。然後各個建構式表示允許的變體，這樣編譯器就能夠檢查是否所有可能的值都得到了遵守：
 
 <!-- [code asset](assets/Color2.hx) -->
 ```haxe
@@ -574,39 +574,43 @@ class Main {
 }
 ```
 
-After retrieving the value of `color` by assigning the return value of `getColor()` to it, a [`switch` expression](expression-switch) is used to branch depending on the value. The first three cases, `Red`, `Green`, and `Blue`, are trivial and correspond to the constructors of `Color` that have no arguments. The final case, `Rgb(r, g, b)`, shows how the argument values of a constructor can be extracted; they are available as local variables within the case body expression, just as if a [`var` expression](expression-var) had been used.
+首先透過分配 `getColor()` 的回傳值給 `color` 來檢索它的值，然後[`switch` 表達式](expression-switch)根據其值分支。前三個 case 中的 `Red`、`Green` 以及 `Blue` 十分簡單，會對應 `Color` 的無引數建構式。最後一個 case 中的 `Rgb(r, g, b)` 展示了從建構式中擷取引數值的方式，這幾個名稱在 case 的主體內可以如同使用了[`var` 表達式](expression-var)的局部變數一樣使用。
 
-Advanced information on using the `switch` expression will be explored later in the section on [pattern matching](lf-pattern-matching).
-
-
-
-
+對於 `switch` 的進階使用資訊之後將在[模式匹配](lf-pattern-matching)部分進一步探索。
 
 <!--label:types-anonymous-structure-->
-### Anonymous Structure
+## 匿名結構
 
-Anonymous structures can be used to group data without explicitly creating a type. The following example creates a structure with two fields, `x` and `name`, and initializes their values to `12` and `"foo"` respectively:
+匿名結構可不明確建立型式而<!--by MSFT: group data-->將資料組成群組。接下來的例子建立了一個有兩個欄位 `x` 和 `name` 的匿名結構，並分別以 `12` 和 `"foo"` 為值初始化：
 
-[code asset](assets/Structure.hx)
+<!-- [code asset](assets/Structure.hx) -->
+```haxe
+class Main {
+  static public function main() {
+    var myStructure = {x: 12, name: "foo"};
+  }
+}
+```
 
-The general syntactic rules are as follows:
+一般語法規則如下：
 
-1. A structure is enclosed in **curly braces** `{}` and
-2. has a **comma-separated** list of key-value pairs.
-3. A **colon** separates the key, which must be a valid [identifier](define-identifier), from the value.
-4. The value can be any Haxe expression.
+1. 結構會用大括號 `{}` 括住並且
+1. 有一個**以逗號分隔**的鍵值對列表。
+1. 用**冒號**分隔的鍵和值，前者必須是一個有效[識別符](define-identifier)。
+1. 值可以是任何 Haxe 表達式。
 
 Rule 4 implies that structures can be nested and complex, e.g.:
 
 ```haxe
 var user = {
   name : "Nicolas",
-	age : 32,
-	pos : [
-	  { x : 0, y : 0 },
-		{ x : 1, y : -1 }
+  age : 32,
+  pos : [
+    { x : 0, y : 0 },
+    { x : 1, y : -1 }
   ],
 };
+
 ```
 Fields of structures, like classes, are accessed using a **dot** (`.`):
 
@@ -616,6 +620,7 @@ user.name;
 // set value of age to 33
 user.age = 33;
 ```
+
 It is worth noting that using anonymous structures does not subvert the typing system. The compiler ensures that only available fields are accessed, which means the following program does not compile:
 
 ```haxe
@@ -627,6 +632,7 @@ class Test {
   }
 }
 ```
+
 The error message indicates that the compiler knows the type of `point`: it is a structure with fields `x` and `y` of type `Float`. Since it has no field `z`, the access fails.
 The type of `point` is known through [type inference](type-system-type-inference), which thankfully saves us from using explicit types for local variables. If `point` was a field instead, explicit typing would be necessary:
 
@@ -665,8 +671,6 @@ var point = { "x" : 1, "y" : -5 };
 ```
 While any string literal is allowed, the field is only considered part of the type if it is a valid [Haxe identifier](define-identifier). Otherwise, Haxe syntax does not allow expressing access to such a field, and [reflection](std-reflection) has to be employed through the use of `Reflect.field` and `Reflect.setField` instead.
 
-
-
 <!--label:types-structure-class-notation-->
 #### Class Notation for Structure Types
 
@@ -682,8 +686,6 @@ typedef Point = {
 ##### since Haxe 4.0.0
 
 The fields of a structure may also be declared with `final`, which only allows them to be assigned once. Such a structure will only [unify](type-system-unification) with other types if the corresponding fields are also `final`.
-
-
 
 <!--label:types-structure-optional-fields-->
 #### Optional Fields
@@ -750,10 +752,6 @@ An alternative notation for extension can be used, denoted by separating each ex
 
 [code asset](assets/Extension3.hx)
 
-
-
-
-
 <!--label:types-function-->
 ### Function Type
 
@@ -770,7 +768,6 @@ Note that argument names are optional in the function type. If a function type h
 The type of a function which takes no arguments uses `()` to represent the argument list:
 
 [code asset](assets/FunctionType2.hx)
-
 
 ##### Old function type notation
 
@@ -801,8 +798,6 @@ The output shows that optional arguments which are omitted from the call have a 
 
 While the first three calls are intuitive, the fourth one might come as a surprise; optional arguments can be skipped if the supplied value is assignable to a later argument.
 
-
-
 <!--label:types-function-default-values-->
 #### Default values
 
@@ -813,6 +808,7 @@ Haxe allows default values for arguments by assigning a **constant value** to th
 This example is very similar to the example from [Optional Arguments](types-function-optional-arguments), with the only difference being that the values `12` and `"bar"` are assigned to the function arguments `i` and `s` respectively. The effect is that the default values are used instead of `null`, should an argument be omitted from the call.
 
 Default values in Haxe are not part of the type and are not replaced at the call-site unless the function is [inlined](class-field-inline). On some targets the compiler may still pass `null` for omitted argument values and generate code similar to this inside the function:
+
 ```haxe
 	static function test(i = 12, s = "bar") {
 		if (i == null) i = 12;
@@ -820,11 +816,8 @@ Default values in Haxe are not part of the type and are not replaced at the call
 		return "i: " +i + ", s: " +s;
 	}
 ```
+
 This should be considered in performance-critical code where a solution without default values may sometimes be more viable.
-
-
-
-
 
 <!--label:types-dynamic-->
 ### Dynamic
@@ -876,16 +869,12 @@ att.age = "26";
 att.income = 0;
 ```
 
-
-
 <!--label:types-dynamic-access-->
 #### Dynamic access
 
 `DynamicAccess` is an [abstract type](types-abstract) for working with [anonymous structures](types-anonymous-structure) that are intended to hold collections of objects by the string key. Basically, `DynamicAccess` wraps [`Reflect`](std-reflection) calls in a Map-like interface.
 
 [code asset](assets/DynamicAccess.hx)
-
-
 
 <!--label:types-dynamic-any-->
 #### Any type
@@ -904,10 +893,6 @@ The 'Any' type does not make assumptions about what the value actually is or whe
 [code asset](assets/Any.hx)
 
 `Any` is a more type-safe alternative to `Dynamic` because it doesn't support field access or operators and is bound to monomorphs. To work with the actual value, it needs to be explicitly promoted to another type.
-
-
-
-
 
 <!--label:types-abstract-->
 ### Abstract
@@ -1003,8 +988,6 @@ By design, implicit casts are **not transitive**, as the following example shows
 
 While the individual casts from `A` to `B` and from `B` to `C` are allowed, a transitive cast from `A` to `C` is not. This is to avoid ambiguous cast paths and retain a simple selection algorithm.
 
-
-
 <!--label:types-abstract-operator-overloading-->
 #### Operator Overloading
 
@@ -1047,8 +1030,6 @@ The method body of an `@:op` function can be omitted, but only if the underlying
 
 [code asset](assets/AbstractExposeTypeOperations.hx)
 
-
-
 <!--label:types-abstract-array-access-->
 #### Array Access
 
@@ -1065,6 +1046,7 @@ public inline function arrayWrite(k:K, v:V):V {
 	return v;
 }
 ```
+
 There are two kinds of array access methods:
 
 * If an `@:arrayAccess` method accepts one argument, it is a getter.
@@ -1091,8 +1073,6 @@ The array access `a[0]` is resolved to the `getInt1` field, leading to the lower
 
 Fields which are defined earlier take priority even if they require an [implicit cast](types-abstract-implicit-casts).
 
-
-
 <!--label:types-abstract-enum-->
 #### Enum abstracts
 
@@ -1106,16 +1086,16 @@ The Haxe Compiler replaces all field access to the `HttpStatus` abstract with th
 
 ```js
 Main.main = function() {
-	var status = 404;
-	var msg = Main.printStatus(status);
+  var status = 404;
+  var msg = Main.printStatus(status);
 };
 Main.printStatus = function(status) {
-	switch(status) {
-	case 404:
-		return "Not found";
-	case 405:
-		return "Method not allowed";
-	}
+  switch(status) {
+  case 404:
+    return "Not found";
+  case 405:
+    return "Method not allowed";
+  }
 };
 ```
 
@@ -1134,8 +1114,6 @@ Enum abstracts can be declared without using the `@:enum` metadata, instead usin
 
 [code asset](assets/AbstractEnum2.hx)
 
-
-
 <!--label:types-abstract-forward-->
 #### Forwarding abstract fields
 
@@ -1151,9 +1129,9 @@ As usual, we can look at the JavaScript output to see how the code is being gene
 
 ```js
 Main.main = function() {
-	var myArray = [];
-	myArray.push(12);
-	myArray.pop();
+  var myArray = [];
+  myArray.push(12);
+  myArray.pop();
 };
 ```
 
@@ -1162,8 +1140,6 @@ Main.main = function() {
 > ##### Trivia: Implemented as macro
 >
 > Both the `@:enum` and `@:forward` functionality were originally implemented using [build macros](macro-type-building). While this worked nicely in non-macro code, it caused issues if these features were used from within macros. The implementation was subsequently moved to the compiler.
-
-
 
 <!--label:types-abstract-core-type-->
 #### Core-type abstracts
@@ -1178,8 +1154,6 @@ In contrast to opaque abstracts, core-type abstracts have the following properti
 * They are considered nullable unless they are annotated with `@:notNull` metadata.
 * They are allowed to declare [array access](types-abstract-array-access) functions without expressions.
 * [Operator overloading fields](types-abstract-operator-overloading) that have no expression are not forced to adhere to the Haxe type semantics.
-
-
 
 <!--label:types-monomorph-->
 ### Monomorph
