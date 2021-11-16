@@ -35,6 +35,7 @@ dynamic target | 動態目標 |
 enum | 枚舉 |
 enum instance | 枚舉實例 |
 enumeration | 枚舉 |
+error | 錯誤 |
 expression | 表達式 |
 extend | 擴充 | 又：延伸
 false | 假 |
@@ -55,6 +56,7 @@ instantiate | 實例化 |
 interface | 介面 |
 keyword | 關鍵字 |
 macro | 巨集 |
+manual | 手冊 |
 monomorph | 單型 |
 nullability | 可空性 |
 nullable | 可空 |
@@ -93,4 +95,6 @@ type inference | 型式推理 |
 type parameter | 型式參數 |
 typing system | 型式系統 |
 unification | 統一 | TODO
+valid | 有效 |
+value | 值 |
 variable | 變數 |
