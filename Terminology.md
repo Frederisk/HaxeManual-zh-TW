@@ -3,9 +3,11 @@
 英文 | 中文 | 備註
 --- | --- | ---
 abstract | 抽象 |
+anonymous | 匿名 |
 argument | 引數 |
 assign | 賦值 | 又：指派、指定、分配
 basic type | 基底型式 |
+breaking change | 重大變更 |
 build | 構建 |
 bytecode | 位元組碼 | 又：二進位碼
 child class | 子類別 |
@@ -19,6 +21,9 @@ compound type | 複合型式 |
 concrete | 具體 |
 construct | 建構 |
 constructor | 建構式 |
+correspond | 對應 |
+create | 建立 |
+curly braces | 大括號 |
 data structure | 資料結構 |
 dead code elimination | 死碼刪除 |
 declaration | 宣告 |
@@ -32,11 +37,14 @@ derived class | 衍生類別 | NO
 describe | 描述 |
 dynamic | 動態 |
 dynamic target | 動態目標 |
+enclosed | 括住 |
 enum | 枚舉 |
 enum instance | 枚舉實例 |
 enumeration | 枚舉 |
 error | 錯誤 |
+explicitly | 明確 |
 expression | 表達式 |
+extract | 擷取 | 又：抽取
 extend | 擴充 | 又：延伸
 false | 假 |
 feature | 特徵 |
@@ -50,11 +58,17 @@ implementation | 實作 |
 inference | 推斷 | 又：推定
 inherit | 繼承 |
 inheritance | 繼承 |
+identifier | 識別符 |
+initialization | 初始化 |
+initialize | 初始化 |
 inline | 內聯 |
 instance | 實例 |
 instantiate | 實例化 |
 interface | 介面 |
+key-value pair | 鍵值對 |
 keyword | 關鍵字 |
+list | 列表 |
+local variable | 局部變數 |
 macro | 巨集 |
 manual | 手冊 |
 monomorph | 單型 |
@@ -73,9 +87,11 @@ pattern matching | 模式匹配 |
 performance | 效能 |
 programming language | 程式語言 |
 property | 屬性 |
+pseudo-type | 偽型式 |
 return | 回傳 |
 robust | 強健 |
 run-time | 執行期 | 又：執行時
+separated | 分隔 |
 sourcecode | 原始碼 |
 standard library | 標準函式庫 |
 static | 靜態 |
@@ -98,3 +114,4 @@ unification | 統一 | TODO
 valid | 有效 |
 value | 值 |
 variable | 變數 |
+variant | 變體 |
