@@ -732,7 +732,7 @@ typedef User = {
 使用結構以及更進一步的[結構子型態](type-system-structural-subtyping)在編譯為[動態目標](define-dynamic-target)時不會有影響。然而在[靜態目標](define-static-target)存取通常較慢。雖然在其中的一些（JVM、HL）最佳化了常見情況，但在最糟糕的情況下則需要動態查詢，這可能比類別欄位存取慢好幾個數量級。
 
 <!--label:types-structure-extensions-->
-### 	延伸
+### 延伸
 
 延展用於表示結構具有給定型式的所有欄位以及其自身的一些其餘欄位：
 
@@ -751,46 +751,104 @@ class Main {
   }
 }
 ```
-大於號 `>` 表示建立了 `Iterable<T>` 以及後面其餘類別
 
-The greater-than operator `>` denotes that an extension of `Iterable<T>` is being created, with the additional class fields following. In this case, a read-only [property](class-field-property) `length` of type `Int` is required.
+大於號 `>` 表示建立了 `Iterable<T>` 以及後面其餘類別欄位。在此例中，需要的是一個只讀 `Int` 型式的[屬性](class-field-property) `length`。
 
-In order to be compatible with `IterableWithLength<T>`, a type must be compatible with `Iterable<T>` and provide a read-only `length` property of type `Int`. The previous example assigns an `Array`, which happens to fulfill these requirements.
+為了與 `IterableWithLength<T>` 相容，型式必須與 `Iterable<T>` 相容且提供一個只讀 `Int` 型式的 `length`。上面的例子中賦給值的是 `Array` ，這恰好能滿足需求。
 
-##### since Haxe 3.1.0
+#### 自 Haxe 3.1.0
 
-Multiple structures can be extended at once:
+多個結構可以一次延伸：
 
-[code asset](assets/Extension2.hx)
+<!-- [code asset](assets/Extension2.hx) -->
+```haxe
+typedef WithLength = {
+  var length(default, null):Int;
+}
 
-##### since Haxe 4.0.0
+typedef IterableWithLengthAndPush<T> = {
+  > Iterable<T>,
+  > WithLength,
+  function push(a:T):Int;
+}
 
-An alternative notation for extension can be used, denoted by separating each extended structure with an `&` symbol.
+class Main {
+  static public function main() {
+    var array = [1, 2, 3];
+    var t:IterableWithLengthAndPush<Int> = array;
+  }
+}
+```
 
-[code asset](assets/Extension3.hx)
+##### 自 Haxe 4.0.0
+
+可以使用延伸的另外符號 `&` 間隔各個結構來表示：
+
+<!-- [code asset](assets/Extension3.hx) -->
+```haxe
+typedef Point2D = {
+  var x:Int;
+  var y:Int;
+}
+
+typedef Point3D = Point2D & {z:Int};
+
+class Main {
+  static public function main() {
+    var point:Point3D = {x: 5, y: 3, z: 1};
+  }
+}
+```
 
 <!--label:types-function-->
-### Function Type
+## 函式型式
 
-The function type, along with the [monomorph](types-monomorph), is a type which is usually well-hidden from Haxe users, yet present everywhere. We can make it surface by using `$type`, a special Haxe identifier which outputs the type its expression has during compilation:
+函式型式以及[單型](types-monomorph)對 Haxe 使用者通常隱藏，但實際上到處存在。我們可以通過使用 `$type` 使之浮上水面，這是個可以在編譯時輸出型式自己表達式的特殊 `Haxe` 識別符：
 
-[code asset](assets/FunctionType.hx)
+<!-- [code asset](assets/FunctionType.hx) -->
+```haxe
+class Main {
+  static public function main() {
+    // (i : Int, s : String) -> Bool
+    $type(test);
+    $type(test(1, "foo")); // Bool
+  }
 
-There is a strong resemblance between the declaration of function `test` and the output of the first `$type` expression, with one subtle difference: the **function return type** appears at the end after a `->` symbol.
+  static function test(i:Int, s:String):Bool {
+    return true;
+  }
+}
+```
 
-In either notation, it is obvious that the function `test` accepts one argument of type `Int` and one argument of type `String` and returns a value of type `Bool`. If a call to this function, such as `test(1, "foo")`, is made within the second `$type` expression, the Haxe typer checks if `1` can be assigned to `Int` and if `"foo"` can be assigned to `String`. The type of the call is then equal to the type of the value `test` returns, which is `Bool`.
+函式 `test` 的宣告與第一個 `$type` 表達式的輸出十分相似，不過後者有一個微妙不同是**函式回傳型式**出現在了 `->` 後面。
 
-Note that argument names are optional in the function type. If a function type has other function types as arguments or return types, parentheses can be used to group them correctly. For example, `(Int, ((Int) -> Void)) -> Void` represents a function which has one argument of type `Int` and one argument of function type `Int -> Void` and a return type `Void`.
+在兩種表式中，無疑函式 `test` 接受一個  `Int` 型式的引數和一個 `String` 型式的引數，並回傳一個 `Bool` 型式的值。如果呼叫該函式，例如在第二個 `$type` 表達式中的 `test(1, "foo")` 那樣。haxe 型式系統會檢查 `1` 是否可以以 `Int` 賦值以及 `"foo"` 是否可以以 `String` 賦值，該呼叫的型式與 `test` 回傳值的型式相同，都是 `Bool`。
 
-The type of a function which takes no arguments uses `()` to represent the argument list:
+注意函式型式中引數名稱是任選的。如果函式型式有其他函式型式作為其引數或回傳的型式，則可使用括號為它們正確分組。例如
 
-[code asset](assets/FunctionType2.hx)
+如果函數類型具有其他函數類型作為參數或返回類型，則可以使用括號來正確對它們進行分組。`(Int, ((Int) -> Void)) -> Void` 表示一個函式，其有一個 `Int` 型式的引數和一個 `Int -> Void` 函式型式的引數，並回傳 `Void`。
 
-##### Old function type notation
+沒有引數的函式使用 `()`表示引數列表：
 
-Before Haxe 4, the function type notation had more in common with other functional programming languages, using `->` in place of commas separating the argument types. The `test` function above would be typed as `Int -> String -> Bool` in this notation. `test2` would be typed as `Void -> Bool`.
+<!-- [code asset](assets/FunctionType2.hx) -->
+```haxe
+class Main {
+  static public function main() {
+    // () -> Bool
+    $type(test2);
+  }
 
-The older notation is still supported, although newer code should use the new notation described above since it more clearly differentiates argument types from the return type.
+  static function test2():Bool {
+    return true;
+  }
+}
+```
+
+#### 舊的函式型式表示法
+
+在 Haxe 4 之前，函式型式表示法與其他函式程式語言有著更多共同之處，像是用 `->` 而不是逗號分隔引數型式。上面的 `test` 函式在這種表示法中會是 `Int -> String -> Bool`；`test2` 則是 `Void -> Bool`。
+
+儘管舊的表示法依然在支援中，但在新程式碼中應當使用新表示法，這樣能更清晰的從引數型式中區分出回傳型式。
 
 > ##### Trivia: New function type notation
 >
