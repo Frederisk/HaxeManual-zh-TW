@@ -599,7 +599,7 @@ class Main {
 1. 用**冒號**分隔的鍵和值，前者必須是一個有效[識別符](define-identifier)。
 1. 值可以是任何 Haxe 表達式。
 
-Rule 4 implies that structures can be nested and complex, e.g.:
+規則 4 意味著結構可以是巢套複雜的，比如：
 
 ```haxe
 var user = {
@@ -612,29 +612,29 @@ var user = {
 };
 
 ```
-Fields of structures, like classes, are accessed using a **dot** (`.`):
+
+結構的欄位可以如同類別一樣使用**點**（`.`）來存取：
 
 ```haxe
-// get value of name, which is "Nicolas"
+// 取得欄位 `name`，其值為 `Nicolas`
 user.name;
-// set value of age to 33
+// 設定 `age` 的值為 `33`
 user.age = 33;
 ```
 
-It is worth noting that using anonymous structures does not subvert the typing system. The compiler ensures that only available fields are accessed, which means the following program does not compile:
+值得注意的是使用匿名結構並不會破壞型式系統。編譯器會確保只有可用欄位會存取，也就是說下列程式碼無法會編譯：
 
 ```haxe
 class Test {
   static public function main() {
     var point = { x: 0.0, y: 12.0 };
-    // { y : Float, x : Float } has no field z
+    // { y : Float, x : Float } 沒有欄位 z
     point.z;
   }
 }
 ```
 
-The error message indicates that the compiler knows the type of `point`: it is a structure with fields `x` and `y` of type `Float`. Since it has no field `z`, the access fails.
-The type of `point` is known through [type inference](type-system-type-inference), which thankfully saves us from using explicit types for local variables. If `point` was a field instead, explicit typing would be necessary:
+錯誤訊息表示編譯器知道 `type` 的型式：這是一個有 `Float` 型式 `x` 和 `y` 欄位的結構。由於缺失 `z` 欄位，存取失敗。`point` 的型式是由[型式推理](type-system-type-inference)得出的，幸運的是這使我們免於對局部變數使用明確型式。若 `point` 是欄位，則明確型式是必要的：
 
 ```haxe
 class Path {
@@ -643,7 +643,8 @@ class Path {
     var current : { x : Int, y : Int };
 }
 ```
-To avoid this kind of redundant type declaration, especially for more complex structures, it is advised to use a [typedef](type-system-typedef):
+
+為避免這種冗餘型式宣告，特別是對於更複雜的結構，建議使用 [typedef](type-system-typedef)：
 
 ```haxe
 typedef Point = { x : Int, y : Int }
@@ -655,24 +656,27 @@ class Path {
 }
 ```
 
-You may also use [Extensions](types-structure-extensions) to "inherit" fields from other structures:
+你也可以用[延伸]來繼承其他結構的欄位：
 
 ```haxe
 typedef Point3 = { > Point, z : Int }
 ```
 
 <!--label:types-structure-json-->
-#### JSON for Structure Values
+### 結構值的 JSON
 
-It is also possible to use **JavaScript Object Notation** for structures by using **string literals** for the keys:
+透過在鍵中使用**字串文字**，在結構中是可以用 <!--TODO-->**JavaScript Object Notation** 的。
 
 ```haxe
 var point = { "x" : 1, "y" : -5 };
 ```
-While any string literal is allowed, the field is only considered part of the type if it is a valid [Haxe identifier](define-identifier). Otherwise, Haxe syntax does not allow expressing access to such a field, and [reflection](std-reflection) has to be employed through the use of `Reflect.field` and `Reflect.setField` instead.
+
+雖然允許使用任何字串文字，但只有在其是有效 [Haxe 識別符](define-identifier) 時該欄位會視為型式的一部分。此外，haxe 語法不容許表達對此類欄位的存取，而只能以 `Reflect.field` 和 `Reflect.setField` 使用[反射](std-reflection)作為替代。
 
 <!--label:types-structure-class-notation-->
-#### Class Notation for Structure Types
+### 結構型式的類別表示法
+
+在定義結構型式時，Haxe 容許使用與類別相同的語法描述。下面的 [typedef](type-system-typedef) 宣告了擁有 `Int` 型式變數欄位 `x` 和 `y` 的結構：
 
 When defining a structure type, Haxe allows the use of the same syntax described in [Class Fields](class-field). The following [typedef](type-system-typedef) declares a `Point` type with variable fields `x` and `y` of type `Int`:
 
@@ -683,14 +687,14 @@ typedef Point = {
 }
 ```
 
-##### since Haxe 4.0.0
+#### 自 Haxe 4.0.0
 
-The fields of a structure may also be declared with `final`, which only allows them to be assigned once. Such a structure will only [unify](type-system-unification) with other types if the corresponding fields are also `final`.
+結構的欄位也可宣告為 `final`，這將僅容許其賦值一次。這樣的結構將只會與其他對應欄位同為 `final` 的型式相[統一](type-system-unification)。
 
 <!--label:types-structure-optional-fields-->
-#### Optional Fields
+### 任選欄位
 
-Fields of a structure type can be made optional. In the standard notation, this is achieved by prefixing the field name with a question mark `?`:
+結構的欄位可以是任選的。在標準表示法中表示是在欄位名稱前加上問號 `?`：
 
 ```haxe
 typedef User = {
@@ -700,7 +704,7 @@ typedef User = {
 }
 ```
 
-In class notation, the `@:optional` metadata can be used instead:
+在類別表示法中則可用 `@:optional` 元資料：
 
 ```haxe
 typedef User = {
@@ -710,9 +714,9 @@ typedef User = {
 }
 ```
 
-##### since Haxe 4.0.0
+#### 自 Haxe 4.0.0
 
-A structure field can be declared as optional in the **class notation** by prefixing its name with a question mark `?`:
+**類別表示法**的結構欄位也可透過在名稱加上問號 `?` 宣告為任選。
 
 ```haxe
 typedef User = {
@@ -722,12 +726,10 @@ typedef User = {
 }
 ```
 
-
-
 <!--label:types-structure-performance-->
-#### Impact on Performance
+### 效能影響
 
-Using structures and, by extension, [structural subtyping](type-system-structural-subtyping), has no impact on performance when compiling to [dynamic targets](define-dynamic-target). However, on [static targets](define-static-target) access is typically slower. While some of them (JVM, HL) optimize common cases, the worst case requires a dynamic lookup which can be orders of magnitude slower than class field access.
+使用結構以及更進一步的[結構子型態](type-system-structural-subtyping)在編譯為[動態目標](define-dynamic-target)時不會有影響。然而在[靜態目標](define-static-target)存取通常較慢。雖然在其中的一些（JVM、HL）最佳化了常見情況，但在最糟糕的情況下則需要動態查詢，這可能比類別欄位存取慢好幾個數量級。
 
 <!--label:types-structure-extensions-->
 #### Extensions
@@ -810,11 +812,11 @@ This example is very similar to the example from [Optional Arguments](types-func
 Default values in Haxe are not part of the type and are not replaced at the call-site unless the function is [inlined](class-field-inline). On some targets the compiler may still pass `null` for omitted argument values and generate code similar to this inside the function:
 
 ```haxe
-	static function test(i = 12, s = "bar") {
-		if (i == null) i = 12;
-		if (s == null) s = "bar";
-		return "i: " +i + ", s: " +s;
-	}
+  static function test(i = 12, s = "bar") {
+    if (i == null) i = 12;
+    if (s == null) s = "bar";
+    return "i: " +i + ", s: " +s;
+  }
 ```
 
 This should be considered in performance-critical code where a solution without default values may sometimes be more viable.
@@ -925,6 +927,7 @@ As mentioned before, abstracts are a compile-time feature, so it is interesting 
 var a = 12;
 console.log(a);
 ```
+
 The abstract type `Abstract` completely disappeared from the output and all that is left is a value of its underlying type, `Int`. This is because the constructor of `Abstract` is inlined - something we shall learn about later in the section [Inline](class-field-inline) - and its inlined expression assigns a value to `this`. This might be surprising when thinking in terms of classes. However, it is precisely what we want to express in the context of abstracts. Any **inlined member method** of an abstract can assign to `this` and thus modify the "internal value".
 
 One problem may be apparent - what happens if a member function is not declared inline? The code obviously must be placed somewhere! Haxe handles this by creating a private class, known as the **implementation class**, which contains all the abstract member functions as static functions accepting an additional first argument `this` of the underlying type.
@@ -963,12 +966,14 @@ When using this kind of cast, calls to the cast functions are inserted where req
 var a = _ImplicitCastField.MyAbstract_Impl_.fromString("3");
 var b = _ImplicitCastField.MyAbstract_Impl_.toArray(a);
 ```
+
 This can be further optimized by [inlining](class-field-inline) both cast functions, turning the output into the following:
 
 ```haxe
 var a = Std.parseInt("3");
 var b = [a];
 ```
+
 The **selection algorithm** when assigning a type `A` to a type `B` where at least one is an abstract is simple:
 
 1. If `A` is not an abstract, go to 3.
@@ -1001,6 +1006,7 @@ By defining `@:op(A * B)`, the function `repeat` serves as the operator method f
 console.log(_AbstractOperatorOverload.
   MyAbstract_Impl_.repeat(a,3));
 ```
+
 Similar to [implicit casts with class fields](types-abstract-implicit-casts), a call to the overload method is inserted where required.
 
 The example `repeat` function is not commutative: while `MyAbstract * Int` works, `Int * MyAbstract` does not. The `@:commutative` metadata can be attached to the function to force it to accept the types in either order.
