@@ -732,11 +732,26 @@ typedef User = {
 使用結構以及更進一步的[結構子型態](type-system-structural-subtyping)在編譯為[動態目標](define-dynamic-target)時不會有影響。然而在[靜態目標](define-static-target)存取通常較慢。雖然在其中的一些（JVM、HL）最佳化了常見情況，但在最糟糕的情況下則需要動態查詢，這可能比類別欄位存取慢好幾個數量級。
 
 <!--label:types-structure-extensions-->
-#### Extensions
+### 	延伸
 
-Extensions are used to express that a structure has all the fields of a given type as well as some additional fields of its own:
+延展用於表示結構具有給定型式的所有欄位以及其自身的一些其餘欄位：
 
-[code asset](assets/Extension.hx)
+<!-- [code asset](assets/Extension.hx) -->
+```haxe
+typedef IterableWithLength<T> = {
+  > Iterable<T>,
+  // 只讀屬性
+  var length(default, null):Int;
+}
+
+class Main {
+  static public function main() {
+    var array = [1, 2, 3];
+    var t:IterableWithLength<Int> = array;
+  }
+}
+```
+大於號 `>` 表示建立了 `Iterable<T>` 以及後面其餘類別
 
 The greater-than operator `>` denotes that an extension of `Iterable<T>` is being created, with the additional class fields following. In this case, a read-only [property](class-field-property) `length` of type `Int` is required.
 
