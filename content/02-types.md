@@ -850,31 +850,47 @@ class Main {
 
 儘管舊的表示法依然在支援中，但在新程式碼中應當使用新表示法，這樣能更清晰的從引數型式中區分出回傳型式。
 
-> ##### Trivia: New function type notation
+> 瑣事：新的函式型式表示法
 >
-> The new function type notation was based on the syntax of [arrow functions](expression-arrow-function), which were also introduced in Haxe 4.
+> 新的函式型式表示法基於[箭頭函式]，(expression-arrow-function)語法，其中後者也是在 Haxe 4 中引入的。
 
 <!--label:types-function-optional-arguments-->
-#### Optional Arguments
+### 任選引數
 
-Optional arguments are declared by prefixing an argument identifier with a question mark `?`:
+在引數識別符前使用問號 `?` 可宣告其為任選引數：
 
-[code asset](assets/OptionalArguments.hx)
+<!-- [code asset](assets/OptionalArguments.hx) -->
+```haxe
+class Main {
+  static public function main() {
+    // (?i : Int, ?s : String) -> String
+    $type(test);
+    trace(test()); // i: null, s: null
+    trace(test(1)); // i: 1, s: null
+    trace(test(1, "foo")); // i: 1, s: foo
+    trace(test("foo")); // i: null, s: foo
+  }
 
-Function `test` has two optional arguments: `i` of type `Int` and `s` of `String`. This is directly reflected in the function type output by line 4.
-This example program calls `test` four times and prints its return value.
+  static function test(?i:Int, ?s:String) {
+    return "i: " + i + ", s: " + s;
+  }
+}
+```
 
-1. The first call is made without any arguments.
-2. The second call is made with a singular argument `1`.
-3. The third call is made with two arguments `1` and `"foo"`.
-4. The fourth call is made with a singular argument `"foo"`.
+函式 `test` 有兩個任選引數：`Int`型式的 `i` 以及 `String` 型式的 `s`。這將直接反映在第四行的函式型式輸出中。這個樣例程式呼叫了 `test` 四次，並列印出了各自的回傳值。
 
-The output shows that optional arguments which are omitted from the call have a value of `null`. This implies that the type of these arguments must admit `null` as value, which raises the question of its [nullability](types-nullability). The Haxe Compiler ensures that optional basic type arguments are nullable by inferring their type as `Null<T>` when compiling to a [static target](define-static-target).
+1. 第一次呼叫沒有引數。
+1. 第二次呼叫有一個引數，且引數為 `1`。
+1. 第三次呼叫有兩個引數，且引數為 `1` 和 `foo`。
+1. 第四次呼叫有一個引數，且引數為 `foo`。
 
-While the first three calls are intuitive, the fourth one might come as a surprise; optional arguments can be skipped if the supplied value is assignable to a later argument.
+輸出展示出了在呼叫中省略的任選引數的值將會是 `null`。這意味著這些引數的型式必須能將 `null` 作為其值，這引發了[可空性](types-nullability)的問題。在編譯至靜態目標時 Haxe 編譯器透過推斷任選基底型式的引數為 `Null<T>` 以確保任其是可空的。
+
+前三個呼叫相對來說直觀，但第四種用法可能有些出人意料。在此處，其實際
+原理是如果所賦值可由之後的引數接受，那麼前面的引數是可跳過的。
 
 <!--label:types-function-default-values-->
-#### Default values
+### 預設值
 
 Haxe allows default values for arguments by assigning a **constant value** to them:
 
