@@ -6,6 +6,7 @@ abstract | 抽象 |
 allow | 容許 | 又：允許
 anonymous | 匿名 |
 argument | 引數 |
+arrow function | 箭頭函式 |
 assign | 賦值 | 又：指派、指定、分配
 basic type | 基底型式 |
 breaking change | 重大變更 |
