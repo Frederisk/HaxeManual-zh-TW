@@ -15,6 +15,7 @@ child class | 子類別 |
 class | 類別 |
 class instance | 類別實例 |
 common base type | 共同基底型式 |
+compatible | 相容 |
 compilation | 編譯 | 名詞
 compile-time | 編譯期 | 又：編譯時
 compiler | 編譯器 |
@@ -74,6 +75,7 @@ list | 列表 |
 local variable | 局部變數 |
 macro | 巨集 |
 manual | 手冊 |
+metadata | 元資料 |
 monomorph | 單型 |
 nested | 巢套 |
 notation | 表示法 |
@@ -118,6 +120,7 @@ type | 型式 |
 type group | 型式群 |
 type inference | 型式推理 |
 type parameter | 型式參數 |
+typer | 型式系統 | TODO
 typing system | 型式系統 |
 unification | 統一 | TODO
 valid | 有效 |
