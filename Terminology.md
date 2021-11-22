@@ -3,6 +3,7 @@
 英文 | 中文 | 備註
 --- | --- | ---
 abstract | 抽象 |
+allow | 容許 | 又：允許
 anonymous | 匿名 |
 argument | 引數 |
 assign | 賦值 | 又：指派、指定、分配
@@ -42,10 +43,12 @@ enum | 枚舉 |
 enum instance | 枚舉實例 |
 enumeration | 枚舉 |
 error | 錯誤 |
+error message | 錯誤訊息 |
 explicitly | 明確 |
 expression | 表達式 |
 extract | 擷取 | 又：抽取
 extend | 擴充 | 又：延伸
+extension | 延伸 |
 false | 假 |
 feature | 特徵 |
 field | 欄位 |
@@ -72,12 +75,15 @@ local variable | 局部變數 |
 macro | 巨集 |
 manual | 手冊 |
 monomorph | 單型 |
+nested | 巢套 |
+notation | 表示法 |
 nullability | 可空性 |
 nullable | 可空 |
 null | 空 |
 object-oriented | 物件導向 |
 open source | 開源 |
 optimized | 最佳化 |
+optional | 任選 |
 overflow | 溢位 |
 override | 覆寫 |
 package manager | 套件管理員 |
@@ -88,6 +94,8 @@ performance | 效能 |
 programming language | 程式語言 |
 property | 屬性 |
 pseudo-type | 偽型式 |
+redundant | 冗餘 |
+reflection | 反射 |
 return | 回傳 |
 robust | 強健 |
 run-time | 執行期 | 又：執行時
@@ -97,6 +105,7 @@ standard library | 標準函式庫 |
 static | 靜態 |
 static target | 靜態目標 |
 string interpolation | 字串插值 |
+string literals | 字串文字 |
 strongly typed | 強型別 | 強型
 structural sub-typing | 結構子型態 | TODO
 structure | 結構 |
