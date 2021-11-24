@@ -22,6 +22,7 @@ compile-time | 編譯期 | 又：編譯時
 compiler | 編譯器 |
 compound type | 複合型式 |
 concrete | 具體 |
+constant value | 定值 |
 construct | 建構 |
 constructor | 建構式 |
 correspond | 對應 |
