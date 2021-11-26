@@ -943,7 +943,7 @@ var d:Dynamic = 1;
 d.foo;
 ```
 
-嘗試在 Flash Player 執行編譯後的程式將產生錯誤「在 Number 中找不到屬性 foo 並且也沒有預設值」（`Property foo not found on Number and there is no default value`）。如果不使用 `Dynamic` 該問題在編譯期就可以檢測到。
+嘗試在 Flash Player 執行編譯後的程式將產生錯誤「在 Number 中找不到屬性 foo 並且也沒有預設值」（`Property foo not found on Number and there is no default value`）。如果不使用 `Dynamic` 則該問題在編譯期就可以檢測到。
 
 Use of `Dynamic` should be minimized as there are often better options available. However, it is occasionally the practical solution; parts of the Haxe [Reflection](std-reflection) API make use of it. Additionally, using `Dynamic` can be the best choice to handle custom data structures that are not known at compile-time.
 
