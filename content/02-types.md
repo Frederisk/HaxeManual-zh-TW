@@ -892,7 +892,7 @@ class Main {
 <!--label:types-function-default-values-->
 ### 預設值
 
-Haxe allows default values for arguments by assigning a **constant value** to them:
+Haxe 容許為引數以**定值**賦默認值：
 
 [code asset](assets/DefaultValues.hx)
 
