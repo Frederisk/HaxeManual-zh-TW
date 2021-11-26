@@ -894,11 +894,27 @@ class Main {
 
 Haxe 容許為引數以**定值**賦默認值：
 
-[code asset](assets/DefaultValues.hx)
+<!-- [code asset](assets/DefaultValues.hx) -->
+```haxe
+class Main {
+  static public function main() {
+    // (?i : Int, ?s : String) -> String
+    $type(test);
+    trace(test()); // i: 12, s: bar
+    trace(test(1)); // i: 1, s: bar
+    trace(test(1, "foo")); // i: 1, s: foo
+    trace(test("foo")); // i: 12, s: foo
+  }
 
-This example is very similar to the example from [Optional Arguments](types-function-optional-arguments), with the only difference being that the values `12` and `"bar"` are assigned to the function arguments `i` and `s` respectively. The effect is that the default values are used instead of `null`, should an argument be omitted from the call.
+  static function test(?i = 12, s = "bar") {
+    return "i: " + i + ", s: " + s;
+  }
+}
+```
 
-Default values in Haxe are not part of the type and are not replaced at the call-site unless the function is [inlined](class-field-inline). On some targets the compiler may still pass `null` for omitted argument values and generate code similar to this inside the function:
+該樣例與[任選引數](types-function-optional-arguments)十分相似，唯一的不同是引數 `i` 與 `s` 分別賦值為了 `12` 和 `"bar"`。此時在呼叫時省略引數，則會使用預設值而不是 `null`。
+
+Haxe 中的預設值不是型式的一部分並且除非函式是[內聯](class-field-inline)的，否則不會在呼叫處替換。在某些平台上，編譯器可能在省略引數時仍然傳入 `null`，而在函式內生成的程式碼看上去會是類似這樣：
 
 ```haxe
   static function test(i = 12, s = "bar") {
@@ -908,26 +924,26 @@ Default values in Haxe are not part of the type and are not replaced at the call
   }
 ```
 
-This should be considered in performance-critical code where a solution without default values may sometimes be more viable.
+在效能關鍵的程式碼中該點值得注意，不使用預設值的解決方案可能會更可行。
 
 <!--label:types-dynamic-->
-### Dynamic
+## 動態
 
-While Haxe has a static type system, it can essentially be disabled by using the `Dynamic` type. A **dynamic value** can be assigned to anything and anything can be assigned to it. This has several drawbacks:
+雖然 Haxe 有靜態型式系統，但其本質上可以透過使用 `Dynamic` 型式來關閉。**動態值**可以以任何變數賦值，也可以賦值給任何變數。這有幾個缺點：
 
-* The compiler can no longer type-check assignments, function calls and other constructs where specific types are expected.
-* Certain optimizations, in particular when compiling to static targets, can no longer be employed.
-* Some common errors such as typos in field accesses cannot be caught at compile-time and likely cause errors at runtime.
-* [Dead Code Elimination](cr-dce) cannot detect used fields if they are used through `Dynamic`.
+- 編譯器將不再對預期特定型式的賦值、函式呼叫以及其他建構子執行型式檢查。
+- 特定最佳化將無法套用，尤其是在編譯為靜態目標時。
+- 一些常見錯誤，例如欄位的錯字，將無法在編譯期捕獲而可能造成執行期錯誤。
+- 在使用 `Dynamic` 時，[死碼刪除](cr-dce)將無法探測欄位是否有在使用。
 
-It is very easy to come up with examples where the usage of `Dynamic` can cause problems at runtime. Consider compiling the following two lines to a static target:
+很容易就能舉出使用 `Dynamic` 造成執行期錯誤的例子。考慮編譯以靜態目標編譯以下兩行程式：
 
 ```haxe
 var d:Dynamic = 1;
 d.foo;
 ```
 
-Trying to run a compiled program in the Flash Player yields an error `Property foo not found on Number and there is no default value`. Without `Dynamic`, this would have been detected at compile-time.
+嘗試在 Flash Player 執行編譯後的程式將產生錯誤「在 Number 中找不到屬性 foo 並且也沒有預設值」（`Property foo not found on Number and there is no default value`）。如果不使用 `Dynamic` 該問題在編譯期就可以檢測到。
 
 Use of `Dynamic` should be minimized as there are often better options available. However, it is occasionally the practical solution; parts of the Haxe [Reflection](std-reflection) API make use of it. Additionally, using `Dynamic` can be the best choice to handle custom data structures that are not known at compile-time.
 
