@@ -119,6 +119,7 @@ target | 目標 |
 target language | 目標語言 |
 true | 真 |
 type | 型式 |
+type-check | 型式檢查 |
 type group | 型式群 |
 type inference | 型式推理 |
 type parameter | 型式參數 |
