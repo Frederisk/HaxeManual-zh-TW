@@ -9,6 +9,7 @@ argument | 引數 |
 arrow function | 箭頭函式 |
 assign | 賦值 | 又：指派、指定、分配
 basic type | 基底型式 |
+bind | 繫結 |
 breaking change | 重大變更 |
 build | 構建 |
 bytecode | 位元組碼 | 又：二進位碼
