@@ -945,11 +945,25 @@ d.foo;
 
 嘗試在 Flash Player 執行編譯後的程式將產生錯誤「在 Number 中找不到屬性 foo 並且也沒有預設值」（`Property foo not found on Number and there is no default value`）。如果不使用 `Dynamic` 則該問題在編譯期就可以檢測到。
 
-Use of `Dynamic` should be minimized as there are often better options available. However, it is occasionally the practical solution; parts of the Haxe [Reflection](std-reflection) API make use of it. Additionally, using `Dynamic` can be the best choice to handle custom data structures that are not known at compile-time.
+`Dynamic` 應當盡量少範圍使用，通常而言會有其他更好的選項替代。不過偶爾這也能成為好方案，Haxe 的[反射](std-reflection) API 就用到了它。此外，在處理編譯期不明確的自訂資料結構時使用 `Dynamic` 可以是最佳選擇。
 
-`Dynamic` behaves in a special way when being [unified](type-system-unification) with a [monomorph](types-monomorph). Monomorphs are never bound to `Dynamic` which can have surprising results in examples such as this:
+在與[單型](types-monomorph)相[統一](type-system-unification)時，`Dynamic` 的行為會比較特殊。單型不會繫結至 `Dynamic`，這可能會導致一些出人意料的結果，比如這個例子：
 
-[code asset](assets/DynamicInferenceIssue.hx)
+<!-- [code asset](assets/DynamicInferenceIssue.hx) -->
+```haxe
+class Main {
+  static function main() {
+    var jsonData = '[1, 2, 3]';
+    var json = haxe.Json.parse(jsonData);
+    $type(json); // Unknown<0>
+    for (i in 0...json.length) {
+      // 不容許在 {+ length : Int } 上使用 Array access
+      // TODO
+      trace(json[i]);
+    }
+  }
+}
+```
 
 Although the return type of `Json.parse` is `Dynamic`, the type of local variable `json` is not bound to it and remains a monomorph. It is then inferred as an [anonymous structure](types-anonymous-structure) upon the `json.length` field access, which causes the following `json[0]` array access to fail. In order to avoid this, the variable `json` can be explicitly typed as `Dynamic` by using `var json:Dynamic`.
 
@@ -981,7 +995,25 @@ att.income = 0;
 
 `DynamicAccess` is an [abstract type](types-abstract) for working with [anonymous structures](types-anonymous-structure) that are intended to hold collections of objects by the string key. Basically, `DynamicAccess` wraps [`Reflect`](std-reflection) calls in a Map-like interface.
 
-[code asset](assets/DynamicAccess.hx)
+<!-- [code asset](assets/DynamicAccess.hx) -->
+```haxe
+class Main {
+  static public function main() {
+    var user:haxe.DynamicAccess<Dynamic> = {};
+
+    // Sets values for specified keys.
+    user.set("name", "Mark");
+    user.set("age", 25);
+
+    // Returns values by specified keys.
+    trace(user.get("name")); // "Mark"
+    trace(user.get("age")); // 25
+
+    // Tells if the structure contains a specified key
+    trace(user.exists("name")); // true
+  }
+}
+```
 
 <!--label:types-dynamic-any-->
 #### Any type
@@ -1153,8 +1185,8 @@ public inline function get(key:K) {
 }
 @:arrayAccess
 public inline function arrayWrite(k:K, v:V):V {
-	this.set(k, v);
-	return v;
+  this.set(k, v);
+  return v;
 }
 ```
 
