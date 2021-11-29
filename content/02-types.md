@@ -537,7 +537,7 @@ class Main {
 >
 > 本手冊的其中一位審閱者對上面例子中 `Color` 與 `Enum<Color>` 的區別表示困惑。實際上在這兒使用具體型式只是提供示範而沒有實際意義。通常來說，我們會省略那兒的型式然後讓[型式推理](type-system-type-inference)去處理。
 >
-> 不過推理的型式會與 `Enum<Color>` 有差別。編譯器會推理出一個將枚舉建構式作為「欄位」的偽型式。Haxe 3.2.0 後沒有任何語法能夠表達這種型式，當然也沒有任何這樣做的必要。
+> 不過推斷的型式會與 `Enum<Color>` 有差別。編譯器會推斷出一個將枚舉建構式作為「欄位」的偽型式。Haxe 3.2.0 後沒有任何語法能夠表達這種型式，當然也沒有任何這樣做的必要。
 
 <!--label:types-enum-using-->
 ### 使用枚舉
@@ -957,43 +957,45 @@ class Main {
     var json = haxe.Json.parse(jsonData);
     $type(json); // Unknown<0>
     for (i in 0...json.length) {
-      // 不容許在 {+ length : Int } 上使用 Array access
-      // TODO
+      // 陣列存取不容許使用於
+      // {+ length : Int }
       trace(json[i]);
     }
   }
 }
 ```
 
-Although the return type of `Json.parse` is `Dynamic`, the type of local variable `json` is not bound to it and remains a monomorph. It is then inferred as an [anonymous structure](types-anonymous-structure) upon the `json.length` field access, which causes the following `json[0]` array access to fail. In order to avoid this, the variable `json` can be explicitly typed as `Dynamic` by using `var json:Dynamic`.
+雖然 `Json.parse` 的回傳型式是 `Dynamic`，但局部變數 `json` 並不會與之繫結而仍然是單型。在之後該型式在 `json.length` 欄位存取時推斷為[匿名結構](types-anonymous-structure)，這導致接下來的 `json[0]` 陣列存取失敗。為避免這種狀況，可以將變數 `json` 透過 `var json:Dynamic` 明確標註型式為 `Dynamic`。
 
-> ##### Trivia: Dynamic Inference before Haxe 3
+> #### 瑣事：Haxe 3 之前的動態推斷
 >
-> The Haxe 3 compiler never infers a type to `Dynamic`, so users must be explicit about it. Previous Haxe versions used to infer arrays of mixed types, e.g. `[1, true, "foo"]`, as `Array<Dynamic>`. We found that this behavior introduced too many type problems and thus removed it for Haxe 3.
-
-> ##### Trivia: Dynamic in the Standard Library
+> Haxe 3 的編譯器永遠不會將型式推斷為 `Dynamic`，因此使用者必須明確指定。過往的 Haxe 版本將其用於混合型式陣列的推斷，比如 `[1, true, "foo"]` 推斷為 `Array<Dynamic>`。我們發現該行為引發了諸多型式問題，所以為 Haxe 3 將其移除。
+<!---->
+> #### 瑣事：標準函式庫中的動態
 >
-> Dynamic was quite frequent in the Haxe Standard Library before Haxe 3. With the continuous improvements of the Haxe type system, the occurrences of Dynamic were reduced over the releases leading to Haxe 3.
+> 動態在 Haxe 3 之前的 Haxe 標準庫中使用多見，而隨著 Haxe 型式系統的不斷改進，在 Haxe 3 之前的幾個版本中動態的出現已經有所減少。
 
 <!--label:types-dynamic-with-type-parameter-->
-#### Dynamic with Type Parameter
+### 動態與型式參數
 
-`Dynamic` is a special type because it allows explicit declaration with and without a [type parameter](type-system-type-parameters). If such a type parameter is provided, the semantics described in [Dynamic](types-dynamic) are constrained to all fields being compatible with the parameter type:
+`Dynamic` 是種特殊的型式，因為其容許帶有以及不帶有[型式參數](type-system-type-parameters)的明確宣告。
+
+动态是一个特殊的类型，因为它允许带或不带类型参数的明确声明。如果提供了型式參數，動態所描述的語意會限制為其所有欄位都與其參數的型式相容：
 
 ```haxe
 var att : Dynamic<String> = xml.attributes;
-// valid, value is a String
+// 有效，值為 String
 att.name = "Nicolas";
-// dito (this documentation is quite old)
+// 同上（這文檔有些舊了）
 att.age = "26";
-// error, value is not a String
+// 錯誤，值不是 String
 att.income = 0;
 ```
 
 <!--label:types-dynamic-access-->
-#### Dynamic access
+### 動態存取
 
-`DynamicAccess` is an [abstract type](types-abstract) for working with [anonymous structures](types-anonymous-structure) that are intended to hold collections of objects by the string key. Basically, `DynamicAccess` wraps [`Reflect`](std-reflection) calls in a Map-like interface.
+`DynamicAccess` 與匿名結構相配合工作可用於以字串鍵控制物件集合。基本上，`DynamicAccess` 將[反射](std-reflection)呼叫包裝在了類似映射的介面中。
 
 <!-- [code asset](assets/DynamicAccess.hx) -->
 ```haxe
@@ -1016,20 +1018,48 @@ class Main {
 ```
 
 <!--label:types-dynamic-any-->
-#### Any type
+### 任意型式
 
-`Any` is a type that is compatible with any other type in both directions.
-It serves one purpose - to hold values of any type. Explicit casting is required to use these values in order to guarantee that the code does not suddenly become dynamically typed. This restriction maintains Haxe's static typing, and allows for the continued use of advanced type system features and optimizations associated with the type system.
+`Any` 是種在雙方向上與任意其他型式相容的型式，它只有存儲任意型式的值這一個目標。為確保程式碼不會突然變成動態型式，在使用這種型式的值時需要明確轉換。這個限制保障了 Haxe 的形式靜態，並可允許繼續使用進階的型式系統與型式系統相關的最佳化。
 
-The implementation is quite simple:
+該型式的實作非常簡單：
 
 ```haxe
 abstract Any(Dynamic) from Dynamic to Dynamic {}
 ```
 
-The 'Any' type does not make assumptions about what the value actually is or whether it supports fields or operations - this is up to the user to handle.
+「任意」型式內部的實際值或者支援的欄位完全取決於使用者處理而不會對有任何假設。
 
-[code asset](assets/Any.hx)
+<!-- [code asset](assets/Any.hx) -->
+```haxe
+class Main {
+  static function setAnyValue(value:Any) {
+    trace(value);
+  }
+
+  static function getAnyValue():Any {
+    return 42;
+  }
+
+  static function main() {
+    // 任意型式的值都可工作
+    setAnyValue("someValue");
+    setAnyValue(42);
+
+    var value = getAnyValue();
+    $type(value); // 會是 Any 而不是 Unknown<0>
+
+    // 無法編譯：沒有動態欄位存取
+    // value.charCodeAt(0);
+
+    if (Std.is(value, String)) {
+      // explicit promotion, type-safe
+      // TODO
+      trace((value : String).charCodeAt(0));
+    }
+  }
+}
+```
 
 `Any` is a more type-safe alternative to `Dynamic` because it doesn't support field access or operators and is bound to monomorphs. To work with the actual value, it needs to be explicitly promoted to another type.
 
