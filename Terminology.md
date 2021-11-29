@@ -6,9 +6,11 @@ abstract | 抽象 |
 allow | 容許 | 又：允許
 anonymous | 匿名 |
 argument | 引數 |
+array | 陣列 |
 arrow function | 箭頭函式 |
 assign | 賦值 | 又：指派、指定、分配
 basic type | 基底型式 |
+behavior | 行為 |
 bind | 繫結 |
 breaking change | 重大變更 |
 build | 構建 |
@@ -62,7 +64,7 @@ generic function | 泛型函式 |
 high-level | 高階 |
 implement | 實作 |
 implementation | 實作 |
-inference | 推斷 | 又：推定
+inference | 推斷 | 又：推定、推理
 inherit | 繼承 |
 inheritance | 繼承 |
 identifier | 識別符 |
@@ -78,6 +80,7 @@ list | 列表 |
 local variable | 局部變數 |
 macro | 巨集 |
 manual | 手冊 |
+map | 映射 |
 metadata | 元資料 |
 monomorph | 單型 |
 nested | 巢套 |
@@ -127,6 +130,7 @@ type parameter | 型式參數 |
 typer | 型式系統 | TODO
 typing system | 型式系統 |
 unification | 統一 | TODO
+user | 使用者 |
 valid | 有效 |
 value | 值 |
 variable | 變數 |
