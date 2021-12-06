@@ -1053,7 +1053,7 @@ class Main {
     // value.charCodeAt(0);
 
     if (Std.is(value, String)) {
-      // explicit promotion, type-safe
+      // 明確提升，型式安全
       // TODO
       trace((value : String).charCodeAt(0));
     }
@@ -1061,16 +1061,23 @@ class Main {
 }
 ```
 
-`Any` is a more type-safe alternative to `Dynamic` because it doesn't support field access or operators and is bound to monomorphs. To work with the actual value, it needs to be explicitly promoted to another type.
+`Any` 由於不支援欄位存取與運算子，並且會繫結至單型，所以是 `Dynamic` 更加型式安全的替代。若要用實際值則需明確提升其為其他型式。
 
 <!--label:types-abstract-->
-### Abstract
+## 抽象
 
-An abstract type is a type which is actually a different type at run-time. It is a compile-time feature which defines types "over" concrete types in order to modify or augment their behavior:
+抽象型式在運行期實際會是不同的型式。這是一種在編譯期定義在具體型式「之上」以修改或是增強其行為的特徵：
 
-[code asset](assets/MyAbstract.hx#L1-L5)
+<!-- [code asset](assets/MyAbstract.hx#L1-L5) -->
+```haxe
+abstract AbstractInt(Int) {
+  inline public function new(i:Int) {
+    this = i;
+  }
+}
+```
 
-We can derive the following from this example:
+我們可以通過這個例子掌握如下事項：
 
 * The keyword `abstract` denotes that we are declaring an abstract type.
 * `AbstractInt` is the name of the abstract type and could be anything conforming to the rules for type identifiers.
