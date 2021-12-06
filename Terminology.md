@@ -4,6 +4,7 @@
 --- | --- | ---
 abstract | 抽象 |
 allow | 容許 | 又：允許
+alternative | 替代 |
 anonymous | 匿名 |
 argument | 引數 |
 array | 陣列 |
@@ -100,6 +101,7 @@ parent class | 父類別 |
 pattern matching | 模式匹配 |
 performance | 效能 |
 programming language | 程式語言 |
+promotion | 提升 | TODO
 property | 屬性 |
 pseudo-type | 偽型式 |
 redundant | 冗餘 |
@@ -124,6 +126,7 @@ target language | 目標語言 |
 true | 真 |
 type | 型式 |
 type-check | 型式檢查 |
+typesafe | 型式安全 |
 type group | 型式群 |
 type inference | 型式推理 |
 type parameter | 型式參數 |
