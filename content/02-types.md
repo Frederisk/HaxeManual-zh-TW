@@ -1079,21 +1079,31 @@ abstract AbstractInt(Int) {
 
 我們可以通過這個例子掌握如下事項：
 
-* The keyword `abstract` denotes that we are declaring an abstract type.
-* `AbstractInt` is the name of the abstract type and could be anything conforming to the rules for type identifiers.
-* The **underlying type** `Int` is enclosed in parentheses `()`.
-* The fields are enclosed in curly braces `{}`,
-* which are a constructor function `new` accepting one argument `i` of type `Int`.
+- 關鍵詞 `abstract` 表示我們正在宣告抽象型式。
+- `AbstractInt`表示抽象型式名稱並且可以是符合[型式識別符規則](define-identifier)的任何東西。
+- **基底型式** `Int` 以括號 `()` 括住。
+- 以大括號 `{}` 括住的是欄位，
+- 其中有一個接受 `Int` 型式的引數 `i` 的 建構式 `new`。
 
-> ##### Define: Underlying Type
+> #### 定義：基底型式
 >
-> The underlying type of an abstract is the type which is used to represent said abstract at runtime. It is usually a concrete (i.e. non-abstract) type but could be another abstract type as well.
+> 抽象的基底型式式用於在運行期代表的那個抽象的型式，其往往是一種具體型式（比如非抽象型式），但也可以是另一種抽象型式。
 
-The syntax is reminiscent of classes and the semantics are indeed similar. In fact, everything in the "body" of an abstract (everything after the opening curly brace) is parsed as class fields. Abstracts may have [method](class-field-method) fields and non-[physical](define-physical-field) [property](class-field-property) fields.
+這種語法讓人想到類別，而且語意上兩者也確實相似。事實上，抽象「主體」中的所有東西（將大括號展開後的一切）都會解析為類別欄位。
 
-Furthermore, abstracts can be instantiated and used just like classes:
+語法讓人想起類，語義確實相似。 事實上，抽象的“身體”中的一切（打開捲曲括號之後的一切）被解析為類領域。抽象可以有[方法](class-field-method)欄位和非[physical](define-physical-field)<!--TODO-->[屬性](class-field-property)欄位。
 
-[code asset](assets/MyAbstract.hx#L7-L12)
+此外，抽象還可以和類別一樣實例化和使用：
+
+<!-- [code asset](assets/MyAbstract.hx#L7-L12) -->
+```haxe
+class Main {
+  static public function main() {
+    var a = new AbstractInt(12);
+    trace(a); // 12
+  }
+}
+```
 
 As mentioned before, abstracts are a compile-time feature, so it is interesting to see what the above actually generates. A suitable target for this is JavaScript, which tends to generate concise and clean code. Compiling the above using `haxe --main MyAbstract --js myabstract.js` shows this JavaScript code:
 
