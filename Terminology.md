@@ -126,12 +126,13 @@ target language | 目標語言 |
 true | 真 |
 type | 型式 |
 type-check | 型式檢查 |
-typesafe | 型式安全 |
+type-safe | 型式安全 |
 type group | 型式群 |
 type inference | 型式推理 |
 type parameter | 型式參數 |
 typer | 型式系統 | TODO
 typing system | 型式系統 |
+underlying type | 基底型式 |
 unification | 統一 | TODO
 user | 使用者 |
 valid | 有效 |
