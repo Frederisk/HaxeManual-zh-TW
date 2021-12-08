@@ -1283,11 +1283,11 @@ console.log(_AbstractOperatorOverload.
 
 與[有類別欄位的隱含轉換](types-abstract-implicit-casts)類似，對轉換函式的呼叫會在需要的地方插入。
 
-The example `repeat` function is not commutative: while `MyAbstract * Int` works, `Int * MyAbstract` does not. The `@:commutative` metadata can be attached to the function to force it to accept the types in either order.
+例子中的 `repeat` 函式並非是可交換的，也就是說雖然 `MyAbstract * Int` 可以運作，但 `Int * MyAbstract` 不能。不過可以將 `@:commutative` 元資料附加致函式以強制使其可以以任意順序接受型式。
 
-If the function should work **only** for `Int * MyAbstract`, but not for `MyAbstract * Int`, the overload method can be made static, accepting `Int` and `MyAbstract` as the first and second types respectively.
+如果函式應當**僅**在 `Int * MyAbstract` 工作，而不應當在 `MyAbstract * Int`，那麼可以將多載方法設為靜態，並分別將 `Int` 和 `MyAbstract` 設為接受的第一和第二個型式。
 
-Overloading unary operators is similar:
+對一元運算子的多載類似：
 
 <!-- [code asset](assets/AbstractUnopOverload.hx) -->
 ```haxe
@@ -1310,16 +1310,16 @@ class Main {
 }
 ```
 
-Both binary and unary operator overloads can return any type.
+二元與一元運算子多載都可以回傳任何類型。
 
-##### since Haxe 4.0.0
+#### 自 Haxe 4.0.0
 
-The `@:op` syntax can be used to overload field access and array access on abstracts:
+`@:op` 語法可以用於在抽象上多載欄位和陣列存取：
 
-* `@:op([])` on a function with one argument overloads array read access.
-* `@:op([])` on a function with two arguments overloads array write access, with the first argument being the index and the second one being the written value.
-* `@:op(a.b)` on a function with one argument overloads field read access.
-* `@:op(a.b)` on a function with two arguments overloads field write access.
+- `@:op([])` 在帶有一個引數的函式上會多載陣列讀存取。
+- `@:op([])` 在帶有兩個引數的函式上會多載陣列寫存取，第一個引數為索引，第二個引數為寫入值。
+- `@:op(a.b)` 在帶有一個引數的函式上會多載欄位讀存取。
+- `@:op(a.b = c)` 在帶有兩個引數的函式上會多載欄位寫存取。
 
 <!-- [code asset](assets/AbstractAccessOverload.hx) -->
 ```haxe
@@ -1348,15 +1348,15 @@ class Main {
 }
 ```
 
-##### Exposing underlying type operations
+#### 公開底層型式運算
 
-The method body of an `@:op` function can be omitted, but only if the underlying type of the abstract allows the operation in question and the resulting type can be assigned back to the abstract.
+`@:op` 函式的方法本體可以省略，但前提是抽象的底層型式容許相關運算，並且結果的型式可以賦值回抽象。
 
 <!-- [code asset](assets/AbstractExposeTypeOperations.hx) -->
 ```haxe
 abstract MyAbstractInt(Int) from Int to Int {
-  // The following line exposes the (A > B) operation from the underlying Int
-  // type. Note that no function body is used:
+  // 下面一列從底層 Int 中公開了 (A > B) 運算
+  // 注意，沒有函式本體：
   @:op(A > B) static function gt(a:MyAbstractInt, b:MyAbstractInt):Bool;
 }
 
@@ -1366,8 +1366,8 @@ class Main {
     if (a > 0)
       trace('Works fine, > operation implemented!');
 
-    // The < operator is not implemented.
-    // This will cause an 'Cannot compare MyAbstractInt and Int' error:
+    // < 運算子未實作。
+    // 這將導致「無法比較 MyAbstract 與 Int」（Cannot compare MyAbstractInt and Int）的錯誤。
     if (a < 100) {}
   }
 }
