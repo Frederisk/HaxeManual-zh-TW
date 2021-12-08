@@ -65,6 +65,7 @@ generic function | 泛型函式 |
 high-level | 高階 |
 implement | 實作 |
 implementation | 實作 |
+implicit | 隱含 |
 inference | 推斷 | 又：推定、推理
 inherit | 繼承 |
 inheritance | 繼承 |
@@ -91,11 +92,14 @@ nullable | 可空 |
 null | 空 |
 object-oriented | 物件導向 |
 open source | 開源 |
+operator | 運算子 |
 optimized | 最佳化 |
 optional | 任選 |
 overflow | 溢位 |
+overload | 多載 |
 override | 覆寫 |
 package manager | 套件管理員 |
+path | 路徑 |
 parameter | 參數 |
 parent class | 父類別 |
 pattern matching | 模式匹配 |
@@ -104,6 +108,7 @@ programming language | 程式語言 |
 promotion | 提升 | TODO
 property | 屬性 |
 pseudo-type | 偽型式 |
+real object | 真實物件 |
 redundant | 冗餘 |
 reflection | 反射 |
 return | 回傳 |
@@ -123,6 +128,7 @@ struct | 結構體 |
 sub-type | 子型式 |
 target | 目標 |
 target language | 目標語言 |
+transitive | 遞移 |
 true | 真 |
 type | 型式 |
 type-check | 型式檢查 |
@@ -132,7 +138,7 @@ type inference | 型式推理 |
 type parameter | 型式參數 |
 typer | 型式系統 | TODO
 typing system | 型式系統 |
-underlying type | 基底型式 |
+underlying type | 底層型式 |
 unification | 統一 | TODO
 user | 使用者 |
 valid | 有效 |
