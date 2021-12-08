@@ -190,7 +190,7 @@ function opt(?z:Int = -1) {}
 <!--label:types-class-instance-->
 ## 類別實例
 
-與許多物件導向的程式設計語言相似，類別是 Haxe 中大多數程式中主要的資料結構。每一個 Haxe 類別有一個明確的名稱、一個隱式的<!--TODO-->路徑以及若干類別欄位。在此處，我們將專注於類別的一般結構與其基本關係，同時將類別欄位的細節留給[類別欄位](class-field)。
+與許多物件導向的程式設計語言相似，類別是 Haxe 中大多數程式中主要的資料結構。每一個 Haxe 類別有一個明確的名稱、一個隱含的<!--TODO-->路徑以及若干類別欄位。在此處，我們將專注於類別的一般結構與其基本關係，同時將類別欄位的細節留給[類別欄位](class-field)。
 
 以下的程式碼樣例是本節其餘部分的基礎：
 
@@ -1081,13 +1081,13 @@ abstract AbstractInt(Int) {
 
 - 關鍵詞 `abstract` 表示我們正在宣告抽象型式。
 - `AbstractInt`表示抽象型式名稱並且可以是符合[型式識別符規則](define-identifier)的任何東西。
-- **基底型式** `Int` 以括號 `()` 括住。
+- **底層型式** `Int` 以括號 `()` 括住。
 - 以大括號 `{}` 括住的是欄位，
 - 其中有一個接受 `Int` 型式的引數 `i` 的 建構式 `new`。
 
-> #### 定義：基底型式
+> #### 定義：底層型式
 >
-> 抽象的基底型式式用於在運行期代表的那個抽象的型式，其往往是一種具體型式（比如非抽象型式），但也可以是另一種抽象型式。
+> 抽象的底層型式用於在運行期代表的那個抽象的型式，其往往是一種具體型式（比如非抽象型式），但也可以是另一種抽象型式。
 
 這種語法讓人想到類別，而且語意上兩者也確實相似。事實上，抽象「主體」中的所有東西（將大括號展開後的一切）都會解析為類別欄位。
 
@@ -1105,93 +1105,183 @@ class Main {
 }
 ```
 
-As mentioned before, abstracts are a compile-time feature, so it is interesting to see what the above actually generates. A suitable target for this is JavaScript, which tends to generate concise and clean code. Compiling the above using `haxe --main MyAbstract --js myabstract.js` shows this JavaScript code:
+如前所述，抽象是編譯期功能，所以觀察上面所實際生成的東西會很有趣，由於 JavaScript 傾向生成簡潔清晰的程式碼所以比較合適作為目標。以指令 `haxe --main MyAbstract --js myabstract.js` 編譯會得到以下 JavaScript 程式：
 
 ```js
 var a = 12;
 console.log(a);
 ```
 
-The abstract type `Abstract` completely disappeared from the output and all that is left is a value of its underlying type, `Int`. This is because the constructor of `Abstract` is inlined - something we shall learn about later in the section [Inline](class-field-inline) - and its inlined expression assigns a value to `this`. This might be surprising when thinking in terms of classes. However, it is precisely what we want to express in the context of abstracts. Any **inlined member method** of an abstract can assign to `this` and thus modify the "internal value".
+抽象型式 `Abstract` 完全從輸出中消失了，存留下的只有其底層型式 `Int` 的值。這是由於 `Abstract` 的建構式是內聯的，並且其內聯表達式為為 `this` 賦值。對於內聯，我們將在之後的[內聯](class-field-inline)部分去了解。若以類別去考慮，這可能有些令人吃驚。不過這正是我們在抽象的上下文中所想要表達的。抽象的任何**內聯成員方法**都可賦值葛給 `this`，從而修改「內部值」。
 
-One problem may be apparent - what happens if a member function is not declared inline? The code obviously must be placed somewhere! Haxe handles this by creating a private class, known as the **implementation class**, which contains all the abstract member functions as static functions accepting an additional first argument `this` of the underlying type.
+有一個可能很明顯的問題是，如果一個成員函式沒有宣告為內聯的話會發生什麼？程式碼顯然必須放在某個地方！Haxe 會通過創建稱為 **實作類別** 的私有類別來處理這個問題，該類別會包括所有的成員函式作為靜態函式，該函式接受底層型式的第一個附加引數 `this`。
 
-> ##### Trivia: Basic Types and abstracts
+> #### 瑣事：基底型式和抽象
 >
-> Before the advent of abstract types, all basic types were implemented as extern classes or enums. While this nicely took care of some aspects such as `Int` being a "child class" of `Float`, it caused issues elsewhere. For instance, with `Float` being an extern class, it would unify with the empty structure `{}`, making it impossible to constrain a type to accept only real objects.
+> 在抽象型式出現之前，所有的基底型式都以外部類或枚舉的方式實作。雖然這在某些方面處理得很好，比如讓 `Int` 是 `Float` 的「子類別」，但這在其他地方引起了問題。例如，當 `Float` 是外部類別時，其將與空結構 `{}` 統一，從而無法將型式限制為僅接受真實物件。
 
 <!--label:types-abstract-implicit-casts-->
-#### Implicit Casts
+### 隱含轉換
 
-Unlike classes, abstracts allow defining implicit casts. There are two kinds of implicit casts:
+與類別不同，抽象容許定義隱含轉換。共有兩種隱含轉換：
 
-* Direct: Allows direct casting of the abstract type to or from another type. This is defined by adding `to` and `from` rules to the abstract type and is only allowed for types which unify with the underlying type of the abstract.
-* Class field: Allows casting via calls to special cast functions. These functions are defined using `@:to` and `@:from` metadata. This kind of cast is allowed for all types.
+- 直接：容許將抽象形式直接轉換為另一種型式或是從另一種型式轉換回來。此種透過向抽象型式添加 `as` 或 `is` 規則來定義，並且只容許與抽象的底層型式相統一的型式。
+- 類別欄位：容許透過呼叫特殊的轉換函式來轉換，這些函式以 `@:to` 和 `@:from` 元資料定義。所有的型式都容許此種型式轉換。
 
-The following code example shows an example of **direct** casting:
+下面的程式碼展示了**直接**轉換的例子：
 
-[code asset](assets/ImplicitCastDirect.hx)
+<!-- [code asset](assets/ImplicitCastDirect.hx) -->
+```haxe
+abstract MyAbstract(Int) from Int to Int {
+  inline function new(i:Int) {
+    this = i;
+  }
+}
 
-We declare `MyAbstract` as being `from Int` and `to Int`, appropriately meaning it can be assigned from `Int` and assigned to `Int`. This is shown in lines 9 and 10, where we first assign the `Int` `12` to variable `a` of type `MyAbstract` (this works due to the `from Int` declaration) and then that abstract back to variable `b` of type `Int` (this works due to the `to Int` declaration).
+class Main {
+  static public function main() {
+    var a:MyAbstract = 12;
+    var b:Int = a;
+  }
+}
+```
 
-Class field casts have the same semantics, but are defined completely differently:
+我們宣告了 `MyAbstract` 是 `from int` 和 `to Int` 的，也就意味著其可以從 `Int` 賦值也可以賦值給 `Int`。第 9 到 10  行展示了這一點，在此處我們首先將 `Int` 的 `12` 賦值給了 `MyAbstract` 的變數 `a` ，由於 `from Int` 宣告，這可以正常工作；之後那個抽象又返回給了 `Int` 型式的變數 `b` ，由於 `to Int` 宣告，這也可以正常工作。
 
-[code asset](assets/ImplicitCastField.hx)
+類別欄位轉換具有相同的語義，但定義完全不同：
 
-By adding `@:from` to a static function, that function qualifies as an implicit cast function from its argument type to the abstract. These functions must return a value of the abstract type. They must also be declared `static`.
+<!-- [code asset](assets/ImplicitCastField.hx) -->
+```haxe
+abstract MyAbstract(Int) {
+  inline function new(i:Int) {
+    this = i;
+  }
 
-Similarly, adding `@:to` to a function qualifies it as implicit cast function from the abstract to its return type.
+  @:from
+  static public function fromString(s:String) {
+    return new MyAbstract(Std.parseInt(s));
+  }
 
-In the previous example, the method `fromString` allows the assignment of value `"3"` to variable `a` of type `MyAbstract` while the method `toArray` allows assigning that abstract to variable `b` of type `Array<Int>`.
+  @:to
+  public function toArray() {
+    return [this];
+  }
+}
 
-When using this kind of cast, calls to the cast functions are inserted where required. This becomes obvious when looking at the JavaScript output:
+class Main {
+  static public function main() {
+    var a:MyAbstract = "3";
+    var b:Array<Int> = a;
+    trace(b); // [3]
+  }
+}
+```
+
+靜態函式可以透過添加 `@:from` 成為從其引數型式轉換至抽象型式的隱含轉換函式，這些函式必須返回抽象型式的值，並且必須宣告為 `static`。
+
+類似，添加 `@:to` 至函式可以讓其成為從抽象型式轉換至引數型式的隱含轉換函式。
+
+在前面的例子中，方法 `fromString` 容許將值 `"3"` 賦值至型式為 `MyAbstract` 的變數 `a`，而方法 `toArray` 容許將該抽象賦值至 `Array<Int>` 型式變數 `b` 的內部。
+
+在使用這種型式轉換時，對轉換函式的呼叫會在需要的地方插入。查看 JavaScript 的輸出時這會很顯著：
 
 ```js
 var a = _ImplicitCastField.MyAbstract_Impl_.fromString("3");
 var b = _ImplicitCastField.MyAbstract_Impl_.toArray(a);
 ```
 
-This can be further optimized by [inlining](class-field-inline) both cast functions, turning the output into the following:
+也可以透過[內聯](class-field-inline)將兩個轉換函式進一步最佳化以將輸出轉換為以下內容：
 
 ```haxe
 var a = Std.parseInt("3");
 var b = [a];
 ```
 
-The **selection algorithm** when assigning a type `A` to a type `B` where at least one is an abstract is simple:
+將型式 `A` 賦值給型式 `B` 時的 **選擇算法** 很簡單：
 
-1. If `A` is not an abstract, go to 3.
-2. If `A` defines a **to**-conversion that admits `B`, go to 6.
-3. If `B` is not an abstract, go to 5.
-4. If `B` defines a **from**-conversion that admits `A`, go to 6.
-5. Stop, unification fails.
-6. Stop, unification succeeds.
+1. 如果 `A` 不是抽象，轉向 3。
+2. 如果 `A` 定義了一個接受 `B` 的 **to** 轉換，轉向 6。
+3. 如果 `B` 不是抽象，轉向 5。
+4. 如果 `B` 定義了一個接受 `A` 的 **from** 轉換，轉向 6。
+5. 停止，統一失敗。
+6. 停止，統一成功。
 
-![](assets/figures/types-abstract-implicit-casts-selection-algorithm.svg)
+![圖：選擇算法流程圖。](assets/figures/types-abstract-implicit-casts-selection-algorithm.svg)
 
-_Figure: Selection algorithm flow chart._
+_圖：選擇算法流程圖。_
 
-By design, implicit casts are **not transitive**, as the following example shows:
+在設計上，隱含轉換是**不可遞移**的，如以下所示：
 
-[code asset](assets/ImplicitTransitiveCast.hx)
+<!-- [code asset](assets/ImplicitTransitiveCast.hx) -->
+```haxe
+abstract A(Int) {
+  public function new()
+    this = 0;
 
-While the individual casts from `A` to `B` and from `B` to `C` are allowed, a transitive cast from `A` to `C` is not. This is to avoid ambiguous cast paths and retain a simple selection algorithm.
+  @:to public function toB() return new B();
+}
+
+abstract B(Int) {
+  public function new()
+    this = 0;
+
+  @:to public function toC() return new C();
+}
+
+abstract C(Int) {
+  public function new()
+    this = 0;
+}
+
+class Main {
+  static public function main() {
+    var a = new A();
+    var b:B = a; // 有效，使用 A.toB
+    var c:C = b; // 有效，使用 B.toC
+    var c:C = a; // 錯誤，A 應當是 C
+  }
+}
+```
+
+雖然容許從 `A` 至 `B` 以及從 `B` 至 `C` 這樣的單個轉換，但從 `A` 至 `C` 的遞移轉換無法實施，這種作法是為了避免模稜兩可的轉換路徑以及保留簡單的選擇算法。
 
 <!--label:types-abstract-operator-overloading-->
-#### Operator Overloading
+### 運算子多載
 
-Abstracts allow overloading of unary and binary operators by adding the `@:op` metadata to class fields:
+抽象容許將 `@:op` 元資料添加至類別欄位以多載一元和二元運算子：
 
-[code asset](assets/AbstractOperatorOverload.hx)
+<!-- [code asset](assets/AbstractOperatorOverload.hx) -->
+```haxe
+abstract MyAbstract(String) {
+  public inline function new(s:String) {
+    this = s;
+  }
 
-By defining `@:op(A * B)`, the function `repeat` serves as the operator method for the multiplication `*` operator when the type of the left value is `MyAbstract` and the type of the right value is `Int`. The usage is shown in line 17, which turns into the following code when compiled to JavaScript:
+  @:op(A * B)
+  public function repeat(rhs:Int):MyAbstract {
+    var s:StringBuf = new StringBuf();
+    for (i in 0...rhs)
+    return new MyAbstract(s.toString());
+      s.add(this);
+  }
+}
+
+class Main {
+  static public function main() {
+    var a = new MyAbstract("foo");
+    trace(a * 3); // foofoofoo
+  }
+}
+```
+
+透過定義 `@:op(A * B)`，當左值的型式為 `MyAbstract`，右值的型式為 `Int` 時，運算子乘法 `*` 的方法會是 `repeat`。用法如第 17 列所示，在編譯為 Java 時會轉換為如下程式碼：
 
 ```js
 console.log(_AbstractOperatorOverload.
   MyAbstract_Impl_.repeat(a,3));
 ```
 
-Similar to [implicit casts with class fields](types-abstract-implicit-casts), a call to the overload method is inserted where required.
+與[有類別欄位的隱含轉換](types-abstract-implicit-casts)類似，對轉換函式的呼叫會在需要的地方插入。
 
 The example `repeat` function is not commutative: while `MyAbstract * Int` works, `Int * MyAbstract` does not. The `@:commutative` metadata can be attached to the function to force it to accept the types in either order.
 
@@ -1199,7 +1289,26 @@ If the function should work **only** for `Int * MyAbstract`, but not for `MyAbst
 
 Overloading unary operators is similar:
 
-[code asset](assets/AbstractUnopOverload.hx)
+<!-- [code asset](assets/AbstractUnopOverload.hx) -->
+```haxe
+abstract MyAbstract(String) {
+  public inline function new(s:String) {
+    this = s;
+  }
+
+  @:op(++A) public function pre() return "pre" + this;
+
+  @:op(A++) public function post() return this + "post";
+}
+
+class Main {
+  static public function main() {
+    var a = new MyAbstract("foo");
+    trace(++a); // prefoo
+    trace(a++); // foopost
+  }
+}
+```
 
 Both binary and unary operator overloads can return any type.
 
@@ -1212,13 +1321,57 @@ The `@:op` syntax can be used to overload field access and array access on abstr
 * `@:op(a.b)` on a function with one argument overloads field read access.
 * `@:op(a.b)` on a function with two arguments overloads field write access.
 
-[code asset](assets/AbstractAccessOverload.hx)
+<!-- [code asset](assets/AbstractAccessOverload.hx) -->
+```haxe
+abstract MyAbstract(String) from String {
+  @:op([]) public function arrayRead(n:Int)
+    return this.charAt(n);
+
+  @:op([]) public function arrayWrite(n:Int, char:String)
+    return this.substr(0, n) + char + this.substr(n + 1);
+
+  @:op(a.b) public function fieldRead(name:String)
+    return this.indexOf(name);
+
+  @:op(a.b) public function fieldWrite(name:String, value:String)
+    return this.split(name).join(value);
+}
+
+class Main {
+  static public function main() {
+    var s:MyAbstract = "example string";
+    trace(s[1]); // "x"
+    trace(s[2] = "*"); // "ex*mple string"
+    trace(s.string); // 8
+    trace(s.string = "code"); // "example code"
+  }
+}
+```
 
 ##### Exposing underlying type operations
 
 The method body of an `@:op` function can be omitted, but only if the underlying type of the abstract allows the operation in question and the resulting type can be assigned back to the abstract.
 
-[code asset](assets/AbstractExposeTypeOperations.hx)
+<!-- [code asset](assets/AbstractExposeTypeOperations.hx) -->
+```haxe
+abstract MyAbstractInt(Int) from Int to Int {
+  // The following line exposes the (A > B) operation from the underlying Int
+  // type. Note that no function body is used:
+  @:op(A > B) static function gt(a:MyAbstractInt, b:MyAbstractInt):Bool;
+}
+
+class Main {
+  static function main() {
+    var a:MyAbstractInt = 42;
+    if (a > 0)
+      trace('Works fine, > operation implemented!');
+
+    // The < operator is not implemented.
+    // This will cause an 'Cannot compare MyAbstractInt and Int' error:
+    if (a < 100) {}
+  }
+}
+```
 
 <!--label:types-abstract-array-access-->
 #### Array Access
@@ -1244,12 +1397,21 @@ There are two kinds of array access methods:
 
 The methods `get` and `arrayWrite` seen above then allow for the following usage:
 
-[code asset](assets/AbstractArrayAccess.hx)
+<!-- [code asset](assets/AbstractArrayAccess.hx) -->
+```haxe
+class Main {
+  public static function main() {
+    var map = new Map();
+    map["foo"] = 1;
+    trace(map["foo"]);
+  }
+}
+```
 
 At this point, it should not be surprising to see that calls to the array access fields are inserted into the output:
 
 ```js
-map.set("foo",1);
+map.set("foo", 1);
 console.log(map.get("foo")); // 1
 ```
 
@@ -1257,7 +1419,28 @@ console.log(map.get("foo")); // 1
 
 Due to a bug in Haxe versions before 3.2, the order of checked `@:arrayAccess` fields was undefined. This was fixed for Haxe 3.2 so that the fields are now consistently checked from top to bottom:
 
-[code asset](assets/AbstractArrayAccessOrder.hx)
+<!-- [code asset](assets/AbstractArrayAccessOrder.hx) -->
+```haxe
+abstract AString(String) {
+  public function new(s)
+    this = s;
+
+  @:arrayAccess function getInt1(k:Int) {
+    return this.charAt(k);
+  }
+
+  @:arrayAccess function getInt2(k:Int) {
+    return this.charAt(k).toUpperCase();
+  }
+}
+
+class Main {
+  static function main() {
+    var a = new AString("foo");
+    trace(a[0]); // f
+  }
+}
+```
 
 The array access `a[0]` is resolved to the `getInt1` field, leading to the lower case `f` being returned. The result might be different in Haxe versions before 3.2.
 
@@ -1270,7 +1453,30 @@ Fields which are defined earlier take priority even if they require an [implicit
 
 By adding the `@:enum` metadata to an abstract definition, that abstract can be used to define finite value sets:
 
-[code asset](assets/AbstractEnum.hx)
+<!-- [code asset](assets/AbstractEnum.hx) -->
+```haxe
+@:enum
+abstract HttpStatus(Int) {
+  var NotFound = 404;
+  var MethodNotAllowed = 405;
+}
+
+class Main {
+  static public function main() {
+    var status = HttpStatus.NotFound;
+    var msg = printStatus(status);
+  }
+
+  static function printStatus(status:HttpStatus) {
+    return switch (status) {
+      case NotFound:
+        "Not found";
+      case MethodNotAllowed:
+        "Method not allowed";
+    }
+  }
+}
+```
 
 The Haxe Compiler replaces all field access to the `HttpStatus` abstract with their values, as evident in the JavaScript output:
 
@@ -1302,7 +1508,19 @@ Enum abstracts can be declared without using the `@:enum` metadata, instead usin
 * For `Int` abstracts, the deduced values increment the last user-defined value or start at zero if no value was declared yet.
 * For `String` abstracts, the deduced value is the identifier of the enum case.
 
-[code asset](assets/AbstractEnum2.hx)
+<!-- [code asset](assets/AbstractEnum2.hx) -->
+```haxe
+enum abstract Numeric(Int) {
+  var Zero; // implicit value: 0
+  var Ten = 10;
+  var Eleven; // implicit value: 11
+}
+
+enum abstract Textual(String) {
+  var FirstCase; // implicit value: "FirstCase"
+  var AnotherCase; // implicit value: "AnotherCase"
+}
+```
 
 <!--label:types-abstract-forward-->
 #### Forwarding abstract fields
@@ -1311,7 +1529,25 @@ Enum abstracts can be declared without using the `@:enum` metadata, instead usin
 
 When wrapping an underlying type, it is sometimes desirable to "keep" parts of its functionality. Because writing forwarding functions by hand is cumbersome, Haxe allows adding the `@:forward` metadata to an abstract type:
 
-[code asset](assets/AbstractExpose.hx)
+<!-- [code asset](assets/AbstractExpose.hx) -->
+```haxe
+@:forward(push, pop)
+abstract MyArray<S>(Array<S>) {
+  public inline function new() {
+    this = [];
+  }
+}
+
+class Main {
+  static public function main() {
+    var myArray = new MyArray();
+    myArray.push(12);
+    myArray.pop();
+    // MyArray<Int> has no field length
+    // myArray.length;
+  }
+}
+```
 
 The `MyArray` abstract in this example wraps `Array`. Its `@:forward` metadata has two arguments which correspond to the field names to be forwarded to the underlying type. In this example, the `main` method instantiates `MyArray` and accesses its `push` and `pop` methods. The commented line demonstrates that the `length` field is not available.
 
