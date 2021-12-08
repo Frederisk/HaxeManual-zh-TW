@@ -13,6 +13,7 @@ assign | 賦值 | 又：指派、指定、分配
 basic type | 基底型式 |
 behavior | 行為 |
 bind | 繫結 |
+body | 本體 |
 breaking change | 重大變更 |
 build | 構建 |
 bytecode | 位元組碼 | 又：二進位碼
@@ -20,6 +21,7 @@ child class | 子類別 |
 class | 類別 |
 class instance | 類別實例 |
 common base type | 共同基底型式 |
+commutative | 可交換 |
 compatible | 相容 |
 compilation | 編譯 | 名詞
 compile-time | 編譯期 | 又：編譯時
@@ -52,6 +54,7 @@ enumeration | 枚舉 |
 error | 錯誤 |
 error message | 錯誤訊息 |
 explicitly | 明確 |
+expose | 公開 |
 expression | 表達式 |
 extract | 擷取 | 又：抽取
 extend | 擴充 | 又：延伸
@@ -92,6 +95,7 @@ nullable | 可空 |
 null | 空 |
 object-oriented | 物件導向 |
 open source | 開源 |
+operation | 運算 |
 operator | 運算子 |
 optimized | 最佳化 |
 optional | 任選 |
