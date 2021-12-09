@@ -1374,9 +1374,9 @@ class Main {
 ```
 
 <!--label:types-abstract-array-access-->
-#### Array Access
+### 陣列存取
 
-Array access describes the particular syntax traditionally used to access a value in an array at a certain offset. This is usually only allowed with arguments of type `Int`. Using abstracts, however, makes it possible to define custom array access methods. The [Haxe Standard Library](std) uses this in its `Map` type, where the following two methods can be found:
+陣列存取是一種傳統上用於存取陣列鍾某個偏移量的值的特定語法，其通常只容許使用型式為 `Int` 的引數，不過利用抽象可以定義客製的陣列存取方法。[Haxe 標準函式庫](std)在 `Map` 型式中就用到了這點，在其中可以找到以下兩種方法：
 
 ```haxe
 @:arrayAccess
@@ -1390,12 +1390,12 @@ public inline function arrayWrite(k:K, v:V):V {
 }
 ```
 
-There are two kinds of array access methods:
+有兩種陣列存取方法：
 
-* If an `@:arrayAccess` method accepts one argument, it is a getter.
-* If an `@:arrayAccess` method accepts two arguments, it is a setter.
+- 如果 `@:arrayAccess` 方法接受兩個引數，那麼是取得器。
+- 如果 `@:arrayAccess` 方法接受三個引數，那麼是設定器。
 
-The methods `get` and `arrayWrite` seen above then allow for the following usage:
+上面的 `get` 和 `arrayWrite` 方法可以這樣使用：
 
 <!-- [code asset](assets/AbstractArrayAccess.hx) -->
 ```haxe
@@ -1408,16 +1408,16 @@ class Main {
 }
 ```
 
-At this point, it should not be surprising to see that calls to the array access fields are inserted into the output:
+如此以來，在看到對陣列存取欄位的呼叫插入至輸出時也就不足為奇了：
 
 ```js
 map.set("foo", 1);
 console.log(map.get("foo")); // 1
 ```
 
-##### Order of array access resolving
+#### 陣列存取解析順序
 
-Due to a bug in Haxe versions before 3.2, the order of checked `@:arrayAccess` fields was undefined. This was fixed for Haxe 3.2 so that the fields are now consistently checked from top to bottom:
+由於在 Haxe 版本 3.2 之前的一個錯誤，檢查 `@:arrayAccess` 欄位的順序沒有定義。這個問題已在 Haxe 3.2 中解決，欄位現在會從上至下順序檢查：
 
 <!-- [code asset](assets/AbstractArrayAccessOrder.hx) -->
 ```haxe
@@ -1442,16 +1442,16 @@ class Main {
 }
 ```
 
-The array access `a[0]` is resolved to the `getInt1` field, leading to the lower case `f` being returned. The result might be different in Haxe versions before 3.2.
+陣列存取 `a[0]` 會解析為 `getint1` 欄位，並且回傳 `f`，而在 3.2 之前的版本中結果可能有所不同。
 
-Fields which are defined earlier take priority even if they require an [implicit cast](types-abstract-implicit-casts).
+較早定義的欄位即便需要[隱含轉換](types-abstract-implicit-casts)也具有優先權。
 
 <!--label:types-abstract-enum-->
-#### Enum abstracts
+### 抽象枚舉
 
-##### since Haxe 3.1.0
+##### 自 Haxe 3.1.0
 
-By adding the `@:enum` metadata to an abstract definition, that abstract can be used to define finite value sets:
+透過向抽象定義添加 `@:enum` 元資料，抽象可以用作定義有限值的集合：
 
 <!-- [code asset](assets/AbstractEnum.hx) -->
 ```haxe
