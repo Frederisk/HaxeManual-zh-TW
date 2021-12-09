@@ -15,6 +15,7 @@ behavior | 行為 |
 bind | 繫結 |
 body | 本體 |
 breaking change | 重大變更 |
+bug | 錯誤 |
 build | 構建 |
 bytecode | 位元組碼 | 又：二進位碼
 child class | 子類別 |
@@ -34,6 +35,7 @@ constructor | 建構式 |
 correspond | 對應 |
 create | 建立 |
 curly braces | 大括號 |
+custom | 客製 |
 data structure | 資料結構 |
 dead code elimination | 死碼刪除 |
 declaration | 宣告 |
@@ -65,6 +67,7 @@ field | 欄位 |
 final | 最終 |
 function | 函式 |
 generic function | 泛型函式 |
+getter | 取得器 | TODO
 high-level | 高階 |
 implement | 實作 |
 implementation | 實作 |
@@ -93,6 +96,7 @@ notation | 表示法 |
 nullability | 可空性 |
 nullable | 可空 |
 null | 空 |
+offset | 偏移 |
 object-oriented | 物件導向 |
 open source | 開源 |
 operation | 運算 |
@@ -115,10 +119,12 @@ pseudo-type | 偽型式 |
 real object | 真實物件 |
 redundant | 冗餘 |
 reflection | 反射 |
+resolve | 解析 |
 return | 回傳 |
 robust | 強健 |
 run-time | 執行期 | 又：執行時
 separated | 分隔 |
+setter | 設定器 | 又：寫入器 TODO
 sourcecode | 原始碼 |
 standard library | 標準函式庫 |
 static | 靜態 |
