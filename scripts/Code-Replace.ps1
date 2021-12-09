@@ -8,14 +8,22 @@ $file = $file.Trim().Trim('"');
 # exists
 if ((Get-Item -Path $file).Exists) {
     $dictionary =
-    [String]$dictionary = Read-Host -Prompt 'Enter the source code dictionary path' | Join-Path -Path $dictionary -ChildPath '*';
+    [String]$dictionary = Read-Host -Prompt 'Enter the source code dictionary path'
+    | Join-Path -ChildPath '*';
 
     [String]$content = Get-Content -Path $file -Raw;
 
     Get-ChildItem -Path $dictionary -Include '*.hx'
     | ForEach-Object -Process {
         [String]$sourceCode = Get-Content -Path $_.FullName -Raw;
-        $content = [Regex]::Replace($content, "(?i)^\[code asset\]\(assets\/$($_.NameString)\)", $sourceCode);
+        $content = [Regex]::Replace(
+            $content,
+            "(?i)(?m)^\[code asset\]\(assets/$($_.NameString)\)",
+            "<!-- [code asset](assets/$($_.NameString)) -->
+``````haxe
+$sourceCode
+``````"
+        );
     }
     # write
     Set-Content -Path $file -Value $content;
