@@ -1478,7 +1478,7 @@ class Main {
 }
 ```
 
-The Haxe Compiler replaces all field access to the `HttpStatus` abstract with their values, as evident in the JavaScript output:
+Haxe 編譯器會用它們的值替換掉 `HttpStatus` 抽象的所有欄位存取，如 JavaScript 輸出所示：
 
 ```js
 Main.main = function() {
@@ -1495,39 +1495,38 @@ Main.printStatus = function(status) {
 };
 ```
 
-This is similar to accessing [variables declared as inline](class-field-inline), but has several advantages:
+這類似於存取[宣告為內聯的變數](class-field-inline)，但是有幾個優點：
 
-* The typer can ensure that all values of the set are typed correctly.
-* The pattern matcher checks for [exhaustiveness](lf-pattern-matching-exhaustiveness) when [matching](lf-pattern-matching) an enum abstract.
-* Defining fields requires less syntax.
+- 形式檢查可以確保集合中的所有值有對應的型式。
+- 當[匹配](lf-pattern-matching)枚舉抽象時模式匹配器會檢查[完整性](lf-pattern-matching-exhaustiveness)。
+- 定義欄位所需要的語法更少。
 
-##### since Haxe 4.0.0
+#### 自 Haxe 4.0.0
 
-Enum abstracts can be declared without using the `@:enum` metadata, instead using the more natural syntax `enum abstract`. Additionally, if the underlying type is `String` or `Int`, the values for the enum cases can be omitted and are deduced by the compiler:
+枚舉抽象可以不使用 `@:enum` 元資料而是使用更自然的語法 `enum abstract` 而宣告。此外，若其底層型式是 `String` 或 `Int`，枚舉成員的值可以由編譯器推導從而省略：
 
-* For `Int` abstracts, the deduced values increment the last user-defined value or start at zero if no value was declared yet.
-* For `String` abstracts, the deduced value is the identifier of the enum case.
+- 對於 `Int` 抽象，推導的值會是對用戶最後一個用戶定義值的遞增，如果尚未宣告任何值，則會是從零開始。
+- 對於 `String` 抽象，推導的值會是枚舉成員的識別符。
 
 <!-- [code asset](assets/AbstractEnum2.hx) -->
 ```haxe
 enum abstract Numeric(Int) {
-  var Zero; // implicit value: 0
+  var Zero; // 隱含值：0
   var Ten = 10;
-  var Eleven; // implicit value: 11
+  var Eleven; // 隱含值：11
 }
 
 enum abstract Textual(String) {
-  var FirstCase; // implicit value: "FirstCase"
-  var AnotherCase; // implicit value: "AnotherCase"
+  var FirstCase; // 隱含值："FirstCase"
+  var AnotherCase; // 隱含值："AnotherCase"
 }
 ```
 
 <!--label:types-abstract-forward-->
-#### Forwarding abstract fields
+### 轉送抽象欄位
 
-##### since Haxe 3.1.0
-
-When wrapping an underlying type, it is sometimes desirable to "keep" parts of its functionality. Because writing forwarding functions by hand is cumbersome, Haxe allows adding the `@:forward` metadata to an abstract type:
+#### 自 Haxe 3.1.0
+在包裝底層型式時，有時會想要「保留」其部分功能，而由於手動編寫轉發函式十分繁瑣，所以 Haxe 容許為抽象添加 `@:forward` 元資料：
 
 <!-- [code asset](assets/AbstractExpose.hx) -->
 ```haxe
@@ -1543,15 +1542,15 @@ class Main {
     var myArray = new MyArray();
     myArray.push(12);
     myArray.pop();
-    // MyArray<Int> has no field length
+    // MyArray<Int> 沒有 length 欄位
     // myArray.length;
   }
 }
 ```
 
-The `MyArray` abstract in this example wraps `Array`. Its `@:forward` metadata has two arguments which correspond to the field names to be forwarded to the underlying type. In this example, the `main` method instantiates `MyArray` and accesses its `push` and `pop` methods. The commented line demonstrates that the `length` field is not available.
+該例子中的 `MyArray` 抽象包裝了 `Array`，其 `@:forward` 元資料有兩個引數分別對應需要轉送至底層型式的欄位名稱。在此例中，`main` 方法實例化了 `MyArray` 並存取了它的 `push` 和 `pop` 方法。註釋表明 `length` 欄位不可用。
 
-As usual, we can look at the JavaScript output to see how the code is being generated:
+和往常一樣，我們可以透過 JavaScript 輸出以了解程式碼是如何生成的：
 
 ```js
 Main.main = function() {
@@ -1561,27 +1560,27 @@ Main.main = function() {
 };
 ```
 
-`@:forward` can be utilized without any arguments in order to forward all fields. Of course, the Haxe Compiler still ensures that the field actually exists on the underlying type.
+`@:forward` 可以不帶任何引數使用，這樣所有的欄位都會被轉送，當然 Haxe 編譯器會確保欄位確實存在於底層型式中。
 
-> ##### Trivia: Implemented as macro
+> #### 瑣事：實作為巨集
 >
-> Both the `@:enum` and `@:forward` functionality were originally implemented using [build macros](macro-type-building). While this worked nicely in non-macro code, it caused issues if these features were used from within macros. The implementation was subsequently moved to the compiler.
+> `@:enum` 和 `@:forward` 功能最初都是以[構建巨集](macro-type-building)實作的。雖然在非巨集程式碼中其效果良好，但在巨集中使用這些功能則會造成問題，該實作在歲後移至了編譯器。
 
 <!--label:types-abstract-core-type-->
-#### Core-type abstracts
+### 核心型式抽象
 
-The [Haxe Standard Library](std) defines a set of basic types as core-type abstracts. They are identified by the `@:coreType` metadata and the lack of an underlying type declaration. These abstracts can still be understood to represent a different type. Still, that type is native to the Haxe target.
+[標準函式庫](std)將一組基本型式定義為了核心型式抽象，這些抽象以 `@:coreType` 元資料和缺失的底層型式宣告來識別。這些抽象仍可以理解為不同型式的代表，不過這種型式是 Haxe 目標的原生型式。
 
-Introducing custom core-type abstracts is rarely necessary in user code as it requires the Haxe target to be able to make sense of it. However, there could be interesting use-cases for authors of macros and new Haxe targets.
+在使用者的程式碼中很少有需要引入核心型式抽象的情況，因為這需要 Haxe 目標能夠理解對應型式，不過對於巨集和新 Haxe 目標的作者來說可能會有一些有趣的使用案例。
 
-In contrast to opaque abstracts, core-type abstracts have the following properties:
+與不透明抽象相反，核心型式抽象具有以下屬性：
 
-* They have no underlying type.
-* They are considered nullable unless they are annotated with `@:notNull` metadata.
-* They are allowed to declare [array access](types-abstract-array-access) functions without expressions.
-* [Operator overloading fields](types-abstract-operator-overloading) that have no expression are not forced to adhere to the Haxe type semantics.
+- 沒有基礎型式。
+- 除非使用 `@:notNull` 元資料標記，否則會是可空。
+- 可以宣告沒有表達式的[陣列存取](types-abstract-array-access)函式。
+- 沒有表達式的[運算子多載欄位](types-abstract-operator-overloading)不會強制遵守 Haxe 型式語意。
 
 <!--label:types-monomorph-->
-### Monomorph
+## 單型
 
-A monomorph is a type which may, through [unification](type-system-unification), morph into a different type later. Further details about this type are explained in the section on [type inference](type-system-type-inference).
+單型是一種型式，其可以透過[統一](type-system-unification)在之後變型為不同型式，此型式的更多詳細資料可以至[型式推理](type-system-type-inference)參閱。
