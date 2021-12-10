@@ -6,6 +6,7 @@ abstract | 抽象 |
 allow | 容許 | 又：允許
 alternative | 替代 |
 anonymous | 匿名 |
+annotate | 標記 |
 argument | 引數 |
 array | 陣列 |
 arrow function | 箭頭函式 |
@@ -17,6 +18,7 @@ body | 本體 |
 breaking change | 重大變更 |
 bug | 錯誤 |
 build | 構建 |
+build macros | 構建巨集 | TODO
 bytecode | 位元組碼 | 又：二進位碼
 child class | 子類別 |
 class | 類別 |
@@ -32,6 +34,7 @@ concrete | 具體 |
 constant value | 定值 |
 construct | 建構 |
 constructor | 建構式 |
+core-type | 核心型式 |
 correspond | 對應 |
 create | 建立 |
 curly braces | 大括號 |
@@ -51,10 +54,12 @@ dynamic | 動態 |
 dynamic target | 動態目標 |
 enclosed | 括住 |
 enum | 枚舉 |
+enum case | 枚舉成員 | 又：枚舉案例 TODO
 enum instance | 枚舉實例 |
 enumeration | 枚舉 |
 error | 錯誤 |
 error message | 錯誤訊息 |
+exhaustiveness | 完整性 | TODO
 explicitly | 明確 |
 expose | 公開 |
 expression | 表達式 |
@@ -65,17 +70,19 @@ false | 假 |
 feature | 特徵 |
 field | 欄位 |
 final | 最終 |
+forward | 轉送 |
 function | 函式 |
+functionality | 功能 |
 generic function | 泛型函式 |
 getter | 取得器 | TODO
 high-level | 高階 |
+identifier | 識別符 |
 implement | 實作 |
 implementation | 實作 |
 implicit | 隱含 |
 inference | 推斷 | 又：推定、推理
 inherit | 繼承 |
 inheritance | 繼承 |
-identifier | 識別符 |
 initialization | 初始化 |
 initialize | 初始化 |
 inline | 內聯 |
@@ -91,6 +98,8 @@ manual | 手冊 |
 map | 映射 |
 metadata | 元資料 |
 monomorph | 單型 |
+morph | 變型 |
+native | 原生 |
 nested | 巢套 |
 notation | 表示法 |
 nullability | 可空性 |
@@ -98,6 +107,7 @@ nullable | 可空 |
 null | 空 |
 offset | 偏移 |
 object-oriented | 物件導向 |
+opaque | 不透明 |
 open source | 開源 |
 operation | 運算 |
 operator | 運算子 |
@@ -123,6 +133,7 @@ resolve | 解析 |
 return | 回傳 |
 robust | 強健 |
 run-time | 執行期 | 又：執行時
+semantic | 語意 |
 separated | 分隔 |
 setter | 設定器 | 又：寫入器 TODO
 sourcecode | 原始碼 |
@@ -150,6 +161,7 @@ typer | 型式系統 | TODO
 typing system | 型式系統 |
 underlying type | 底層型式 |
 unification | 統一 | TODO
+use case | 使用案例 |
 user | 使用者 |
 valid | 有效 |
 value | 值 |
