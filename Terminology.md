@@ -20,6 +20,7 @@ bug | 錯誤 |
 build | 構建 |
 build macros | 構建巨集 | TODO
 bytecode | 位元組碼 | 又：二進位碼
+cast | 轉換 | 又：轉型 TODO
 child class | 子類別 |
 class | 類別 |
 class instance | 類別實例 |
@@ -159,6 +160,7 @@ type inference | 型式推理 |
 type parameter | 型式參數 |
 typer | 型式系統 | TODO
 typing system | 型式系統 |
+undefined | 未定義 |
 underlying type | 底層型式 |
 unification | 統一 | TODO
 use case | 使用案例 |
