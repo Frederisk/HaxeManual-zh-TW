@@ -3,6 +3,9 @@
 英文 | 中文 | 備註
 --- | --- | ---
 abstract | 抽象 |
+achieve | 達成 |
+addressing | 定址 |
+alias | 別名 |
 allow | 容許 | 又：允許
 alternative | 替代 |
 anonymous | 匿名 |
@@ -93,11 +96,13 @@ interface | 介面 |
 key-value pair | 鍵值對 |
 keyword | 關鍵字 |
 list | 列表 |
+local value | 局部值 |
 local variable | 局部變數 |
 macro | 巨集 |
 manual | 手冊 |
 map | 映射 |
 metadata | 元資料 |
+module | 模組 |
 monomorph | 單型 |
 morph | 變型 |
 native | 原生 |
@@ -144,9 +149,9 @@ static target | 靜態目標 |
 string interpolation | 字串插值 |
 string literals | 字串文字 |
 strongly typed | 強型別 | 強型
+struct | 結構體 |
 structural sub-typing | 結構子型態 | TODO
 structure | 結構 |
-struct | 結構體 |
 sub-type | 子型式 |
 target | 目標 |
 target language | 目標語言 |
