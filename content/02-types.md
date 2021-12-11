@@ -506,7 +506,7 @@ var c = Rgb(255, 255, 0);
 
 所有的枚舉實例都可賦值至一個特殊型式 `EnumValue`。
 
-> ##### Define: EnumValue
+> #### 定義：EnumValue
 >
 > EnumValue 是一種與所有枚舉實例相統一的特殊型式。其由[標準函式庫](std)所用於為所有枚舉實例提供某些操作，以及在 API 需要的情況下容許在用戶程式碼中使用不特定枚舉實例。
 
@@ -780,7 +780,7 @@ class Main {
 }
 ```
 
-##### 自 Haxe 4.0.0
+#### 自 Haxe 4.0.0
 
 可以使用延伸的另外符號 `&` 間隔各個結構來表示：
 
@@ -1449,7 +1449,7 @@ class Main {
 <!--label:types-abstract-enum-->
 ### 抽象枚舉
 
-##### 自 Haxe 3.1.0
+#### 自 Haxe 3.1.0
 
 透過向抽象定義添加 `@:enum` 元資料，抽象可以用作定義有限值的集合：
 
@@ -1526,6 +1526,7 @@ enum abstract Textual(String) {
 ### 轉送抽象欄位
 
 #### 自 Haxe 3.1.0
+
 在包裝底層型式時，有時會想要「保留」其部分功能，而由於手動編寫轉發函式十分繁瑣，所以 Haxe 容許為抽象添加 `@:forward` 元資料：
 
 <!-- [code asset](assets/AbstractExpose.hx) -->
