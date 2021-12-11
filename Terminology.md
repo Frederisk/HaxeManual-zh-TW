@@ -125,6 +125,7 @@ override | 覆寫 |
 package manager | 套件管理員 |
 path | 路徑 |
 parameter | 參數 |
+parametrization | 參數化 |
 parent class | 父類別 |
 pattern matching | 模式匹配 |
 performance | 效能 |
@@ -155,6 +156,7 @@ structure | 結構 |
 sub-type | 子型式 |
 target | 目標 |
 target language | 目標語言 |
+textual | 文本 |
 transitive | 遞移 |
 true | 真 |
 type | 型式 |
