@@ -1,41 +1,43 @@
 <!--label:type-system-->
 # 型式系統
 
-我們已經在[型式](types)中學到了不同類型的型式，現在是時候了解他們是如何互相作用的了。
+我們已經在[型式](types)中學到了不同類型的型式，現在是時候了解他們是如何互相作用的了。我們首先從介紹 [typedef](type-system-typedef)開始，這是一種能夠為更複雜的型式提供名稱或者別名的方式。在一些其他使用案例中， typedef 會在處理具有[型式參數](type-system-type-parameters)的型式時派上用場。
 
-We learned about the different kinds of type(型式|)s in [type(型式|)s](type(型式|)s) and it is now time to see how they interact with each other. We start off easy by introducing [type(型式|)def](type(型式|)-system-type(型式|)def), a mechanism to give a name (or alias) to a more complex type(型式|). Among other use case(使用案例|)s, type(型式|)defs will come in handy when working with type(型式|)s that have [type(型式|) parameter(參數|)s](type(型式|)-system-type(型式|)-parameter(參數|)s).
+透過檢查給定的型式是否相容可以達成大量的型式安全。也就是編譯器會嘗試在這些型式之間執行**統一**，正如[統一](type-system-unification)中所詳述的。
 
-A significant amount of type(型式|)-safety is achieved by checking if two given type(型式|)s are compatible(相容|). Meaning, the compiler(編譯器|) tries to perform **unification(統一|TODO)** between them as detailed in [unification(統一|TODO)](type(型式|)-system-unification(統一|TODO)).
+所有型式都組織在**模塊**之中，並可以透過**路徑**定址。[模塊和路徑](type-system-modules-and-paths)將會給出相關機制的詳細說明。
 
-All type(型式|)s are organized in **modules** and can be addressed through **path(路徑|)s**. [Modules and path(路徑|)s](type(型式|)-system-modules-and-path(路徑|)s) will give a detailed explanation of the related mechanics.
-
-<!--label:type(型式|)-system-type(型式|)def-->
-### type(型式|)def
+<!--label:type-system-typedef-->
+## Typedef
 
 We briefly looked at type(型式|)defs while talking about [anonymous(匿名|) struct(結構體|)ure(結構|)s](type(型式|)s-anonymous(匿名|)-struct(結構體|)ure(結構|)) and saw how we could shorten a complex [struct(結構體|)ure(結構|) type(型式|)](type(型式|)s-anonymous(匿名|)-struct(結構體|)ure(結構|)) by giving it a name. This is precisely why type(型式|)defs are useful. Giving names to struct(結構體|)ure(結構|) type(型式|)s might even be considered their primary function(函式|), and is so common that the distinction between the two appears somewhat blurry. Many Haxe user(使用者|)s consider type(型式|)defs to actually **be** the struct(結構體|)ure(結構|).
 
 A type(型式|)def can give a name to any other type(型式|):
 
+我們在談論匿名結構時簡要地研究了 typedef，並了解瞭如何通過給它一個名稱來縮短複雜的結構類型。 這正是 typedef 有用的原因。 為結構類型命名甚至可能被認為是它們的主要功能，並且非常普遍，以至於兩者之間的區別似乎有些模糊。 許多 Haxe 用戶認為 typedef 實際上是結構。
+
+typedef 可以為任何其他類型命名：
+
 ```haxe
-type(型式|)def IA = array(陣列|)<Int>;
+typedef IA = Array<Int>;
 ```
+
 This enables us to use `IA` in places where we would normally use `array(陣列|)<Int>`. While this saves only a few keystrokes in this particular case, it can make a larger difference for more complex, compound type(型式|)(複合型式|)s. Again, this is why type(型式|)def and struct(結構體|)ure(結構|)s seem so connected:
 
 ```haxe
-type(型式|)def user(使用者|) = {
+typedef User = {
   var age : Int;
   var name : String;
 }
 ```
+
 type(型式|)defs are not textual replacements, but are actually real type(型式|)s. They can even have [type(型式|) parameter(參數|)s](type(型式|)-system-type(型式|)-parameter(參數|)s) as the `Iterable` type(型式|) from the Haxe standard library(標準函式庫|) demonstrates:
 
 ```haxe
-type(型式|)def Iterable<T> = {
-  function(函式|) iterator() : Iterator<T>;
+typedef Iterable<T> = {
+  function iterator() : Iterator<T>;
 }
 ```
-
-
 
 <!--label:type(型式|)-system-type(型式|)-parameter(參數|)s-->
 ### type(型式|) parameter(參數|)s
@@ -43,27 +45,28 @@ type(型式|)def Iterable<T> = {
 Haxe allow(容許|又：允許)s parametrization of a number of type(型式|)s, as well as [class(類別|) field(欄位|)s](class(類別|)-field(欄位|)) and [enum(枚舉|) construct(結構體|)(建構|)ors](type(型式|)s-enum(枚舉|)-construct(結構體|)(建構|)or). type(型式|) parameter(參數|)s are define(定義|)d by enclosing comma-separated(分隔|) type(型式|) parameter(參數|) names in angle brackets `<>`. A simple example from the Haxe standard library(標準函式庫|) is `array(陣列|)`:
 
 ```haxe
-class(類別|) array(陣列|)<T> {
-  function(函式|) push(x : T) : Int;
+class Array<T> {
+  function push(x : T) : Int;
 }
 ```
+
 Whenever an instance(實例|) of `array(陣列|)` is create(建立|)d, its type(型式|) parameter(參數|) `T` becomes a [monomorph(變型|)(單型|)](type(型式|)s-monomorph(變型|)(單型|)). That is, it can be bound to any type(型式|), but only one at a time. This bind(繫結|)ing can happen either:
 
 * explicitly(明確|), by invoking the construct(結構體|)(建構|)or with explicit type(型式|)s (`new array(陣列|)<String>()`) or
 * implicit(隱含|)ly, by [type(型式|) inference(推斷|又：推定、推理)](type(型式|)-system-type(型式|)-inference(推斷|又：推定、推理)) for instance(實例|), when invoking `array(陣列|)instance(實例|).push("foo")`.
 
-Inside the definition(定義|) of a class(類別|) with type(型式|) parameter(參數|)s, the type(型式|) parameter(參數|)s are an unspecific type(型式|). Unless [constraints](type(型式|)-system-type(型式|)-parameter(參數|)-constraints) are added, the compiler(編譯器|) has to assume that the type(型式|) parameter(參數|)s could be used with any type(型式|). As a consequence, it is not possible to access the field(欄位|)s of type(型式|) parameter(參數|)s or [cast](expression(表達式|)-cast) to a type(型式|) parameter(參數|) type(型式|). It is also not possible to create(建立|) a new instance(實例|) of a type(型式|) parameter(參數|) type(型式|) unless the type(型式|) parameter(參數|) is [generic](type(型式|)-system-generic) and constrained accordingly. 
+Inside the definition(定義|) of a class(類別|) with type(型式|) parameter(參數|)s, the type(型式|) parameter(參數|)s are an unspecific type(型式|). Unless [constraints](type(型式|)-system-type(型式|)-parameter(參數|)-constraints) are added, the compiler(編譯器|) has to assume that the type(型式|) parameter(參數|)s could be used with any type(型式|). As a consequence, it is not possible to access the field(欄位|)s of type(型式|) parameter(參數|)s or [cast(轉換|又：轉型 TODO)](expression(表達式|)-cast(轉換|又：轉型 TODO)) to a type(型式|) parameter(參數|) type(型式|). It is also not possible to create(建立|) a new instance(實例|) of a type(型式|) parameter(參數|) type(型式|) unless the type(型式|) parameter(參數|) is [generic](type(型式|)-system-generic) and constrained accordingly.
 
 The following table shows where type(型式|) parameter(參數|)s are allow(容許|又：允許)ed:
 
-parameter(參數|) on | Bound upon | Notes 
+parameter(參數|) on | Bound upon | Notes
  ---(---|---) | ---(---|---) | ---(---|---)
-class(類別|) | instantiation | Can also be bound upon member field(欄位|) access. 
-enum(枚舉|) | instantiation | 
-enum(枚舉|) construct(結構體|)(建構|)or | instantiation | 
-function(函式|) | invocation | allow(容許|又：允許)ed for methods and named local lvalue(值|) function(函式|)s. 
-struct(結構體|)ure(結構|) | instantiation | 
- 
+class(類別|) | instantiation | Can also be bound upon member field(欄位|) access.
+enum(枚舉|) | instantiation |
+enum(枚舉|) construct(結構體|)(建構|)or | instantiation |
+function(函式|) | invocation | allow(容許|又：允許)ed for methods and named local lvalue(值|) function(函式|)s.
+struct(結構體|)ure(結構|) | instantiation |
+
 
 As function(函式|) type(型式|) parameter(參數|)s are bound upon invocation, they accept any type(型式|) if left unconstrained. However, only one type(型式|) per invocation is accepted. This can be utilized if a function(函式|) has multiple argument(引數|)s:
 
@@ -130,7 +133,7 @@ The `test` method contains a type(型式|) parameter(參數|) `T` that is constr
 * it is compatible(相容|) with `Iterable<String>` and
 * has a `length` property(屬性|) of type(型式|) `Int`.
 
-In the above example, we can see that invoking `test` with an empty array(陣列|) on line 7 and an `array(陣列|)<String>` on line 8 works fine. This is because `array(陣列|)` has both a `length` property(屬性|) and an `iterator` method. However, passing a `String` as argument(引數|) on line 9 fails the constraint check because `String` is not compatible(相容|) with `Iterable<T>`. 
+In the above example, we can see that invoking `test` with an empty array(陣列|) on line 7 and an `array(陣列|)<String>` on line 8 works fine. This is because `array(陣列|)` has both a `length` property(屬性|) and an `iterator` method. However, passing a `String` as argument(引數|) on line 9 fails the constraint check because `String` is not compatible(相容|) with `Iterable<T>`.
 
 When constraining to a single type(型式|), the parentheses can be omitted:
 
@@ -328,7 +331,7 @@ class(類別|) Main {
   public static(靜態|) function(函式|) main() {
     var children = [new Child()];
     // subvert type(型式|) checker
-    var bases:array(陣列|)<Base> = cast children;
+    var bases:array(陣列|)<Base> = cast(轉換|又：轉型 TODO) children;
     bases.push(new OtherChild());
     for (child in children) {
       trace(child);
@@ -338,7 +341,7 @@ class(類別|) Main {
 
 ```
 
-Here, we subvert the type(型式|) checker by using a [cast](expression(表達式|)-cast), thus allow(容許|又：允許)ing the assign(賦值|又：指派、指定、分配)ment after the commented line. With that we hold a reference `bases` to the original array(陣列|), type(型式|)d as `array(陣列|)<Base>`. This allow(容許|又：允許)s pushing another type(型式|) compatible(相容|) with `Base`, in this instance(實例|) `OtherChild`, onto that array(陣列|). However, our original reference `children` is still of type(型式|) `array(陣列|)<Child>`, and things go bad when we encounter the `OtherChild` instance(實例|) in one of its elements while iterating.
+Here, we subvert the type(型式|) checker by using a [cast(轉換|又：轉型 TODO)](expression(表達式|)-cast(轉換|又：轉型 TODO)), thus allow(容許|又：允許)ing the assign(賦值|又：指派、指定、分配)ment after the commented line. With that we hold a reference `bases` to the original array(陣列|), type(型式|)d as `array(陣列|)<Base>`. This allow(容許|又：允許)s pushing another type(型式|) compatible(相容|) with `Base`, in this instance(實例|) `OtherChild`, onto that array(陣列|). However, our original reference `children` is still of type(型式|) `array(陣列|)<Child>`, and things go bad when we encounter the `OtherChild` instance(實例|) in one of its elements while iterating.
 
 If `array(陣列|)` had no `push()` method and no other means of modification, the assign(賦值|又：指派、指定、分配)ment would be safe as no incompatible(相容|) type(型式|) could be added to it. This can be achieved by restricting the type(型式|) accordingly using [struct(結構體|)ural subtyping](type(型式|)-system-struct(結構體|)ural-subtyping):
 
@@ -636,7 +639,7 @@ A module sub-type(型式|)(子型式|) is a type(型式|) declare(宣告|)d in a
 var e:haxe.macro(巨集|).Expr.ExprDef;
 ```
 
-Here the sub-type(型式|)(子型式|) `ExprDef` within module `haxe.macro(巨集|).Expr` is accessed. 
+Here the sub-type(型式|)(子型式|) `ExprDef` within module `haxe.macro(巨集|).Expr` is accessed.
 
 An example sub-type(型式|)(子型式|) declaration(宣告|) would look like the following :
 
@@ -678,7 +681,7 @@ private abstract(抽象|) A { ... }
 > ##### define(定義|): Private type(型式|)
 >
 > A type(型式|) can be made private by using the `private` modifier. Afterwards, the type(型式|) can only be directly accessed from within the [module](define(定義|)-module) it is define(定義|)d in.
-> 
+>
 > Private type(型式|)s, unlike public ones, do not become a member of their containing package.
 
 The accessibility of type(型式|)s can be controlled more precisely by using [access control](lf-access-control).
@@ -799,7 +802,7 @@ Using the specially named `import.hx` file (note the lowercase name), default(�
 
 The `import.hx` file must be placed in the same directory as your code. It can only contain import and using statements, which will be applied to all Haxe modules in the directory and its subdirectories.
 
-default(預設|) imports of `import.hx` act as if its contents are placed at the top of each module. 
+default(預設|) imports of `import.hx` act as if its contents are placed at the top of each module.
 
 ##### Related content
 
@@ -810,7 +813,7 @@ default(預設|) imports of `import.hx` act as if its contents are placed at the
 <!--label:type(型式|)-system-resolution-order-->
 #### Resolution Order
 
-Resolution order comes into play as soon as unqualified identifier(識別符|)s are involved. These are [expression(表達式|)s](expression(表達式|)) in the form of `foo()`, `foo = 1` and `foo.field(欄位|)`. The last one in particular includes module path(路徑|)s such as `haxe.ds.Stringmap(映射|)`, where `haxe` is an unqualified identifier(識別符|).  
+Resolution order comes into play as soon as unqualified identifier(識別符|)s are involved. These are [expression(表達式|)s](expression(表達式|)) in the form of `foo()`, `foo = 1` and `foo.field(欄位|)`. The last one in particular includes module path(路徑|)s such as `haxe.ds.Stringmap(映射|)`, where `haxe` is an unqualified identifier(識別符|).
 
 We describe(描述|) the resolution order algorithm here, which depends on the following state:
 
@@ -869,8 +872,3 @@ For step 1 of this algorithm, as well as steps 5 and 7 of the previous one, the 
 **Important note:** This syntax should be avoided whenever possible. The produced code cannot be properly checked by the Haxe compiler(編譯器|) and so it may have type(型式|) error(錯誤|)s or other bug(錯誤|)s that would be caught at compile time in regular code. Use only when absolutely necessary and when you know what you are doing.
 
 It is possible to completely circumvent the type(型式|) checker by prefixing an expression(表達式|) with the keyword(關鍵字|) `untype(型式|)d`. The majority of type(型式|) error(錯誤|)s are not emitted inside an untype(型式|)d expression(表達式|). This is primarily used with the target(目標|)-specific [code injection expression(表達式|)s](target(目標|)-syntax).
-
-
-
-
-
