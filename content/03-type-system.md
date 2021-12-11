@@ -10,19 +10,15 @@
 <!--label:type-system-typedef-->
 ## Typedef
 
-We briefly looked at type(型式|)defs while talking about [anonymous(匿名|) struct(結構體|)ure(結構|)s](type(型式|)s-anonymous(匿名|)-struct(結構體|)ure(結構|)) and saw how we could shorten a complex [struct(結構體|)ure(結構|) type(型式|)](type(型式|)s-anonymous(匿名|)-struct(結構體|)ure(結構|)) by giving it a name. This is precisely why type(型式|)defs are useful. Giving names to struct(結構體|)ure(結構|) type(型式|)s might even be considered their primary function(函式|), and is so common that the distinction between the two appears somewhat blurry. Many Haxe user(使用者|)s consider type(型式|)defs to actually **be** the struct(結構體|)ure(結構|).
+我們在討論[匿名結構](types-anonymous-structure)時已經簡要的研究了 typedef 並了解到了如何用它來為複雜的[結構型式](types-anonymous-structure)提供名稱來縮短其寫法，這也正是 typedef 有用的原因。甚至可以認為為結構型式命名就是其主要功能，並且這種用法也十分普遍以至於兩者之間的區別似乎有些模糊。許多 Haxe 使用者會認為 typedef 就**是**結構。
 
-A type(型式|)def can give a name to any other type(型式|):
-
-我們在談論匿名結構時簡要地研究了 typedef，並了解瞭如何通過給它一個名稱來縮短複雜的結構類型。 這正是 typedef 有用的原因。 為結構類型命名甚至可能被認為是它們的主要功能，並且非常普遍，以至於兩者之間的區別似乎有些模糊。 許多 Haxe 用戶認為 typedef 實際上是結構。
-
-typedef 可以為任何其他類型命名：
+typedef 可以為任意其他型式提供名稱：
 
 ```haxe
 typedef IA = Array<Int>;
 ```
 
-This enables us to use `IA` in places where we would normally use `array(陣列|)<Int>`. While this saves only a few keystrokes in this particular case, it can make a larger difference for more complex, compound type(型式|)(複合型式|)s. Again, this is why type(型式|)def and struct(結構體|)ure(結構|)s seem so connected:
+這能夠讓我們通常在使用 `Array<Int>`的地方可以使用 `IA`，雖然在這種特立下只能省去幾下按鍵，但對於更複雜復合的型式來說則會產生更大差異。同樣，這就是為什麼 typedef 與結構看起來是如此密切相關：
 
 ```haxe
 typedef User = {
@@ -31,7 +27,7 @@ typedef User = {
 }
 ```
 
-type(型式|)defs are not textual replacements, but are actually real type(型式|)s. They can even have [type(型式|) parameter(參數|)s](type(型式|)-system-type(型式|)-parameter(參數|)s) as the `Iterable` type(型式|) from the Haxe standard library(標準函式庫|) demonstrates:
+typedef 並不是文本替換，而是實際的型式。它們甚至可以有[型式參數](type-system-type-parameters)，如同 Haxe 標準函式庫中的 `Iterable` 型式所示：
 
 ```haxe
 typedef Iterable<T> = {
@@ -39,10 +35,10 @@ typedef Iterable<T> = {
 }
 ```
 
-<!--label:type(型式|)-system-type(型式|)-parameter(參數|)s-->
-### type(型式|) parameter(參數|)s
+<!--label:type-system-type-parameters-->
+## 型式參數
 
-Haxe allow(容許|又：允許)s parametrization of a number of type(型式|)s, as well as [class(類別|) field(欄位|)s](class(類別|)-field(欄位|)) and [enum(枚舉|) construct(結構體|)(建構|)ors](type(型式|)s-enum(枚舉|)-construct(結構體|)(建構|)or). type(型式|) parameter(參數|)s are define(定義|)d by enclosing comma-separated(分隔|) type(型式|) parameter(參數|) names in angle brackets `<>`. A simple example from the Haxe standard library(標準函式庫|) is `array(陣列|)`:
+Haxe 容許參數化多種型式、[類別欄位](class-field)和[枚舉建構式](types-enum-constructor)，型式參數是透過括在尖括號 `<>` 中以逗號分隔的型式參數名稱來定義的。Haxe 標準庫的一個簡單示例是 `Array`：
 
 ```haxe
 class Array<T> {
@@ -58,6 +54,14 @@ Whenever an instance(實例|) of `array(陣列|)` is create(建立|)d, its type(
 Inside the definition(定義|) of a class(類別|) with type(型式|) parameter(參數|)s, the type(型式|) parameter(參數|)s are an unspecific type(型式|). Unless [constraints](type(型式|)-system-type(型式|)-parameter(參數|)-constraints) are added, the compiler(編譯器|) has to assume that the type(型式|) parameter(參數|)s could be used with any type(型式|). As a consequence, it is not possible to access the field(欄位|)s of type(型式|) parameter(參數|)s or [cast(轉換|又：轉型 TODO)](expression(表達式|)-cast(轉換|又：轉型 TODO)) to a type(型式|) parameter(參數|) type(型式|). It is also not possible to create(建立|) a new instance(實例|) of a type(型式|) parameter(參數|) type(型式|) unless the type(型式|) parameter(參數|) is [generic](type(型式|)-system-generic) and constrained accordingly.
 
 The following table shows where type(型式|) parameter(參數|)s are allow(容許|又：允許)ed:
+
+每當創建 Array 的實例時，其類型參數 T 就變成了單形。 也就是說，它可以綁定到任何類型，但一次只能綁定一個。 這種綁定可以發生在：
+
+通過顯式調用構造函數 (new Array<String>()) 或
+例如，在調用 arrayInstance.push("foo") 時，通過類型推斷隱式地進行。
+在帶有類型參數的類的定義中，類型參數是一種非特定類型。 除非添加約束，否則編譯器必須假設類型參數可以用於任何類型。 因此，無法訪問類型參數的字段或轉換為類型參數類型。 也不能創建類型參數類型的新實例，除非類型參數是通用的並相應地受到約束。
+
+下表顯示了允許類型參數的位置：
 
 parameter(參數|) on | Bound upon | Notes
  ---(---|---) | ---(---|---) | ---(---|---)
