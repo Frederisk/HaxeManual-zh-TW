@@ -14,9 +14,11 @@ argument | 引數 |
 array | 陣列 |
 arrow function | 箭頭函式 |
 assign | 賦值 | 又：指派、指定、分配
+assume | 假設 |
 basic type | 基底型式 |
 behavior | 行為 |
 bind | 繫結 |
+bound | 繫結 |
 body | 本體 |
 breaking change | 重大變更 |
 bug | 錯誤 |
@@ -36,6 +38,7 @@ compiler | 編譯器 |
 compound type | 複合型式 |
 concrete | 具體 |
 constant value | 定值 |
+constraint | 約束 |
 construct | 建構 |
 constructor | 建構式 |
 core-type | 核心型式 |
@@ -92,7 +95,10 @@ initialize | 初始化 |
 inline | 內聯 |
 instance | 實例 |
 instantiate | 實例化 |
+instantiation | 實例化 | TODO
 interface | 介面 |
+invoke | 引動 |
+invocation | 引動 |
 key-value pair | 鍵值對 |
 keyword | 關鍵字 |
 list | 列表 |
@@ -101,7 +107,10 @@ local variable | 局部變數 |
 macro | 巨集 |
 manual | 手冊 |
 map | 映射 |
+match | 匹配 |
+member | 成員 |
 metadata | 元資料 |
+method | 方法 |
 module | 模組 |
 monomorph | 單型 |
 morph | 變型 |
@@ -144,9 +153,11 @@ semantic | 語意 |
 separated | 分隔 |
 setter | 設定器 | 又：寫入器 TODO
 sourcecode | 原始碼 |
+specific | 特定 |
 standard library | 標準函式庫 |
 static | 靜態 |
 static target | 靜態目標 |
+string | 字串 |
 string interpolation | 字串插值 |
 string literals | 字串文字 |
 strongly typed | 強型別 | 強型
@@ -154,6 +165,7 @@ struct | 結構體 |
 structural sub-typing | 結構子型態 | TODO
 structure | 結構 |
 sub-type | 子型式 |
+syntax | 語法 |
 target | 目標 |
 target language | 目標語言 |
 textual | 文本 |
@@ -170,6 +182,7 @@ typing system | 型式系統 |
 undefined | 未定義 |
 underlying type | 底層型式 |
 unification | 統一 | TODO
+unspecific | 非特定 |
 use case | 使用案例 |
 user | 使用者 |
 valid | 有效 |
