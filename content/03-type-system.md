@@ -46,62 +46,53 @@ class Array<T> {
 }
 ```
 
-Whenever an instance(實例|) of `array(陣列|)` is create(建立|)d, its type(型式|) parameter(參數|) `T` becomes a [monomorph(變型|)(單型|)](type(型式|)s-monomorph(變型|)(單型|)). That is, it can be bound to any type(型式|), but only one at a time. This bind(繫結|)ing can happen either:
+每當建立 `Array` 的實例時，其型式參數 `T` 就會成為[單型](types-monomorph)。也就是說該實例可以繫結至任何型式上，但一次只能繫結一個。這種繫結可以是：
 
-* explicitly(明確|), by invoking the construct(結構體|)(建構|)or with explicit type(型式|)s (`new array(陣列|)<String>()`) or
-* implicit(隱含|)ly, by [type(型式|) inference(推斷|又：推定、推理)](type(型式|)-system-type(型式|)-inference(推斷|又：推定、推理)) for instance(實例|), when invoking `array(陣列|)instance(實例|).push("foo")`.
+- 明確的，以引動具有明確型式的建構式（`new Array<String>()`），或是
+- 隱含的，以對實例的[型式推理](type-system-type-inference)在引動 `arrayInstance.push("foo")` 時。
 
-Inside the definition(定義|) of a class(類別|) with type(型式|) parameter(參數|)s, the type(型式|) parameter(參數|)s are an unspecific type(型式|). Unless [constraints](type(型式|)-system-type(型式|)-parameter(參數|)-constraints) are added, the compiler(編譯器|) has to assume that the type(型式|) parameter(參數|)s could be used with any type(型式|). As a consequence, it is not possible to access the field(欄位|)s of type(型式|) parameter(參數|)s or [cast(轉換|又：轉型 TODO)](expression(表達式|)-cast(轉換|又：轉型 TODO)) to a type(型式|) parameter(參數|) type(型式|). It is also not possible to create(建立|) a new instance(實例|) of a type(型式|) parameter(參數|) type(型式|) unless the type(型式|) parameter(參數|) is [generic](type(型式|)-system-generic) and constrained accordingly.
+在帶有型式參數類別的定義中，型式參數是非特定型式。除非添加[約束](type-system-type-parameter-constraints)，否則編譯器必須假設型式參數可以是任何型式。所以說，對型式參數的欄位的存取和對成為型式參數型式的[轉換](expression-cast)是不可行的，同樣，也無法建立型式參數型式的新實例，除非型式參數是[泛型](type-system-generic)的並受對應約束。
 
-The following table shows where type(型式|) parameter(參數|)s are allow(容許|又：允許)ed:
+下表列出了容許型式參數的位置：
 
-每當創建 Array 的實例時，其類型參數 T 就變成了單形。 也就是說，它可以綁定到任何類型，但一次只能綁定一個。 這種綁定可以發生在：
+參數在 | 繫結在 | 備註
+ --- | --- | ---
+類別 | 實例化 | 也能繫結至成員欄位存取。
+成員欄位 | 實例化 |
+枚舉 | 實例化 |
+枚舉建構式 | 實例化 |
+函式 | 引動 | 容許給方法和命名的局部值函數。
+結構 | 實例化 |
 
-通過顯式調用構造函數 (new Array<String>()) 或
-例如，在調用 arrayInstance.push("foo") 時，通過類型推斷隱式地進行。
-在帶有類型參數的類的定義中，類型參數是一種非特定類型。 除非添加約束，否則編譯器必須假設類型參數可以用於任何類型。 因此，無法訪問類型參數的字段或轉換為類型參數類型。 也不能創建類型參數類型的新實例，除非類型參數是通用的並相應地受到約束。
+由於函式型式參數在引動時繫結，如果沒有約束則其可以接受任何型式。但每次引動只會接受一種型式，在函式有多個引數也適用：
 
-下表顯示了允許類型參數的位置：
-
-parameter(參數|) on | Bound upon | Notes
- ---(---|---) | ---(---|---) | ---(---|---)
-class(類別|) | instantiation | Can also be bound upon member field(欄位|) access.
-enum(枚舉|) | instantiation |
-enum(枚舉|) construct(結構體|)(建構|)or | instantiation |
-function(函式|) | invocation | allow(容許|又：允許)ed for methods and named local lvalue(值|) function(函式|)s.
-struct(結構體|)ure(結構|) | instantiation |
-
-
-As function(函式|) type(型式|) parameter(參數|)s are bound upon invocation, they accept any type(型式|) if left unconstrained. However, only one type(型式|) per invocation is accepted. This can be utilized if a function(函式|) has multiple argument(引數|)s:
-
-<!-- [code asset](assets/function(函式|)type(型式|)parameter(參數|).hx) -->
+<!-- [code asset](assets/FunctionTypeParameter.hx) -->
 ```haxe
-class(類別|) Main {
-  static(靜態|) public function(函式|) main() {
+class Main {
+  static public function main() {
     equals(1, 1);
     // runtime message: bar should be foo
     equals("foo", "bar");
-    // compiler(編譯器|) error(錯誤|): String should be Int
+    // compiler error: String should be Int
     equals(1, "foo");
   }
 
-  static(靜態|) function(函式|) equals<T>(expected:T, actual:T) {
+  static function equals<T>(expected:T, actual:T) {
     if (actual != expected) {
       trace('$actual should be $expected');
     }
   }
 }
-
 ```
 
-Both of the `equals` function(函式|)'s argument(引數|)s, `expected` and `actual`, have type(型式|) `T`. This implies that for each invocation of `equals`, the two argument(引數|)s must be of the same type(型式|). The compiler(編譯器|) permits the first call (both argument(引數|)s being of `Int`) and the second call (both argument(引數|)s being of `String`) but the third attempt causes a compiler(編譯器|) error(錯誤|) due to a type(型式|) mismatch.
+`equals` 函式的兩個引數 `expected` 和 `actual` 的形式是 `T`，這意味著對 `eunqals` 的每次引動這兩個引數都必須具有相同的型式。編譯器會容許第一次（兩個引數都是 `Int`）和第二次（個引數都是 `String`）呼叫，但第三次嘗試則會由於型式不匹配而造成編譯器錯誤。
 
-> ##### Trivia: type(型式|) parameter(參數|)s in expression(表達式|) syntax
+> #### 瑣事： 表達式語法中的型式參數
 >
-> We often get the question of why a method with type(型式|) parameter(參數|)s cannot be called as `method<String>(x)`. The error(錯誤|) messages the compiler(編譯器|) gives are not very helpful. However, there is a simple reason for that: the above code is parsed as if both `<` and `>` were binary operator(運算子|)s, yielding `(method < String) > (x)`.
+> 我們經常會遇到一個問題，為什麼不能以 `method<String>(x)` 的方式呼叫帶有型式參數的函式？編譯器所給出的錯誤訊息不是很有幫助。不過也一個簡單的原因是上面的程式碼會解析作 `<` 和 `>` 都是二元運算子，產生為 `(method < String) > (x)`。
 
-<!--label:type(型式|)-system-type(型式|)-parameter(參數|)-constraints-->
-#### Constraints
+<!--label:type-system-type-parameter-constraints-->
+### 約束
 
 type(型式|) parameter(參數|)s can be constrained to multiple type(型式|)s:
 
