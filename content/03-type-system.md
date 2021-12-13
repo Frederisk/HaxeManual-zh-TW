@@ -94,7 +94,7 @@ class Main {
 <!--label:type-system-type-parameter-constraints-->
 ### 約束
 
-type(型式|) parameter(參數|)s can be constrained to multiple type(型式|)s:
+型式參數可以約束為多個型式：
 
 <!-- [code asset](assets/Constraints.hx) -->
 ```haxe
@@ -121,16 +121,14 @@ class(類別|) Main {
   }
 }
 
-```
+`test` 方法包含有約束為 `Iterable<String>` 和 `Measurable` 的型式參數 `T`。其中後者為了方便是用 [typedef](type-system-typedef) 定義的，並且需要相容型式要有型式為 `Int` 名稱為 `length` 的唯讀[屬性](class-field-property)。然後這些約束表明型式若要相容則需要：
 
-The `test` method contains a type(型式|) parameter(參數|) `T` that is constrained to the type(型式|)s `Iterable<String>` and `Measurable`.  The latter is define(定義|)d using a [type(型式|)def](type(型式|)-system-type(型式|)def) for convenience and requires compatible(相容|) type(型式|)s to have a read-only [property(屬性|)](class(類別|)-field(欄位|)-property(屬性|)) named `length` of type(型式|) `Int`. The constraints then indicate that a type(型式|) is compatible(相容|) if:
+- 它要與 `Iterable<String>` 相容，並且
+- 有型式為 `Int` 的唯讀屬性 `length`。
 
-* it is compatible(相容|) with `Iterable<String>` and
-* has a `length` property(屬性|) of type(型式|) `Int`.
+在上面的例子中我們可以看到，在第 7 列使用空陣列和第 8 列使用 `Array<String>` 引動 `test` 都工作得很好。之所以這樣是由於 `Array` 具有 `length` 屬性和 `iterator` 方法。但是在第 9 行傳遞 `String` 引數則會在約束檢查上失敗，這是由於 `String` 與 `Iterable<T>` 並不相容。
 
-In the above example, we can see that invoking `test` with an empty array(陣列|) on line 7 and an `array(陣列|)<String>` on line 8 works fine. This is because `array(陣列|)` has both a `length` property(屬性|) and an `iterator` method. However, passing a `String` as argument(引數|) on line 9 fails the constraint check because `String` is not compatible(相容|) with `Iterable<T>`.
-
-When constraining to a single type(型式|), the parentheses can be omitted:
+當約束為單一型式時括號可以省略：
 
 <!-- [code asset](assets/Constraints2.hx) -->
 ```haxe
@@ -144,19 +142,14 @@ class(類別|) Main {
     return(回傳|) a.iterator().next();
   }
 }
-
 ```
 
-##### since Haxe 4.0.0
+#### 自 Haxe 4.0.0
 
-One of the breaking change(重大變更|)s between versions 3 and 4 is the multiple type(型式|) constraint syntax. As the first example above shows, in Haxe 4 the constraints are separated(分隔|) by an `&` symbol instead of a comma. This is similar to the new [struct(結構體|)ure(結構|) extension(延伸|)](type(型式|)s-struct(結構體|)ure(結構|)-extension(延伸|)s) syntax.
+在版本 3 和版本 4 之間的一個重大變更是多個型式的約束語法。就如上面第一個例子中所示，在 Haxe 4 中的約束之間的分隔由 `&` 取得了逗號。這有點像新的[結構延伸](types-structure-extensions)語法。
 
-
-
-
-
-<!--label:type(型式|)-system-generic-->
-### Generic
+<!--label:type-system-generic-->
+## 泛型
 
 Usually, the Haxe compiler(編譯器|) generates only a single class(類別|) or function(函式|) even if it has type(型式|) parameter(參數|)s. This results in a natural abstract(抽象|)ion where the code generator for the target(目標|) language must assume that a type(型式|) parameter(參數|) could be of any type(型式|). The generated code might then have to perform type(型式|) checks which can be detrimental for performance(效能|).
 
