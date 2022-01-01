@@ -71,9 +71,9 @@ class Array<T> {
 class Main {
   static public function main() {
     equals(1, 1);
-    // runtime message: bar should be foo
+    // 執行期訊息： bar should be foo
     equals("foo", "bar");
-    // compiler error: String should be Int
+    // 編譯器錯誤：String 應當是 Int（String should be Int）
     equals(1, "foo");
   }
 
@@ -98,28 +98,29 @@ class Main {
 
 <!-- [code asset](assets/Constraints.hx) -->
 ```haxe
-type(型式|)def Measurable = {
-  public var length(default(預設|), null(空|)):Int;
+typedef Measurable = {
+  public var length(default, null):Int;
 }
 
-class(類別|) Main {
-  static(靜態|) public function(函式|) main() {
+class Main {
+  static public function main() {
     trace(test([]));
     trace(test(["bar", "foo"]));
-    // String should be Iterable<String>
+    // String 應當是 Iterable<String>
     // test("foo");
   }
 
   #if (haxe_ver >= 4)
-  static(靜態|) function(函式|) test<T:Iterable<String> & Measurable>(a:T) {
+  static function test<T:Iterable<String> & Measurable>(a:T) {
   #else
-  static(靜態|) function(函式|) test<T:(Iterable<String>, Measurable)>(a:T) {
+  static function test<T:(Iterable<String>, Measurable)>(a:T) {
   #end
     if (a.length == 0)
-      return(回傳|) "empty";
-    return(回傳|) a.iterator().next();
+      return "empty";
+    return a.iterator().next();
   }
 }
+```
 
 `test` 方法包含有約束為 `Iterable<String>` 和 `Measurable` 的型式參數 `T`。其中後者為了方便是用 [typedef](type-system-typedef) 定義的，並且需要相容型式要有型式為 `Int` 名稱為 `length` 的唯讀[屬性](class-field-property)。然後這些約束表明型式若要相容則需要：
 
@@ -132,14 +133,14 @@ class(類別|) Main {
 
 <!-- [code asset](assets/Constraints2.hx) -->
 ```haxe
-class(類別|) Main {
-  static(靜態|) public function(函式|) main() {
+class Main {
+  static public function main() {
     trace(test([]));
     trace(test(["bar", "foo"]));
   }
 
-  static(靜態|) function(函式|) test<T:Iterable<String>>(a:T) {
-    return(回傳|) a.iterator().next();
+  static function test<T:Iterable<String>>(a:T) {
+    return a.iterator().next();
   }
 }
 ```
@@ -151,87 +152,85 @@ class(類別|) Main {
 <!--label:type-system-generic-->
 ## 泛型
 
-Usually, the Haxe compiler(編譯器|) generates only a single class(類別|) or function(函式|) even if it has type(型式|) parameter(參數|)s. This results in a natural abstract(抽象|)ion where the code generator for the target(目標|) language must assume that a type(型式|) parameter(參數|) could be of any type(型式|). The generated code might then have to perform type(型式|) checks which can be detrimental for performance(效能|).
+通常來說，Haxe 編譯器即便擁有型式參數也只會產生一個類別或函式。這會導致目標語言的產生器必須假設其型式參數可以是任何型式的自然抽象。產生的程式碼之後可能不得不去執行型式檢查，而這會損害效能。
 
-A class(類別|) or function(函式|) can be made **generic** by attributing it with the `@:generic` [metadata(元資料|)](lf-metadata(元資料|)). This causes the compiler(編譯器|) to emit a distinct class(類別|) or function(函式|) per type(型式|) parameter(參數|) combination with mangled names. A specification like this can yield a boost in sections of performance(效能|)-critical code on [static(靜態|) target(目標|)s](define(定義|)-static(靜態|)-target(目標|)) at the cost of a larger output size:
+類別或函式可以透過使用 `@:generic` [元資料](lf-metadata)來成為泛型。這會導致編譯器為每種型式參數組合產生不同的帶有自己名稱的類別或函式。這樣的形式可以以更大的輸出大小為代價來使[靜態目標](define-static-target)上效能關鍵的部分得到提升：
 
-<!-- [code asset](assets/Genericclass(類別|).hx) -->
+<!-- [code asset](assets/GenericClass.hx) -->
 ```haxe
 @:generic
-class(類別|) Myvalue(值|)<T> {
-  public var value(值|):T;
+class MyValue<T> {
+  public var value:T;
 
-  public function(函式|) new(value(值|):T) {
-    this.value(值|) = value(值|);
+  public function new(value:T) {
+    this.value = value;
   }
 }
 
-class(類別|) Main {
-  static(靜態|) public function(函式|) main() {
-    var a = new Myvalue(值|)<String>("Hello");
-    var b = new Myvalue(值|)<Int>(42);
+class Main {
+  static public function main() {
+    var a = new MyValue<String>("Hello");
+    var b = new MyValue<Int>(42);
   }
 }
-
 ```
 
-It may seem unusual to see the explicit type(型式|) `Myvalue(值|)<String>` here as [type(型式|) inference(推斷|又：推定、推理)](type(型式|)-system-type(型式|)-inference(推斷|又：推定、推理)) often handles similar situations. Nonetheless, it is required in this case as the compiler(編譯器|) must know the exact type(型式|) of a generic class(類別|) upon construct(結構體|)(建構|)ion. The JavaScript output shows the result:
+在此處見到明確型式 `MyValue<String>` 似乎不那麼尋常，通常來說型式推理會處理這種類似的情況。不過在此種情形下這樣寫明是必要的，編譯器在建構時必須要得知泛型類別的具體型式。
 
 ```js
-(function(函式|) () { "use strict";
-var Test = function(函式|)() { };
-Test.main = function(函式|)() {
-	var a = new Myvalue(值|)_String("Hello");
-	var b = new Myvalue(值|)_Int(5);
+(function () { "use strict";
+var Test = function() { };
+Test.main = function() {
+  var a = new MyValue_String("Hello");
+  var b = new MyValue_Int(5);
 };
-var Myvalue(值|)_Int = function(函式|)(value(值|)) {
-	this.value(值|) = value(值|);
+var MyValue_Int = function(value) {
+  this.value = value;
 };
-var Myvalue(值|)_String = function(函式|)(value(值|)) {
-	this.value(值|) = value(值|);
+var MyValue_String = function(value) {
+  this.value = value;
 };
 Test.main();
 })();
 ```
 
-We can identify that `Myvalue(值|)<String>` and `Myvalue(值|)<Int>` have become `Myvalue(值|)_String` and `Myvalue(值|)_Int` respectively. The situation is similar for generic function(泛型函式|)(函式|)s:
+我們可以確定 `MyValue<String>` 和 `MyValue<Int>` 分別變為了 `MyValue_String` 和 `MyValue_Int`。泛型函式的情況也類似：
 
-<!-- [code asset](assets/Genericfunction(函式|).hx) -->
+<!-- [code asset](assets/GenericFunction.hx) -->
 ```haxe
-class(類別|) Main {
-  static(靜態|) public function(函式|) main() {
+class Main {
+  static public function main() {
     method("foo");
     method(1);
   }
 
-  @:generic static(靜態|) function(函式|) method<T>(t:T) {}
+  @:generic static function method<T>(t:T) {}
 }
-
 ```
 
-Again, the JavaScript output makes it obvious:
+同樣，JavaScript 輸出會使這很明顯：
 
 ```js
-(function(函式|) () { "use strict";
-var Main = function(函式|)() { }
-Main.method_Int = function(函式|)(t) {
+(function () { "use strict";
+var Main = function() { }
+Main.method_Int = function(t) {
 }
-Main.method_String = function(函式|)(t) {
+Main.method_String = function(t) {
 }
-Main.main = function(函式|)() {
-	Main.method_String("foo");
-	Main.method_Int(1);
+Main.main = function() {
+  Main.method_String("foo");
+  Main.method_Int(1);
 }
 Main.main();
 })();
 ```
 
-<!--label:type(型式|)-system-generic-type(型式|)-parameter(參數|)-construct(結構體|)(建構|)ion-->
-#### construct(結構體|)(建構|)ion of generic type(型式|) parameter(參數|)s
+<!--label:type-system-generic-type-parameter-construction-->
+### 泛型型式參數的建構
 
-> ##### define(定義|): Generic type(型式|) parameter(參數|)
+> #### 定義：泛型型式參數
 >
-> A type(型式|) parameter(參數|) is said to be generic if its containing class(類別|) or method is generic.
+> 若型式參數所包含的類別或方法是泛型的，則稱其是泛型的。
 
 It is not possible to construct(結構體|)(建構|) normal type(型式|) parameter(參數|)s; for example, `new T()` would register as a compiler(編譯器|) error(錯誤|). The reason for this is that Haxe generates only a single function(函式|) and the construct(結構體|)(建構|) would make no sense in that case. This is different when the type(型式|) parameter(參數|) is generic: since we know that the compiler(編譯器|) will generate a distinct function(函式|) for each type(型式|) parameter(參數|) combination, it is possible to replace the `T` `new T()` with the real type(型式|).
 
@@ -354,15 +353,15 @@ class(類別|) Main {
 
 ```
 
-We can safely assign(賦值|又：指派、指定、分配) with `b` being type(型式|)d as `Myarray(陣列|)<Base>` and `Myarray(陣列|)` only having a `pop()` method. There is no method define(定義|)d on `Myarray(陣列|)` which could be used to add incompatible(相容|) type(型式|)s. It is thus said to be **covariant(變體|)**.
+We can safely assign(賦值|又：指派、指定、分配) with `b` being type(型式|)d as `Myarray(陣列|)<Base>` and `Myarray(陣列|)` only having a `pop()` method. There is no method define(定義：|)d on `Myarray(陣列|)` which could be used to add incompatible(相容|) type(型式|)s. It is thus said to be **covariant(變體|)**.
 
-> ##### define(定義|): Covariance
+> ##### define(定義：|): Covariance
 >
-> A [compound type(型式|)(複合型式|)](define(定義|)-compound-type(型式|)) is considered covariant(變體|) if its component type(型式|)s can be assign(賦值|又：指派、指定、分配)ed to less specific components, i.e. if they are only read, but never written.
+> A [compound type(型式|)(複合型式|)](define(定義：|)-compound-type(型式|)) is considered covariant(變體|) if its component type(型式|)s can be assign(賦值|又：指派、指定、分配)ed to less specific components, i.e. if they are only read, but never written.
 
-> ##### define(定義|): Contravariance
+> ##### define(定義：|): Contravariance
 >
-> A [compound type(型式|)(複合型式|)](define(定義|)-compound-type(型式|)) is considered contravariant(變體|) if its component type(型式|)s can be assign(賦值|又：指派、指定、分配)ed to less generic components, i.e. if they are only written, but never read.
+> A [compound type(型式|)(複合型式|)](define(定義：|)-compound-type(型式|)) is considered contravariant(變體|) if its component type(型式|)s can be assign(賦值|又：指派、指定、分配)ed to less generic components, i.e. if they are only written, but never read.
 
 
 
@@ -371,7 +370,7 @@ We can safely assign(賦值|又：指派、指定、分配) with `b` being type(
 
 unification(統一|TODO) is the heart of the type(型式|) system and contributes immensely to the robust(強健|)ness of Haxe programs. It describe(描述|)s the process of checking if a type(型式|) is compatible(相容|) with another type(型式|).
 
-> ##### define(定義|): unification(統一|TODO)
+> ##### define(定義：|): unification(統一|TODO)
 >
 > unification(統一|TODO) between two type(型式|)s A and B is a directional process which answers one question: whether A **can be assign(賦值|又：指派、指定、分配)ed to** B. It may **mutate** either type(型式|) if it either is or has a [monomorph(變型|)(單型|)](type(型式|)s-monomorph(變型|)(單型|)).
 
@@ -387,7 +386,7 @@ class(類別|) Main {
 ```
 We try to assign(賦值|又：指派、指定、分配) a value(值|) of type(型式|) `Int` to a variable(變數|) of type(型式|) `String`, which causes the compiler(編譯器|) to try and **unify Int with String**. This is, of course, not allow(容許|又：允許)ed and makes the compiler(編譯器|) emit the error(錯誤|) `Int should be String`.
 
-In this particular case, the unification(統一|TODO) is triggered by an **assign(賦值|又：指派、指定、分配)ment**, a context in which the "is assign(賦值|又：指派、指定、分配)able to" definition(定義|) is intuitive. It is one of several cases where unification(統一|TODO) is performed:
+In this particular case, the unification(統一|TODO) is triggered by an **assign(賦值|又：指派、指定、分配)ment**, a context in which the "is assign(賦值|又：指派、指定、分配)able to" definition(定義：|) is intuitive. It is one of several cases where unification(統一|TODO) is performed:
 
 * assign(賦值|又：指派、指定、分配)ment: If `a` is assign(賦值|又：指派、指定、分配)ed to `b`, the type(型式|) of `a` is unified with the type(型式|) of `b`.
 * function(函式|) call: We have briefly seen an example of this while introducing the [function(函式|)](type(型式|)s-function(函式|)) type(型式|). In general, the compiler(編譯器|) tries to unify the first given argument(引數|) type(型式|) with the first expected argument(引數|) type(型式|), the second given argument(引數|) type(型式|) with the second expected argument(引數|) type(型式|), and so on until all argument(引數|) type(型式|)s are handled.
@@ -414,9 +413,9 @@ These rules are transitive(遞移|), meaning that a child class(類別|)(子類�
 <!--label:type(型式|)-system-struct(結構體|)ural-subtyping-->
 #### struct(結構體|)ural Subtyping
 
-> ##### define(定義|): struct(結構體|)ural Subtyping
+> ##### define(定義：|): struct(結構體|)ural Subtyping
 >
-> struct(結構體|)ural subtyping define(定義|)s an implicit(隱含|) relationship between type(型式|)s that have the same struct(結構體|)ure(結構|).
+> struct(結構體|)ural subtyping define(定義：|)s an implicit(隱含|) relationship between type(型式|)s that have the same struct(結構體|)ure(結構|).
 
 struct(結構體|)ural sub-typing(結構子型態|TODO) in Haxe is allow(容許|又：允許)ed when unifying:
 
@@ -446,7 +445,7 @@ unification(統一|TODO) of type(型式|)s having or being a [monomorph(變型|)
 <!--label:type(型式|)-system-unification(統一|TODO)-function(函式|)-return(回傳|)-->
 #### function(函式|) return(回傳|)
 
-unification(統一|TODO) of function(函式|) return(回傳|) type(型式|)s may involve the [`Void`](type(型式|)s-void) type(型式|) and requires a clear definition(定義|) of what unifies with `Void`. With `Void` describing the absence of a type(型式|), it is not assign(賦值|又：指派、指定、分配)able to any other type(型式|), not even `dynamic(動態|)`. This means that if a function(函式|) is explicitly(明確|) declare(宣告|)d as return(回傳|)ing `dynamic(動態|)`, it cannot return(回傳|) `Void`.
+unification(統一|TODO) of function(函式|) return(回傳|) type(型式|)s may involve the [`Void`](type(型式|)s-void) type(型式|) and requires a clear definition(定義：|) of what unifies with `Void`. With `Void` describing the absence of a type(型式|), it is not assign(賦值|又：指派、指定、分配)able to any other type(型式|), not even `dynamic(動態|)`. This means that if a function(函式|) is explicitly(明確|) declare(宣告|)d as return(回傳|)ing `dynamic(動態|)`, it cannot return(回傳|) `Void`.
 
 The opposite applies as well: if a function(函式|) declare(宣告|)s a return(回傳|) type(型式|) of `Void`, it cannot return(回傳|) `dynamic(動態|)` or any other type(型式|). However, this direction of unification(統一|TODO) is allow(容許|又：允許)ed when assign(賦值|又：指派、指定、分配)ing function(函式|) type(型式|)s:
 
@@ -511,7 +510,7 @@ class(類別|) Main {
 
 The special construct(結構體|)(建構|) `$type(型式|)` was previously mentioned in order to simplify the explanation of the [function(函式|) type(型式|)](type(型式|)s-function(函式|)) type(型式|), so let us now introduce it officially:
 
-> ##### define(定義|): `$type(型式|)`
+> ##### define(定義：|): `$type(型式|)`
 >
 > `$type(型式|)` is a compile-time(編譯期|又：編譯時) mechanism that is called similarly to a function(函式|) with a single argument(引數|). The compiler(編譯器|) evaluates the argument(引數|) expression(表達式|) and then outputs the type(型式|) of that expression(表達式|).
 
@@ -541,7 +540,7 @@ variable(變數|) `x` is first initialize(初始化|)d to an empty `array(陣列
 
 Most of the time, type(型式|)s are inferred on their own and may then be unified with an expected type(型式|). In a few places, however, an expected type(型式|) may be used to influence inference(推斷|又：推定、推理). We then speak of **top-down inference(推斷|又：推定、推理)**.
 
-> ##### define(定義|): Expected type(型式|)
+> ##### define(定義：|): Expected type(型式|)
 >
 > Expected type(型式|)s occur when the type(型式|) of an expression(表達式|) is known before that expression(表達式|) has been type(型式|)d, such as when the expression(表達式|) is an argument(引數|) to a function(函式|) call. They can influence typing of that expression(表達式|) through [top-down inference(推斷|又：推定、推理)](type(型式|)-system-top-down-inference(推斷|又：推定、推理)).
 
@@ -599,7 +598,7 @@ Another concern to consider is code legibility. If type(型式|) inference(推�
 <!--label:type(型式|)-system-modules-and-path(路徑|)s-->
 ### Modules and path(路徑|)s
 
-> ##### define(定義|): Module
+> ##### define(定義：|): Module
 >
 > All Haxe code is organized in modules, which are addressed using path(路徑|)s. In essence, each .hx file represents a module which may contain several type(型式|)s. A type(型式|) may be `private`, in which case only its containing module can access it.
 
@@ -614,7 +613,7 @@ If the module and type(型式|) name are equal, the duplicate can be removed, le
 
 path(路徑|)s can be shortened further by using an [import](type(型式|)-system-import), which typically allow(容許|又：允許)s omitting the package part of a path(路徑|). This may lead to usage of unqualified identifier(識別符|)s, which requires understanding the [resolution order](type(型式|)-system-resolution-order).
 
-> ##### define(定義|): type(型式|) path(路徑|)
+> ##### define(定義：|): type(型式|) path(路徑|)
 >
 > The (dot-)path(路徑|) to a type(型式|) consists of the package, the module name and the type(型式|) name. Its general form is `pack1.pack2.packN.ModuleName.type(型式|)Name`.
 
@@ -655,7 +654,7 @@ class(類別|) Main {
 }
 ```
 
-The sub-type(型式|)(子型式|) relation is not reflected at run-time(執行期|又：執行時); public sub-type(型式|)(子型式|)s become a member of their containing package, which could lead to conflicts if two modules within the same package tried to define(定義|) the same sub-type(型式|)(子型式|). Naturally, the Haxe compiler(編譯器|) detects these cases and reports them accordingly. In the example above `ExprDef` is generated as `haxe.macro(巨集|).ExprDef`.
+The sub-type(型式|)(子型式|) relation is not reflected at run-time(執行期|又：執行時); public sub-type(型式|)(子型式|)s become a member of their containing package, which could lead to conflicts if two modules within the same package tried to define(定義：|) the same sub-type(型式|)(子型式|). Naturally, the Haxe compiler(編譯器|) detects these cases and reports them accordingly. In the example above `ExprDef` is generated as `haxe.macro(巨集|).ExprDef`.
 
 sub-type(型式|)(子型式|)s can also be made private:
 
@@ -666,9 +665,9 @@ private type(型式|)def T { ... }
 private abstract(抽象|) A { ... }
 ```
 
-> ##### define(定義|): Private type(型式|)
+> ##### define(定義：|): Private type(型式|)
 >
-> A type(型式|) can be made private by using the `private` modifier. Afterwards, the type(型式|) can only be directly accessed from within the [module](define(定義|)-module) it is define(定義|)d in.
+> A type(型式|) can be made private by using the `private` modifier. Afterwards, the type(型式|) can only be directly accessed from within the [module](define(定義：|)-module) it is define(定義：|)d in.
 >
 > Private type(型式|)s, unlike public ones, do not become a member of their containing package.
 
@@ -696,7 +695,7 @@ class(類別|) Main {
 
 With `haxe.ds.Stringmap(映射|)` being imported in the first line, the compiler(編譯器|) is able to resolve(解析|) the unqualified identifier(識別符|) `Stringmap(映射|)` in the `main` function(函式|) to this package. The module `Stringmap(映射|)` is said to be **imported** into the current file.
 
-In this example, we are actually importing a **module**, not just a specific type(型式|) within that module. This means that all type(型式|)s define(定義|)d within the imported module are available:
+In this example, we are actually importing a **module**, not just a specific type(型式|) within that module. This means that all type(型式|)s define(定義：|)d within the imported module are available:
 
 <!-- [code asset](assets/Import2.hx) -->
 ```haxe
@@ -786,7 +785,7 @@ The more natural `as` can be used in place of `in` when importing modules.
 
 ##### since Haxe 3.3.0
 
-Using the specially named `import.hx` file (note the lowercase name), default(預設|) imports and usings can be define(定義|)d that will be applied for all modules inside a directory, which reduces the number of imports for large code bases with many helpers and static(靜態|) extension(延伸|)s.
+Using the specially named `import.hx` file (note the lowercase name), default(預設|) imports and usings can be define(定義：|)d that will be applied for all modules inside a directory, which reduces the number of imports for large code bases with many helpers and static(靜態|) extension(延伸|)s.
 
 The `import.hx` file must be placed in the same directory as your code. It can only contain import and using statements, which will be applied to all Haxe modules in the directory and its subdirectories.
 
@@ -811,7 +810,7 @@ We describe(描述|) the resolution order algorithm here, which depends on the f
 * The kind (static(靜態|) or member) of the current field(欄位|).
 * The declare(宣告|)d member field(欄位|)s on the current class(類別|) and its parent class(父類別|)(類別|)es.
 * The declare(宣告|)d static(靜態|) field(欄位|)s on the current class(類別|).
-* The [expected type(型式|)](define(定義|)-expected-type(型式|)).
+* The [expected type(型式|)](define(定義：|)-expected-type(型式|)).
 * The expression(表達式|) being `untype(型式|)d` or not.
 
 ![](assets/figures/type(型式|)-system-resolution-order-diagram.svg)
@@ -835,7 +834,7 @@ Given an identifier(識別符|) `i`, the algorithm is as follows:
 13. Generate a local variable(變數|)(局部變數|) named `i`, resolve(解析|) to it and halt.
 14. Fail.
 
-For step 10, it is also necessary to define(定義|) the resolution order of type(型式|)s:
+For step 10, it is also necessary to define(定義：|) the resolution order of type(型式|)s:
 
 1. If a type(型式|) named `i` is imported (directly or as part of a module), resolve(解析|) to it and halt.
 2. If the current package contains a module named `i` with a type(型式|) named `i`, resolve(解析|) to it and halt.
