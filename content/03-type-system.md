@@ -232,54 +232,49 @@ Main.main();
 >
 > 若型式參數所包含的類別或方法是泛型的，則稱其是泛型的。
 
-It is not possible to construct(結構體|)(建構|) normal type(型式|) parameter(參數|)s; for example, `new T()` would register as a compiler(編譯器|) error(錯誤|). The reason for this is that Haxe generates only a single function(函式|) and the construct(結構體|)(建構|) would make no sense in that case. This is different when the type(型式|) parameter(參數|) is generic: since we know that the compiler(編譯器|) will generate a distinct function(函式|) for each type(型式|) parameter(參數|) combination, it is possible to replace the `T` `new T()` with the real type(型式|).
+建構通常的型式參數是不可行的，比如 `new T()`將會導致編譯器錯誤。會這樣原因是 Haxe 對此只會產生一個單獨的函式，所以在這種情況下該建構式沒有任何意義。而在型式參數是泛刑時，情況會有所不同。因為我們知道編譯器會為每一種型式參數組合產生不同的函式，所以在這裡可以用真實型式來替換 `new T()` 的 `T`。
 
-<!-- [code asset](assets/Generictype(型式|)parameter(參數|).hx) -->
+<!-- [code asset](assets/GenericTypeParameter.hx) -->
 ```haxe
 import haxe.Constraints;
 
-class(類別|) Main {
-  static(靜態|) public function(函式|) main() {
+class Main {
+  static public function main() {
     var s:String = make();
     var t:haxe.Template = make();
   }
 
   @:generic
-  static(靜態|) function(函式|) make<T:construct(結構體|)(建構|)ible<String->Void>>():T {
-    return(回傳|) new T("foo");
+  static function make<T:Constructible<String->Void>>():T {
+    return new T("foo");
   }
 }
-
 ```
 
-It should be noted that [top-down inference(推斷|又：推定、推理)](type(型式|)-system-top-down-inference(推斷|又：推定、推理)) is used here to determine the actual type(型式|) of `T`. For this kind of type(型式|) parameter(參數|) construct(結構體|)(建構|)ion to work, the construct(結構體|)(建構|)ed type(型式|) parameter(參數|) must meet two requirements:
+需要注意的是，此處使用了自頂向下的推斷來確定 `T` 的實際型式。若要使這種型式參數起作用，構造的型式參數必須滿足下列兩個條件：
 
-1. It must be generic.
-2. It must be explicitly(明確|) [constrained](type(型式|)-system-type(型式|)-parameter(參數|)-constraints) to have a [construct(結構體|)(建構|)or](type(型式|)s-class(類別|)-construct(結構體|)(建構|)or).
+1. 必須是泛型。
+1. 必須明確[約束](type-system-type-parameter-constraints)其具有[建構式](types-class-constructor)。
 
-Here, the first requirement is met by `make` having the `@:generic` metadata(元資料|), and the second by `T` being constrained to `construct(結構體|)(建構|)ible`. The constraint holds for both `String` and `haxe.Template` as both have a construct(結構體|)(建構|)or accepting a singular `String` argument(引數|). Sure enough, the relevant JavaScript output looks as expected:
+在此處，第一個要求式透過具有 `@:generic` 元資料的 `make` 來滿足的，而第二個要求式是透過 `Constructible` 來滿足的。該約束適用於 `String` 和 `haxe.Template`，因為它們都具有能接收一個 `String` 引數的建構式。想當然，相關的 JavaScript 輸出看上去和預期相同：
 
 ```js
-var Main = function(函式|)() { }
-Main.__name__ = true(真|);
-Main.make_haxe_Template = function(函式|)() {
-	return(回傳|) new haxe.Template("foo");
+var Main = function() { }
+Main.__name__ = true;
+Main.make_haxe_Template = function() {
+  return new haxe.Template("foo");
 }
-Main.make_String = function(函式|)() {
-	return(回傳|) new String("foo");
+Main.make_String = function() {
+  return new String("foo");
 }
-Main.main = function(函式|)() {
-	var s = Main.make_String();
-	var t = Main.make_haxe_Template();
+Main.main = function() {
+  var s = Main.make_String();
+  var t = Main.make_haxe_Template();
 }
 ```
 
-
-
-
-
-<!--label:type(型式|)-system-variance-->
-### Variance
+<!--label:type-system-variance-->
+## 變異數
 
 While variance is relevant in other places, it occurs particularly often with type(型式|) parameter(參數|)s and may come as a surprise in this context. It is very easy to trigger variance error(錯誤|)s:
 
