@@ -23,9 +23,9 @@ body | 本體 |
 breaking change | 重大變更 |
 bug | 錯誤 |
 build | 構建 |
-build macros | 構建巨集 | TODO
+build macros | 構建巨集 | TODO:
 bytecode | 位元組碼 | 又：二進位碼
-cast | 轉換 | 又：轉型 TODO
+cast | 轉換 | 又：轉型 TODO:
 child class | 子類別 |
 class | 類別 |
 class instance | 類別實例 |
@@ -41,8 +41,12 @@ constant value | 定值 |
 constraint | 約束 |
 construct | 建構 |
 constructor | 建構式 |
+contravariance | 反變數 |
+contravariant | 反變 | adj.  TODO:
 core-type | 核心型式 |
 correspond | 對應 |
+covariance | 共變數 |
+covariant | 共變 | adj. TODO:
 create | 建立 |
 curly braces | 大括號 |
 custom | 客製 |
@@ -61,12 +65,12 @@ dynamic | 動態 |
 dynamic target | 動態目標 |
 enclosed | 括住 |
 enum | 枚舉 |
-enum case | 枚舉成員 | 又：枚舉案例 TODO
+enum case | 枚舉成員 | 又：枚舉案例 TODO:
 enum instance | 枚舉實例 |
 enumeration | 枚舉 |
 error | 錯誤 |
 error message | 錯誤訊息 |
-exhaustiveness | 完整性 | TODO
+exhaustiveness | 完整性 | TODO:
 explicitly | 明確 |
 expose | 公開 |
 expression | 表達式 |
@@ -80,8 +84,9 @@ final | 最終 |
 forward | 轉送 |
 function | 函式 |
 functionality | 功能 |
+generate | 產生 |
 generic function | 泛型函式 |
-getter | 取得器 | TODO
+getter | 取得器 | TODO:
 high-level | 高階 |
 identifier | 識別符 |
 implement | 實作 |
@@ -95,8 +100,10 @@ initialize | 初始化 |
 inline | 內聯 |
 instance | 實例 |
 instantiate | 實例化 |
-instantiation | 實例化 | TODO
+instantiation | 實例化 | TODO:
 interface | 介面 |
+invariance | 不變數 |
+invariant | 不變 | adj. TODO:
 invoke | 引動 |
 invocation | 引動 |
 key-value pair | 鍵值對 |
@@ -139,7 +146,7 @@ parent class | 父類別 |
 pattern matching | 模式匹配 |
 performance | 效能 |
 programming language | 程式語言 |
-promotion | 提升 | TODO
+promotion | 提升 | TODO:
 property | 屬性 |
 pseudo-type | 偽型式 |
 real object | 真實物件 |
@@ -151,7 +158,7 @@ robust | 強健 |
 run-time | 執行期 | 又：執行時
 semantic | 語意 |
 separated | 分隔 |
-setter | 設定器 | 又：寫入器 TODO
+setter | 設定器 | 又：寫入器 TODO:
 sourcecode | 原始碼 |
 specific | 特定 |
 standard library | 標準函式庫 |
@@ -162,7 +169,7 @@ string interpolation | 字串插值 |
 string literals | 字串文字 |
 strongly typed | 強型別 | 強型
 struct | 結構體 |
-structural sub-typing | 結構子型態 | TODO
+structural sub-typing | 結構子型態 | TODO:
 structure | 結構 |
 sub-type | 子型式 |
 syntax | 語法 |
@@ -177,15 +184,16 @@ type-safe | 型式安全 |
 type group | 型式群 |
 type inference | 型式推理 |
 type parameter | 型式參數 |
-typer | 型式系統 | TODO
+typer | 型式系統 | TODO:
 typing system | 型式系統 |
 undefined | 未定義 |
 underlying type | 底層型式 |
-unification | 統一 | TODO
+unification | 統一 | TODO:
 unspecific | 非特定 |
 use case | 使用案例 |
 user | 使用者 |
 valid | 有效 |
 value | 值 |
 variable | 變數 |
-variant | 變體 |
+variant | 變體/變異 | n./adj.
+variance | 變異數 |
