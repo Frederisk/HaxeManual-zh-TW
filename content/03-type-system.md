@@ -276,92 +276,87 @@ Main.main = function() {
 <!--label:type-system-variance-->
 ## 變異數
 
-While variance is relevant in other places, it occurs particularly often with type(型式|) parameter(參數|)s and may come as a surprise in this context. It is very easy to trigger variance error(錯誤|)s:
+變異數在型式參數中經常出現，雖然在其他地方也常常關聯，不過在這種情況下可能會有意想不到的表現。很容易就能觸發變異數錯誤：
 
 <!-- [code asset](assets/Variance.hx) -->
 ```haxe
-class(類別|) Base {
-  public function(函式|) new() {}
+class Base {
+  public function new() {}
 }
 
-class(類別|) Child extend(擴充|又：延伸)s Base {}
+class Child extends Base {}
 
-class(類別|) Main {
-  public static(靜態|) function(函式|) main() {
+class Main {
+  public static function main() {
     var children = [new Child()];
-    // array(陣列|)<Child> should be array(陣列|)<Base>
-    // type(型式|) parameter(參數|)s are invariant(變體|)
-    // Child should be Base
-    var bases:array(陣列|)<Base> = children;
+    // Array<Child> 應當是 Array<Base>
+    // 型式參數是不變的
+    // Child 應當是 Base
+    var bases:Array<Base> = children;
   }
 }
-
 ```
 
-Apparently, an `array(陣列|)<Child>` cannot be assign(賦值|又：指派、指定、分配)ed to an `array(陣列|)<Base>`, even though `Child` can be assign(賦值|又：指派、指定、分配)ed to `Base`. The reason for this might be somewhat unexpected: the assign(賦值|又：指派、指定、分配)ment is not allow(容許|又：允許)ed because array(陣列|)s can be written to, for example, through their `push()` method. It is easy to generate problems by ignoring variance error(錯誤|)s:
+即便 `Child` 可以賦值給 `Base`，但顯然 `Array<Child>` 不能賦值給 `Array<Base>`。會這樣的原因可能有些出人意料：由於陣列可以寫入所以不容許賦值，比如說有 `push()` 方法。忽略變異數很容易會導致問題：
 
 <!-- [code asset](assets/Variance2.hx) -->
 ```haxe
-class(類別|) Base {
-  public function(函式|) new() {}
+class Base {
+  public function new() {}
 }
 
-class(類別|) Child extend(擴充|又：延伸)s Base {}
-class(類別|) OtherChild extend(擴充|又：延伸)s Base {}
+class Child extends Base {}
+class OtherChild extends Base {}
 
-class(類別|) Main {
-  public static(靜態|) function(函式|) main() {
+class Main {
+  public static function main() {
     var children = [new Child()];
-    // subvert type(型式|) checker
-    var bases:array(陣列|)<Base> = cast(轉換|又：轉型 TODO) children;
+    // 顛覆型式檢查器
+    var bases:Array<Base> = cast children;
     bases.push(new OtherChild());
     for (child in children) {
       trace(child);
     }
   }
 }
-
 ```
 
-Here, we subvert the type(型式|) checker by using a [cast(轉換|又：轉型 TODO)](expression(表達式|)-cast(轉換|又：轉型 TODO)), thus allow(容許|又：允許)ing the assign(賦值|又：指派、指定、分配)ment after the commented line. With that we hold a reference `bases` to the original array(陣列|), type(型式|)d as `array(陣列|)<Base>`. This allow(容許|又：允許)s pushing another type(型式|) compatible(相容|) with `Base`, in this instance(實例|) `OtherChild`, onto that array(陣列|). However, our original reference `children` is still of type(型式|) `array(陣列|)<Child>`, and things go bad when we encounter the `OtherChild` instance(實例|) in one of its elements while iterating.
+在此處，我們使用[轉換](expression-cast)來顛覆型式檢查器，從而使得能夠容許註釋行之後的賦值。如此一來，我們有了型式為 `Array<Base>` 的原始陣列引用 `bases`。這將容許我們將另一種與 `Base` 相容的型式推入至陣列中（在此實例中為 `OtherChild`）。然而在我們最初的引用中 `children` 依然是 `Array<Child>` 型式，所以當我們在迭代時遇到其元素中的一個 `OtherChild` 時，事情就會變得非常糟糕。
 
-If `array(陣列|)` had no `push()` method and no other means of modification, the assign(賦值|又：指派、指定、分配)ment would be safe as no incompatible(相容|) type(型式|) could be added to it. This can be achieved by restricting the type(型式|) accordingly using [struct(結構體|)ural subtyping](type(型式|)-system-struct(結構體|)ural-subtyping):
+若 `Array` 沒有 `push()` 方法以及其他的修改方法，則該賦值將會因為不能向其中添加不相容的型式而是安全的。
 
 <!-- [code asset](assets/Variance3.hx) -->
 ```haxe
-class(類別|) Base {
-  public function(函式|) new() {}
+class Base {
+  public function new() {}
 }
 
-class(類別|) Child extend(擴充|又：延伸)s Base {}
+class Child extends Base {}
 
-type(型式|)def Myarray(陣列|)<T> = {
-  public function(函式|) pop():T;
+typedef MyArray<T> = {
+  public function pop():T;
 }
 
-class(類別|) Main {
-  public static(靜態|) function(函式|) main() {
+class Main {
+  public static function main() {
     var a = [new Child()];
-    var b:Myarray(陣列|)<Base> = a;
+    var b:MyArray<Base> = a;
   }
 }
-
 ```
 
-We can safely assign(賦值|又：指派、指定、分配) with `b` being type(型式|)d as `Myarray(陣列|)<Base>` and `Myarray(陣列|)` only having a `pop()` method. There is no method define(定義：|)d on `Myarray(陣列|)` which could be used to add incompatible(相容|) type(型式|)s. It is thus said to be **covariant(變體|)**.
+我們可以安全地賦值給型式為 `MyArray<Base>` 且 `MyArray` 只有 `pop()` 方法的 `b`。在 `MyArray` 中並沒有定義可以添加不相容型式的方法。這種稱之為**共變**。
 
-> ##### define(定義：|): Covariance
+> #### 定義：共變數
 >
-> A [compound type(型式|)(複合型式|)](define(定義：|)-compound-type(型式|)) is considered covariant(變體|) if its component type(型式|)s can be assign(賦值|又：指派、指定、分配)ed to less specific components, i.e. if they are only read, but never written.
+> 如果[複合型式](define-compound-type)的組件型式可賦值至更不具體的組件，也就是說它們是唯讀但從不寫入，則認其為共變。
 
-> ##### define(定義：|): Contravariance
+> #### 定義：反變數
 >
-> A [compound type(型式|)(複合型式|)](define(定義：|)-compound-type(型式|)) is considered contravariant(變體|) if its component type(型式|)s can be assign(賦值|又：指派、指定、分配)ed to less generic components, i.e. if they are only written, but never read.
+> 如果[複合型式](define-compound-type)的組件型式可賦值至更不通用的組件，也就是說它們是唯寫但從不讀取，則認其為反變。
 
-
-
-<!--label:type(型式|)-system-unification(統一|TODO)-->
-### unification(統一|TODO)
+<!--label:type-system-unification-->
+## 統一
 
 unification(統一|TODO) is the heart of the type(型式|) system and contributes immensely to the robust(強健|)ness of Haxe programs. It describe(描述|)s the process of checking if a type(型式|) is compatible(相容|) with another type(型式|).
 
@@ -379,6 +374,7 @@ class(類別|) Main {
   }
 }
 ```
+
 We try to assign(賦值|又：指派、指定、分配) a value(值|) of type(型式|) `Int` to a variable(變數|) of type(型式|) `String`, which causes the compiler(編譯器|) to try and **unify Int with String**. This is, of course, not allow(容許|又：允許)ed and makes the compiler(編譯器|) emit the error(錯誤|) `Int should be String`.
 
 In this particular case, the unification(統一|TODO) is triggered by an **assign(賦值|又：指派、指定、分配)ment**, a context in which the "is assign(賦值|又：指派、指定、分配)able to" definition(定義：|) is intuitive. It is one of several cases where unification(統一|TODO) is performed:
