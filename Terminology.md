@@ -106,6 +106,7 @@ invariance | 不變數 |
 invariant | 不變 | adj. TODO:
 invoke | 引動 |
 invocation | 引動 |
+iterate | 迭代 |
 key-value pair | 鍵值對 |
 keyword | 關鍵字 |
 list | 列表 |
@@ -172,6 +173,7 @@ struct | 結構體 |
 structural sub-typing | 結構子型態 | TODO:
 structure | 結構 |
 sub-type | 子型式 |
+subvert | 顛覆 | TODO:
 syntax | 語法 |
 target | 目標 |
 target language | 目標語言 |
