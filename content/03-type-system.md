@@ -358,36 +358,36 @@ class Main {
 <!--label:type-system-unification-->
 ## 統一
 
-unification(統一|TODO) is the heart of the type(型式|) system and contributes immensely to the robust(強健|)ness of Haxe programs. It describe(描述|)s the process of checking if a type(型式|) is compatible(相容|) with another type(型式|).
+統一是型式系統的核心，其極大地促進了 Haxe 程式的強健。統一描述了檢查一種型式是否與另一種型式相容的過程。
 
-> ##### define(定義：|): unification(統一|TODO)
+> #### 定義：統一
 >
-> unification(統一|TODO) between two type(型式|)s A and B is a directional process which answers one question: whether A **can be assign(賦值|又：指派、指定、分配)ed to** B. It may **mutate** either type(型式|) if it either is or has a [monomorph(變型|)(單型|)](type(型式|)s-monomorph(變型|)(單型|)).
+> 兩種型式 A 與 B 之間的統一是定向的過程，其回答了 A 是否**可以賦值給** B 的問題。若其是或有[單型](types-monomorph)則可**變異**為任一型式。
 
-unification(統一|TODO) error(錯誤|)s are very easy to trigger:
+統一錯誤很容易就能觸發：
 
 ```haxe
-class(類別|) Main {
-  static(靜態|) public function(函式|) main() {
-    // Int should be String
+class Main {
+  static public function main() {
+    // Int 應當是 String
     var s:String = 1;
   }
 }
 ```
 
-We try to assign(賦值|又：指派、指定、分配) a value(值|) of type(型式|) `Int` to a variable(變數|) of type(型式|) `String`, which causes the compiler(編譯器|) to try and **unify Int with String**. This is, of course, not allow(容許|又：允許)ed and makes the compiler(編譯器|) emit the error(錯誤|) `Int should be String`.
+我們嘗試將 `Int` 型式的值賦值給 `String` 變數，這會導致變異氣嘗試去**以 String 統一 Int**。當然，這是不允許的，並會使編譯器發出「Int 應當是 String」（`Int should be String`）的錯誤。
 
-In this particular case, the unification(統一|TODO) is triggered by an **assign(賦值|又：指派、指定、分配)ment**, a context in which the "is assign(賦值|又：指派、指定、分配)able to" definition(定義：|) is intuitive. It is one of several cases where unification(統一|TODO) is performed:
+在這種特殊情形下，統一是由**賦值**所觸發的，由「可賦值」所定義的上下文很直觀。這是會執行統一的幾種情形之一：
 
-* assign(賦值|又：指派、指定、分配)ment: If `a` is assign(賦值|又：指派、指定、分配)ed to `b`, the type(型式|) of `a` is unified with the type(型式|) of `b`.
-* function(函式|) call: We have briefly seen an example of this while introducing the [function(函式|)](type(型式|)s-function(函式|)) type(型式|). In general, the compiler(編譯器|) tries to unify the first given argument(引數|) type(型式|) with the first expected argument(引數|) type(型式|), the second given argument(引數|) type(型式|) with the second expected argument(引數|) type(型式|), and so on until all argument(引數|) type(型式|)s are handled.
-* function(函式|) return(回傳|): Whenever a function(函式|) has a `return(回傳|) e` expression(表達式|), the type(型式|) of `e` is unified with the function(函式|) return(回傳|) type(型式|). If the function(函式|) has no explicit return(回傳|) type(型式|), it is inferred to the type(型式|) of `e` and subsequent `return(回傳|)` expression(表達式|)s are inferred against it.
-* array(陣列|) declaration(宣告|): The compiler(編譯器|) tries to find a minimal type(型式|) between all given type(型式|)s in an array(陣列|) declaration(宣告|). Refer to [common base type(型式|)(共同基底型式|)](type(型式|)-system-unification(統一|TODO)-common-base-type(型式|)) for details.
-* Object declaration(宣告|): If an object is declare(宣告|)d "against" a given type(型式|), the compiler(編譯器|) unifies each given field(欄位|) type(型式|) with each expected field(欄位|) type(型式|).
-* operator(運算子|) unification(統一|TODO): Certain operator(運算子|)s expect certain type(型式|)s which the given type(型式|)s are unified against. For instance(實例|), the expression(表達式|) `a && b` unifies both `a` and `b` with `Bool` and the expression(表達式|) `a == b` unifies `a` with `b`.
+- 賦值：如果將 `a` 賦值給 `b`，則 `a` 的型式以 `b` 的型式相統一。
+- 函式呼叫：我們在介紹[函式](types-function)的型式時已經簡要看過這樣的例子。通常，編譯器會嘗試將第一個給定引數的型式以第一個預期引數的型式統一，將第二個給定引數的型式以第二個預期引數的型式統一，以此類推，直到處理完所有引數的型式。
+- 函式回傳：只要函式有 `return e` 的表達式，`e` 的型式就會以函式的返回型式相統一。如果函式沒有明確的返回型式，則推斷其為 `e` 的型式，並隨後的 `return` 表達式會針對它進行推斷。 TODO:  If the function(函式|) has no explicit return(回傳|) type(型式|), it is inferred to the type(型式|) of `e` and subsequent `return(回傳|)` expression(表達式|)s are inferred against it.
+- 陣列宣告：編譯器會嘗試在陣列宣告中的所有給定型式之間找到最小型式。參閱[共同基底型式](type-system-unification-common-base-type)以獲取詳情。
+- 物件宣告：如過宣告的物件與給定型式相「牴觸」，則編譯器會使每個給定欄位的型式以每個預期欄位的型式相統一。
+- 運算子統一：某些運算子會期望特定型式以給定型式相統一。如，表達式 `a && b` 會將 `a` 和 `b` 以 `Bool` 統一、表達式 `a == b`會讓 `a` 以 `b` 相統一。
 
-<!--label:type(型式|)-system-unification(統一|TODO)-between-class(類別|)es-and-interface(介面|)s-->
-#### Between class(類別|)/interface(介面|)
+<!--label:type-system-unification-between-classes-and-interfaces-->
+### 類、介面之間
 
 When defining unification(統一|TODO) behavior(行為|) between class(類別|)es, it is important to remember that unification(統一|TODO) is directional: we can assign(賦值|又：指派、指定、分配) a more specialized class(類別|) to a generic class(類別|), but the reverse is not valid(有效|).
 
@@ -398,8 +398,6 @@ The following assign(賦值|又：指派、指定、分配)ments are allow(容�
 * interface(介面|) to base interface(介面|).
 
 These rules are transitive(遞移|), meaning that a child class(類別|)(子類別|) can also be assign(賦值|又：指派、指定、分配)ed to the base class(類別|) of its base class(類別|), an interface(介面|) its base class(類別|) implement(實作|)s, the base interface(介面|) of an implement(實作|)ing interface(介面|), and so on.
-
-
 
 <!--label:type(型式|)-system-struct(結構體|)ural-subtyping-->
 #### struct(結構體|)ural Subtyping
@@ -420,18 +418,15 @@ public static(靜態|) function(函式|) empty<T>(it : Iterable<T>):Bool {
   return(回傳|) !it.iterator().hasNext();
 }
 ```
+
 The `empty`-method checks if an `Iterable` has an element. For this purpose, it is not necessary to know anything about the argument(引數|) type(型式|) other than the fact that it is considered an iterable. This allow(容許|又：允許)s calling the `empty`-method with any type(型式|) that unifies with `Iterable<T>`, which applies to many type(型式|)s in the Haxe standard library(標準函式庫|).
 
 This kind of typing can be very convenient, but extensive use may be detrimental to performance(效能|) on static(靜態|) target(目標|)s, which is detailed in [Impact on performance(效能|)](type(型式|)s-struct(結構體|)ure(結構|)-performance(效能|)).
-
-
 
 <!--label:type(型式|)-system-monomorph(變型|)(單型|)s-->
 #### monomorph(變型|)(單型|)s
 
 unification(統一|TODO) of type(型式|)s having or being a [monomorph(變型|)(單型|)](type(型式|)s-monomorph(變型|)(單型|)) is detailed in [type(型式|) inference(推斷|又：推定、推理)](type(型式|)-system-type(型式|)-inference(推斷|又：推定、推理)).
-
-
 
 <!--label:type(型式|)-system-unification(統一|TODO)-function(函式|)-return(回傳|)-->
 #### function(函式|) return(回傳|)
@@ -445,8 +440,6 @@ var func:Void->Void = function(函式|)() return(回傳|) "foo";
 ```
 
 The right-hand function(函式|) is clearly of type(型式|) `Void->String`, yet we can assign(賦值|又：指派、指定、分配) it to the variable(變數|) `func` of type(型式|) `Void->Void`. This is because the compiler(編譯器|) can safely assume that the return(回傳|) type(型式|) is irrelevant, given that it could not be assign(賦值|又：指派、指定、分配)ed to any non-`Void` type(型式|).
-
-
 
 <!--label:type(型式|)-system-unification(統一|TODO)-common-base-type(型式|)-->
 #### common base type(型式|)(共同基底型式|)
@@ -468,7 +461,6 @@ class(類別|) Main {
     $type(型式|)(a); // array(陣列|)<Base>
   }
 }
-
 ```
 
 Although `Base` is not mentioned, the Haxe compiler(編譯器|) manages to infer it as the common type(型式|) of `Child1` and `Child2`. The Haxe compiler(編譯器|) employs this kind of unification(統一|TODO) in the following situations:
