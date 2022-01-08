@@ -1,5 +1,7 @@
 # 術語對照
 
+> 「」（``）
+
 英文 | 中文 | 備註
 --- | --- | ---
 abstract | 抽象 |
@@ -35,6 +37,7 @@ compatible | 相容 |
 compilation | 編譯 | 名詞
 compile-time | 編譯期 | 又：編譯時
 compiler | 編譯器 |
+component | 組件 |
 compound type | 複合型式 |
 concrete | 具體 |
 constant value | 定值 |
@@ -122,6 +125,7 @@ method | 方法 |
 module | 模組 |
 monomorph | 單型 |
 morph | 變型 |
+mutate | 變異 | TODO:
 native | 原生 |
 nested | 巢套 |
 notation | 表示法 |
