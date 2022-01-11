@@ -17,7 +17,7 @@ array | 陣列 |
 arrow function | 箭頭函式 |
 assign | 賦值 | 又：指派、指定、分配
 assume | 假設 |
-basic type | 基底型式 |
+basic type | 基底型式 | TODO: basic 基本/base 基底？
 behavior | 行為 |
 bind | 繫結 |
 bound | 繫結 |
@@ -42,7 +42,7 @@ compound type | 複合型式 |
 concrete | 具體 |
 constant value | 定值 |
 constraint | 約束 |
-construct | 建構 |
+construct | 建構/構造 | v./n.
 constructor | 建構式 |
 contravariance | 反變數 |
 contravariant | 反變 | adj.  TODO:
@@ -64,6 +64,7 @@ denote | 表示 |
 derivation | 衍生 | NO
 derived class | 衍生類別 | NO
 describe | 描述 |
+directional | 定向 |
 dynamic | 動態 |
 dynamic target | 動態目標 |
 enclosed | 括住 |
@@ -73,6 +74,7 @@ enum instance | 枚舉實例 |
 enumeration | 枚舉 |
 error | 錯誤 |
 error message | 錯誤訊息 |
+evaluate | 評估 |
 exhaustiveness | 完整性 | TODO:
 explicitly | 明確 |
 expose | 公開 |
@@ -150,10 +152,12 @@ parametrization | 參數化 |
 parent class | 父類別 |
 pattern matching | 模式匹配 |
 performance | 效能 |
+pop | 爆出 |
 programming language | 程式語言 |
 promotion | 提升 | TODO:
 property | 屬性 |
 pseudo-type | 偽型式 |
+push | 推入 |
 real object | 真實物件 |
 redundant | 冗餘 |
 reflection | 反射 |
@@ -171,7 +175,7 @@ static | 靜態 |
 static target | 靜態目標 |
 string | 字串 |
 string interpolation | 字串插值 |
-string literals | 字串文字 |
+string literal | 字串文字 |
 strongly typed | 強型別 | 強型
 struct | 結構體 |
 structural sub-typing | 結構子型態 | TODO:
@@ -182,9 +186,11 @@ syntax | 語法 |
 target | 目標 |
 target language | 目標語言 |
 textual | 文本 |
+top-down | 自上而下 |
 transitive | 遞移 |
 true | 真 |
-type | 型式 |
+type | 型式 | n. 又：型別
+typing | 型態/型式 | n./adj.
 type-check | 型式檢查 |
 type-safe | 型式安全 |
 type group | 型式群 |
