@@ -387,159 +387,161 @@ class Main {
 - 運算子統一：某些運算子會期望特定型式以給定型式相統一。如，表達式 `a && b` 會將 `a` 和 `b` 以 `Bool` 統一、表達式 `a == b`會讓 `a` 以 `b` 相統一。
 
 <!--label:type-system-unification-between-classes-and-interfaces-->
-### 類、介面之間
+### 類別、介面之間
 
-When defining unification(統一|TODO) behavior(行為|) between class(類別|)es, it is important to remember that unification(統一|TODO) is directional: we can assign(賦值|又：指派、指定、分配) a more specialized class(類別|) to a generic class(類別|), but the reverse is not valid(有效|).
+在定義類別之間的統一行為時，很重要的一點是要記得統一是定向的。我們可以將更為具體的類別賦值給更寬犯的類別，但反之不是有效的。
 
-The following assign(賦值|又：指派、指定、分配)ments are allow(容許|又：允許)ed:
+下列的賦值是容許的：
 
-* child class(類別|)(子類別|) to parent class(父類別|)(類別|).
-* class(類別|) to implement(實作|)ing interface(介面|).
-* interface(介面|) to base interface(介面|).
+- 子類別到父類別。
+- 類別到實作的介面。
+- 介面到基底介面。
 
-These rules are transitive(遞移|), meaning that a child class(類別|)(子類別|) can also be assign(賦值|又：指派、指定、分配)ed to the base class(類別|) of its base class(類別|), an interface(介面|) its base class(類別|) implement(實作|)s, the base interface(介面|) of an implement(實作|)ing interface(介面|), and so on.
+這些規則是遞移的，這意味著子類別也可以賦值給其基底類別的基底類別、其基底類別的實作的介面、實作的介面的基底介面等。
 
-<!--label:type(型式|)-system-struct(結構體|)ural-subtyping-->
-#### struct(結構體|)ural Subtyping
+<!--label:type-system-structural-subtyping-->
+### 結構子型態
 
-> ##### define(定義：|): struct(結構體|)ural Subtyping
+> #### 定義：結構子型態
 >
-> struct(結構體|)ural subtyping define(定義：|)s an implicit(隱含|) relationship between type(型式|)s that have the same struct(結構體|)ure(結構|).
+>結構子型態定義了具有相同結構的型式間的隱含關係。
 
-struct(結構體|)ural sub-typing(結構子型態|TODO) in Haxe is allow(容許|又：允許)ed when unifying:
+在統一下列時結構子型態是可容許的：
 
-* a [class(類別|)](type(型式|)s-class(類別|)-instance(實例|)) with a [struct(結構體|)ure(結構|)](type(型式|)s-anonymous(匿名|)-struct(結構體|)ure(結構|)) and
-* a struct(結構體|)ure(結構|) with another struct(結構體|)ure(結構|).
+- 具有[結構](types-anonymous-structure)的[類別](types-class-instance)以及
+- 具有另一個結構的結構。
 
-The following example is part of the `Lambda` class(類別|) in the [Haxe standard library(標準函式庫|)](std):
+下列例子是 [Haxe 標準函式庫](std)中 `Lambda` 類別的部分：
 
 ```haxe
-public static(靜態|) function(函式|) empty<T>(it : Iterable<T>):Bool {
-  return(回傳|) !it.iterator().hasNext();
+public static function empty<T>(it : Iterable<T>):Bool {
+  return !it.iterator().hasNext();
 }
 ```
 
-The `empty`-method checks if an `Iterable` has an element. For this purpose, it is not necessary to know anything about the argument(引數|) type(型式|) other than the fact that it is considered an iterable. This allow(容許|又：允許)s calling the `empty`-method with any type(型式|) that unifies with `Iterable<T>`, which applies to many type(型式|)s in the Haxe standard library(標準函式庫|).
+`empty` 方法檢查 `Iterable` 是否具有元素。為此，除了將其視為可迭代這一事實之外，無需了解有關引數型式的任何資訊。這容許在使用與 `Iterable<T>` 相統一的任何型式都可呼叫 `empty` 方法，這適用於 Haxe 標準函式庫中的許多型式。
 
-This kind of typing can be very convenient, but extensive use may be detrimental to performance(效能|) on static(靜態|) target(目標|)s, which is detailed in [Impact on performance(效能|)](type(型式|)s-struct(結構體|)ure(結構|)-performance(效能|)).
+這種型態可能非常便於使用，然而過量使用則可能損害靜態目標的效能，這在[對效能的影響]中有詳細說明。
 
-<!--label:type(型式|)-system-monomorph(變型|)(單型|)s-->
-#### monomorph(變型|)(單型|)s
+<!--label:type-system-monomorphs-->
+### 單型
+
+在[型式推理]中詳細說明了具有或者成為[單型]的型式的統一。
 
 unification(統一|TODO) of type(型式|)s having or being a [monomorph(變型|)(單型|)](type(型式|)s-monomorph(變型|)(單型|)) is detailed in [type(型式|) inference(推斷|又：推定、推理)](type(型式|)-system-type(型式|)-inference(推斷|又：推定、推理)).
 
-<!--label:type(型式|)-system-unification(統一|TODO)-function(函式|)-return(回傳|)-->
-#### function(函式|) return(回傳|)
+[類型推斷](type-system-type-inference)中詳細說明了具有或成為[單態](types-monomorph)的類型的統一。
 
-unification(統一|TODO) of function(函式|) return(回傳|) type(型式|)s may involve the [`Void`](type(型式|)s-void) type(型式|) and requires a clear definition(定義：|) of what unifies with `Void`. With `Void` describing the absence of a type(型式|), it is not assign(賦值|又：指派、指定、分配)able to any other type(型式|), not even `dynamic(動態|)`. This means that if a function(函式|) is explicitly(明確|) declare(宣告|)d as return(回傳|)ing `dynamic(動態|)`, it cannot return(回傳|) `Void`.
+<!--label:type-system-unification-function-return-->
+### 函式回傳
 
-The opposite applies as well: if a function(函式|) declare(宣告|)s a return(回傳|) type(型式|) of `Void`, it cannot return(回傳|) `dynamic(動態|)` or any other type(型式|). However, this direction of unification(統一|TODO) is allow(容許|又：允許)ed when assign(賦值|又：指派、指定、分配)ing function(函式|) type(型式|)s:
+函式回傳型式的回傳可能涉及 [`Void`]()型式，並且需要明確定義與 `Void` 統一的內容。`Void` 用作描述型式的缺失，其不可賦值給任何其他型式，甚至 `Dynamic` 也不行。這也意味著函式若明確宣告為回傳 `Dynamic`，則其不可返回 `Void`。
+
+反之亦然：函式若明確宣告為回傳 `Void`，則其不可返回 `Dynamic` 或是其他型式。但是在為函式型式時則容許這種統一方向：
 
 ```haxe
-var func:Void->Void = function(函式|)() return(回傳|) "foo";
+var func:Void->Void = function() return "foo";
 ```
 
-The right-hand function(函式|) is clearly of type(型式|) `Void->String`, yet we can assign(賦值|又：指派、指定、分配) it to the variable(變數|) `func` of type(型式|) `Void->Void`. This is because the compiler(編譯器|) can safely assume that the return(回傳|) type(型式|) is irrelevant, given that it could not be assign(賦值|又：指派、指定、分配)ed to any non-`Void` type(型式|).
+右側的函式的型式顯然是 `Void->String`，然而我們可將其賦值給 `Void->Void` 型式的變數 `func`。這是由於編譯器可以安全地假定返回型別是無關緊要的，因為其不可賦值給任何非 `Void` 的型式。
 
-<!--label:type(型式|)-system-unification(統一|TODO)-common-base-type(型式|)-->
-#### common base type(型式|)(共同基底型式|)
+<!--label:type-system-unification-common-base-type-->
+### 共同基底型式
 
-Given a set of multiple type(型式|)s, a **common base type(型式|)(共同基底型式|)** is a type(型式|) which all type(型式|)s of the set unify against:
+給定一系列多種型式，**共同基底型式**就是該系列型式中所有型式統一所針對的型式：
 
 <!-- [code asset](assets/UnifyMin.hx) -->
 ```haxe
-class(類別|) Base {
-  public function(函式|) new() {}
+class Base {
+  public function new() {}
 }
 
-class(類別|) Child1 extend(擴充|又：延伸)s Base {}
-class(類別|) Child2 extend(擴充|又：延伸)s Base {}
+class Child1 extends Base {}
+class Child2 extends Base {}
 
-class(類別|) Main {
-  static(靜態|) public function(函式|) main() {
+class Main {
+  static public function main() {
     var a = [new Child1(), new Child2()];
-    $type(型式|)(a); // array(陣列|)<Base>
+    $type(a); // Array<Base>
   }
 }
 ```
 
-Although `Base` is not mentioned, the Haxe compiler(編譯器|) manages to infer it as the common type(型式|) of `Child1` and `Child2`. The Haxe compiler(編譯器|) employs this kind of unification(統一|TODO) in the following situations:
+即便沒有提到 `Base`，但 Haxe 仍會設法將其推定為 `Child1` 與 `Child2` 的共同型式。Haxe 編譯器會在以下情況中採取這種統一：
 
-* array(陣列|) declaration(宣告|)s.
-* `if`/`else`.
-* Cases of a `switch`.
+- 陣列宣告。
+- `if` 與 `else`。
+- `switch` 的各情況。
 
+<!--label:type-system-type-inference-->
+## 型式推理
 
+型式推理的影響已在本文檔中看到過，並將持續十分重要。展示型式推理工作的一個簡單例子：
 
+類型推斷的影響已在本文檔中看到，並將繼續很重要。 一個簡單的示例顯示了工作中的類型推斷：
 
-
-<!--label:type(型式|)-system-type(型式|)-inference(推斷|又：推定、推理)-->
-### type(型式|) inference(推斷|又：推定、推理)
-
-The effects of type(型式|) inference(推斷|又：推定、推理) have been seen throughout this document and will continue to be important. A simple example shows type(型式|) inference(推斷|又：推定、推理) at work:
-
-<!-- [code asset](assets/type(型式|)inference(推斷|又：推定、推理).hx) -->
+<!-- [code asset](assets/TypeInference.hx) -->
 ```haxe
-class(類別|) Main {
-  public static(靜態|) function(函式|) main() {
-    var x = null(空|);
-    $type(型式|)(x); // Unknown<0>
+class Main {
+  public static function main() {
+    var x = null;
+    $type(x); // Unknown<0>
     x = "foo";
-    $type(型式|)(x); // String
+    $type(x); // String
   }
 }
-
 ```
 
-The special construct(結構體|)(建構|) `$type(型式|)` was previously mentioned in order to simplify the explanation of the [function(函式|) type(型式|)](type(型式|)s-function(函式|)) type(型式|), so let us now introduce it officially:
+在前面提到的特殊構造 `$type` 是為簡化對[函式型式](types-function)的型式解釋，所以，現在來正式介紹一下：
 
-> ##### define(定義：|): `$type(型式|)`
+> #### `$type`
 >
-> `$type(型式|)` is a compile-time(編譯期|又：編譯時) mechanism that is called similarly to a function(函式|) with a single argument(引數|). The compiler(編譯器|) evaluates the argument(引數|) expression(表達式|) and then outputs the type(型式|) of that expression(表達式|).
+> `$type` 是一種編譯期機制，其呼叫方式類似具有單個引數的函式。編譯器會評估引數表達式，然後輸出該表達式的型式。
 
-In the example above, the first `$type(型式|)` prints `Unknown<0>`. This is a [monomorph(變型|)(單型|)](type(型式|)s-monomorph(變型|)(單型|)), a type(型式|) that is not yet known. The next line `x = "foo"` assign(賦值|又：指派、指定、分配)s a `String` literal to `x`, which causes the [unification(統一|TODO)](type(型式|)-system-unification(統一|TODO)) of the monomorph(變型|)(單型|) with `String`. We then see that the type(型式|) of `x` has changed to `String`.
+在上面的例子中，第一個 `$type` 列印出 `Unknown<0>`，這是[單形](types-monomorph)，也就是還不知曉的型式。下一行的 `x = "foo` 將字串文字賦值給 `x`，這使單型與 `String` 相[統一](type-system-unification)。然後我們可以看到 `x` 的型式已變成 `String`。
 
-Whenever a type(型式|) other than [dynamic(動態|)](type(型式|)s-dynamic(動態|)) is unified with a monomorph(變型|)(單型|), that monomorph(變型|)(單型|) **morph(變型|)s** into that type(型式|), or in simpler terms, **becomes** that type(型式|). Therefore, it cannot morph(變型|) into a different type(型式|) afterwards, a property(屬性|) expressed in the **mono** part of its name.
+每當[動態](types-dynamic)以外的型式與單型統一時，該單型就會**變型**為該型式，或者更簡單地說，**變成**該型式。因此，它以後不能在變型為不同的型式，這個屬性也就是其名稱中「**單**」所表明的。
 
-Following the rules of unification(統一|TODO), type(型式|) inference(推斷|又：推定、推理) can occur in compound type(型式|)(複合型式|)s:
+遵循統一規則，型式推理可以發生在複合型式中：
 
-<!-- [code asset](assets/type(型式|)inference(推斷|又：推定、推理)2.hx) -->
+<!-- [code asset](assets/TypeInference2.hx) -->
 ```haxe
-class(類別|) Main {
-  public static(靜態|) function(函式|) main() {
+class Main {
+  public static function main() {
     var x = [];
-    $type(型式|)(x); // array(陣列|)<Unknown<0>>
+    $type(x); // Array<Unknown<0>>
     x.push("foo");
-    $type(型式|)(x); // array(陣列|)<String>
+    $type(x); // Array<String>
   }
 }
-
 ```
 
-variable(變數|) `x` is first initialize(初始化|)d to an empty `array(陣列|)`. At this point, we can tell that the type(型式|) of `x` is an array(陣列|), but we do not yet know the type(型式|) of the array(陣列|) elements. Consequently, the type(型式|) of `x` is `array(陣列|)<Unknown<0>>`. It is only after pushing a `String` onto the array(陣列|) that we know the type(型式|) to be `array(陣列|)<String>`.
+變數 `x` 首先初始化為空陣列。在此時，我們可稱 `x` 的型式是陣列，但是我們還不知道陣列元素的型式是什麼。最後，`x` 的型式是 `Array<Unknown<0>>`。在推入一個 `String` 至陣列後我們才得知型式是 `Array<String>`。
 
-<!--label:type(型式|)-system-top-down-inference(推斷|又：推定、推理)-->
-#### Top-down inference(推斷|又：推定、推理)
+<!--label:type-system-top-down-inference-->
+### 自上而下推斷
 
-Most of the time, type(型式|)s are inferred on their own and may then be unified with an expected type(型式|). In a few places, however, an expected type(型式|) may be used to influence inference(推斷|又：推定、推理). We then speak of **top-down inference(推斷|又：推定、推理)**.
 
-> ##### define(定義：|): Expected type(型式|)
+大多數時候，類型是自己推斷出來的，然後可以與預期的類型統一。 然而，在少數地方，可能會使用預期類型來影響推理。 然後我們談到**自上而下的推理**。
+
+> #### 定義：預期型式
 >
-> Expected type(型式|)s occur when the type(型式|) of an expression(表達式|) is known before that expression(表達式|) has been type(型式|)d, such as when the expression(表達式|) is an argument(引數|) to a function(函式|) call. They can influence typing of that expression(表達式|) through [top-down inference(推斷|又：推定、推理)](type(型式|)-system-top-down-inference(推斷|又：推定、推理)).
+> 當表達式的型式在輸入表達式之前就已經已知時就會出現預期型式。比如在表達式是函式呼叫的引數時。預期型式可透過[自上而下推斷](type-system-top-down-inference)影響表達式的型式。
 
-A good example is an array(陣列|) of mixed type(型式|)s. As mentioned in [dynamic(動態|)](type(型式|)s-dynamic(動態|)), the compiler(編譯器|) refuses `[1, "foo"]` because it cannot determine an element type(型式|). Employing top-down inference(推斷|又：推定、推理), this can be overcome:
+一個很好的例子是混合型式的陣列，如[動態]()中所述，編譯器會因無法確定元素型式而拒絕 `[1, "foo"]`。而採用自上而下推斷則可以克服這個問題：
 
-<!-- [code asset](assets/TopDowninference(推斷|又：推定、推理).hx) -->
+<!-- [code asset](assets/TopDownInference.hx) -->
 ```haxe
-class(類別|) Main {
-  static(靜態|) public function(函式|) main() {
-    var a:array(陣列|)<dynamic(動態|)> = [1, "foo"];
+class Main {
+  static public function main() {
+    var a:Array<Dynamic> = [1, "foo"];
   }
 }
-
 ```
 
-Here, the compiler(編譯器|) knows while typing `[1, "foo"]` that the expected type(型式|) is `array(陣列|)<dynamic(動態|)>`, so the element type(型式|) is `dynamic(動態|)`. Instead of the usual unification(統一|TODO) behavior(行為|) where the compiler(編譯器|) would attempt (and fail) to determine a [common base type(型式|)(共同基底型式|)](type(型式|)-system-unification(統一|TODO)-common-base-type(型式|)), the individual elements are type(型式|)d against and unified with `dynamic(動態|)`.
+此處，編譯器知道鍵入的TODO: `[1, "foo"]` 預期的型式是 `Array<Dynamic>`，所以元素的型式就是 `Dynamic`。與編譯器嘗試（並失敗）確定[共同基底型式](type-system-unification-common-base-type)的通常行為不同，此處的各個元素是針對 `Dynamic` 型式化和統一的。
+
+我們已經看到過自上而下推斷在引入泛型
 
 We have seen another interesting use of top-down inference(推斷|又：推定、推理) when the [construct(結構體|)(建構|)ion of generic type(型式|) parameter(參數|)s](type(型式|)-system-generic-type(型式|)-parameter(參數|)-construct(結構體|)(建構|)ion) was introduced:
 
@@ -558,12 +560,9 @@ class(類別|) Main {
     return(回傳|) new T("foo");
   }
 }
-
 ```
 
 The explicit type(型式|)s `String` and `haxe.Template` are used here to determine the return(回傳|) type(型式|) of `make`. This works because the method is invoked as `make()`, so we know the return(回傳|) type(型式|) will be assign(賦值|又：指派、指定、分配)ed to the variable(變數|)s. Utilizing this information, it is possible to bind(繫結|) the unknown type(型式|) `T` to `String` and `haxe.Template` respectively.
-
-
 
 <!--label:type(型式|)-system-inference(推斷|又：推定、推理)-limitations-->
 #### Limitations
@@ -573,10 +572,6 @@ type(型式|) inference(推斷|又：推定、推理) reduces manual(手冊|) ty
 There are also cases involving recursion where type(型式|) inference(推斷|又：推定、推理) has limitations. If a function(函式|) calls itself recursively while its type(型式|) is not completely known yet, type(型式|) inference(推斷|又：推定、推理) may infer an incorrect and overly specialized type(型式|).
 
 Another concern to consider is code legibility. If type(型式|) inference(推斷|又：推定、推理) is overused, parts of a program may become difficult to understand due to the lack of visible type(型式|)s. This is particularly true(真|) for method signatures. It is recommended to find a good balance between type(型式|) inference(推斷|又：推定、推理) and explicit type(型式|) hints.
-
-
-
-
 
 <!--label:type(型式|)-system-modules-and-path(路徑|)s-->
 ### Modules and path(路徑|)s
@@ -656,8 +651,6 @@ private abstract(抽象|) A { ... }
 
 The accessibility of type(型式|)s can be controlled more precisely by using [access control](lf-access-control).
 
-
-
 <!--label:type(型式|)-system-import-->
 #### Import
 
@@ -673,7 +666,6 @@ class(類別|) Main {
     new Stringmap(映射|)();
   }
 }
-
 ```
 
 With `haxe.ds.Stringmap(映射|)` being imported in the first line, the compiler(編譯器|) is able to resolve(解析|) the unqualified identifier(識別符|) `Stringmap(映射|)` in the `main` function(函式|) to this package. The module `Stringmap(映射|)` is said to be **imported** into the current file.
@@ -689,7 +681,6 @@ class(類別|) Main {
     var e:Binop = OpAdd;
   }
 }
-
 ```
 
 The type(型式|) `Binop` is an [enum(枚舉|)](type(型式|)s-enum(枚舉|)-instance(實例|)) declare(宣告|)d in the module `haxe.macro(巨集|).Expr`, and thus available after the import of said module. If we were to import only a specific type(型式|) of that module, for example, `import haxe.macro(巨集|).Expr.ExprDef`, the program would fail to compile with `class(類別|) not found : Binop`.
@@ -711,7 +702,6 @@ class(類別|) Main {
     random();
   }
 }
-
 ```
 
 Special care has to be taken with field(欄位|) names or local variable(變數|)(局部變數|) names that conflict with a package name. Since field(欄位|)s and local variable(變數|)(局部變數|)s take priority over packages, a local variable(變數|)(局部變數|) named `haxe` blocks off usage of the entire `haxe` package.
@@ -730,7 +720,6 @@ class(類別|) Main {
     // var expr:ExprDef = null(空|); // class(類別|) not found : ExprDef
   }
 }
-
 ```
 
 Using the wildcard import on `haxe.macro(巨集|)` allow(容許|又：允許)s accessing `Expr`, which is a module in this package, but it does not allow(容許|又：允許) accessing `ExprDef` which is a sub-type(型式|)(子型式|) of the `Expr` module. This rule extend(擴充|又：延伸)s to static(靜態|) field(欄位|)s when a module is imported.
@@ -752,7 +741,6 @@ class(類別|) Main {
     trace(c1 + c2); // AB
   }
 }
-
 ```
 
 Here, we import `String.fromCharCode` as `f` which allow(容許|又：允許)s us to use `f(65)` and `f(66)`. While the same could be achieved with a local variable(變數|)(局部變數|), this method is compile-time(編譯期|又：編譯時) exclusive and guaranteed to have no run-time(執行期|又：執行時) overhead.
@@ -760,8 +748,6 @@ Here, we import `String.fromCharCode` as `f` which allow(容許|又：允許)s u
 ##### since Haxe 3.2.0
 
 The more natural `as` can be used in place of `in` when importing modules.
-
-
 
 <!--label:type(型式|)-system-import-default(預設|)s-->
 #### Import default(預設|)s / import.hx
@@ -777,8 +763,6 @@ default(預設|) imports of `import.hx` act as if its contents are placed at the
 ##### Related content
 
 * [Introduction of `import.hx`](https://haxe.org/blog/importhx-intro/)
-
-
 
 <!--label:type(型式|)-system-resolution-order-->
 #### Resolution Order
@@ -831,10 +815,6 @@ For step 1 of this algorithm, as well as steps 5 and 7 of the previous one, the 
 * Within a given module, type(型式|)s are checked from top to bottom.
 * For imports, a match is made if the name equals.
 * For [static(靜態|) extension(延伸|)s](lf-static(靜態|)-extension(延伸|)), a match is made if the name equals and the first argument(引數|) [unifies](type(型式|)-system-unification(統一|TODO)). Within a given type(型式|) being used as a static(靜態|) extension(延伸|), the field(欄位|)s are checked from top to bottom.
-
-
-
-
 
 <!--label:type(型式|)-system-untype(型式|)d-->
 ### untype(型式|)d
