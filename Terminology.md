@@ -118,7 +118,7 @@ list | 列表 |
 local value | 局部值 |
 local variable | 局部變數 |
 macro | 巨集 |
-manual | 手冊 |
+manual | 手冊/手動 | n./adj.
 map | 映射 |
 match | 匹配 |
 member | 成員 |
