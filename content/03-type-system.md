@@ -541,33 +541,32 @@ class Main {
 
 此處，編譯器知道鍵入的TODO: `[1, "foo"]` 預期的型式是 `Array<Dynamic>`，所以元素的型式就是 `Dynamic`。與編譯器嘗試（並失敗）確定[共同基底型式](type-system-unification-common-base-type)的通常行為不同，此處的各個元素是針對 `Dynamic` 型式化和統一的。
 
-我們已經看到過自上而下推斷在引入泛型
+我們已經看到過自上而下推斷在引入[泛型型式結構](type-system-generic-type-parameter-construction)時的另一個有趣用途：
 
-We have seen another interesting use of top-down inference(推斷|又：推定、推理) when the [construct(結構體|)(建構|)ion of generic type(型式|) parameter(參數|)s](type(型式|)-system-generic-type(型式|)-parameter(參數|)-construct(結構體|)(建構|)ion) was introduced:
-
-<!-- [code asset](assets/Generictype(型式|)parameter(參數|).hx) -->
+<!-- [code asset](assets/GenericTypeParameter.hx) -->
 ```haxe
 import haxe.Constraints;
 
-class(類別|) Main {
-  static(靜態|) public function(函式|) main() {
+class Main {
+  static public function main() {
     var s:String = make();
     var t:haxe.Template = make();
   }
 
   @:generic
-  static(靜態|) function(函式|) make<T:construct(結構體|)(建構|)ible<String->Void>>():T {
-    return(回傳|) new T("foo");
+  static function make<T:Constructible<String->Void>>():T {
+    return new T("foo");
   }
 }
 ```
 
-The explicit type(型式|)s `String` and `haxe.Template` are used here to determine the return(回傳|) type(型式|) of `make`. This works because the method is invoked as `make()`, so we know the return(回傳|) type(型式|) will be assign(賦值|又：指派、指定、分配)ed to the variable(變數|)s. Utilizing this information, it is possible to bind(繫結|) the unknown type(型式|) `T` to `String` and `haxe.Template` respectively.
+在此處以明確型式 `String` 和 `haxe.Template` 明確型式來確定了 `make` 的回傳型式。這種做法有效，因為該方法以 `make()` 引動，所以我們知道回傳型式將賦值給變數。利用這資訊，就可以將未知型式 `T` 分別繫結至 `String` 和 `haxe.Template` 了。
 
-<!--label:type(型式|)-system-inference(推斷|又：推定、推理)-limitations-->
-#### Limitations
 
-type(型式|) inference(推斷|又：推定、推理) reduces manual(手冊|) type(型式|) hinting when working with local variable(變數|)(局部變數|)s, but sometimes the type(型式|) system still needs guidance. It will not try to infer the type(型式|) of a [variable(變數|)](class(類別|)-field(欄位|)-variable(變數|)) or [property(屬性|)](class(類別|)-field(欄位|)-property(屬性|)) field(欄位|) unless it has a direct initialization(初始化|).
+<!--label:type-system-inference-limitations-->
+#### 限制
+
+型式推理減少了使用局部變數時對手動型式提示的需求，但有時型式系統仍會需要引導。除非有直接的初始化，否則型式推理不會嘗試去推斷[變數](class-field-variable)或[屬性](class-field-property)欄位的型式。
 
 There are also cases involving recursion where type(型式|) inference(推斷|又：推定、推理) has limitations. If a function(函式|) calls itself recursively while its type(型式|) is not completely known yet, type(型式|) inference(推斷|又：推定、推理) may infer an incorrect and overly specialized type(型式|).
 
