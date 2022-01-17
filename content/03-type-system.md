@@ -562,71 +562,72 @@ class Main {
 
 在此處以明確型式 `String` 和 `haxe.Template` 明確型式來確定了 `make` 的回傳型式。這種做法有效，因為該方法以 `make()` 引動，所以我們知道回傳型式將賦值給變數。利用這資訊，就可以將未知型式 `T` 分別繫結至 `String` 和 `haxe.Template` 了。
 
-
 <!--label:type-system-inference-limitations-->
-#### 限制
+### 限制
 
 型式推理減少了使用局部變數時對手動型式提示的需求，但有時型式系統仍會需要引導。除非有直接的初始化，否則型式推理不會嘗試去推斷[變數](class-field-variable)或[屬性](class-field-property)欄位的型式。
 
-There are also cases involving recursion where type(型式|) inference(推斷|又：推定、推理) has limitations. If a function(函式|) calls itself recursively while its type(型式|) is not completely known yet, type(型式|) inference(推斷|又：推定、推理) may infer an incorrect and overly specialized type(型式|).
+另外在一些涉及遞迴的情況中型式推理會友侷限。如果一個函式在其型式還不完全已知的情形下呼叫自身，則型式推理可能會推理出不正確而且過於特定的型式。
 
-Another concern to consider is code legibility. If type(型式|) inference(推斷|又：推定、推理) is overused, parts of a program may become difficult to understand due to the lack of visible type(型式|)s. This is particularly true(真|) for method signatures. It is recommended to find a good balance between type(型式|) inference(推斷|又：推定、推理) and explicit type(型式|) hints.
+另一個需要考慮的問題是程式碼的可讀性。如果過度使用型式推理，由於缺少可見的型式，程式的某些部分可能會變得難易理解。對於方法的簽章尤其如此，因此建議在型式推理與明確型式找到一個較好的平衡點。
 
-<!--label:type(型式|)-system-modules-and-path(路徑|)s-->
-### Modules and path(路徑|)s
+<!--label:type-system-modules-and-paths-->
+## 模組和路徑
 
-> ##### define(定義：|): Module
+> #### 定義：模組
 >
-> All Haxe code is organized in modules, which are addressed using path(路徑|)s. In essence, each .hx file represents a module which may contain several type(型式|)s. A type(型式|) may be `private`, in which case only its containing module can access it.
+> 所有的 Haxe 程式碼都組織在模組中並使用路徑定址。本質上，每個 .hx 檔案代表一個可能包含多種型式的模組。型別可能是 `private` 的，在這種情況下則只有包含它的模組可以存取它。
 
-The distinction between a module and its containing type(型式|) of the same name is blurry by design. In fact, addressing `haxe.ds.Stringmap(映射|)<Int>` can be considered shorthand for `haxe.ds.Stringmap(映射|).Stringmap(映射|)<Int>`. The latter version consists of four parts:
+模組與其同名的包含型式之間的區別是模糊的。事實上，對 `haxe.ds.StringMap<Int>` 的定址可視作是 `haxe.ds.StringMap.StringMap<Int>` 的簡寫。後者由四部分組成：
 
-1. The package `haxe.ds`.
-2. The module name `Stringmap(映射|)`.
-3. The type(型式|) name `Stringmap(映射|)`.
-4. The type(型式|) parameter(參數|) `Int`.
+模塊與其同名的包含類型之間的區別在設計上是模糊的。事實上，尋址 haxe.ds.StringMap<Int> 可以被認為是 haxe.ds.StringMap.StringMap<Int> 的簡寫。後一個版本由四個部分組成：
 
-If the module and type(型式|) name are equal, the duplicate can be removed, leading to the `haxe.ds.Stringmap(映射|)<Int>` short version. However, knowing about the extend(擴充|又：延伸)ed version helps with understanding how [module sub-type(型式|)(子型式|)s](type(型式|)-system-module-sub-type(型式|)(子型式|)s) are addressed.
+1. 套件 `haxe.ds`。
+1. 模組名 `StringMap`。
+1. 型式名 `StringMap`。
+1. 型式參數 `Int`。
 
-path(路徑|)s can be shortened further by using an [import](type(型式|)-system-import), which typically allow(容許|又：允許)s omitting the package part of a path(路徑|). This may lead to usage of unqualified identifier(識別符|)s, which requires understanding the [resolution order](type(型式|)-system-resolution-order).
+如果模組與型式名稱相同，則可以刪去重複，從而得到 `haxe.ds.StringMap<Int>` 的短版本。不過，了解擴充版本有助於了解如何處理[模組子型式](type-system-module-sub-types)。
 
-> ##### define(定義：|): type(型式|) path(路徑|)
+使用[匯入](type-system-import)通常會容許省略路徑中套件的部分可以進一步縮短路徑。這可能會導致使用非限定<!--TODO:-->的識別符，為此需要了解[解析順序](type-system-resolution-order)。
+
+> #### 定義：型式路徑
 >
-> The (dot-)path(路徑|) to a type(型式|) consists of the package, the module name and the type(型式|) name. Its general form is `pack1.pack2.packN.ModuleName.type(型式|)Name`.
+> 型式的（點）路徑由套件、模組名稱與型式名稱組成。其一般形式為 `pack1.pack2.packN.ModuleName.TypeName`。
 
-<!--label:type(型式|)-system-module-sub-type(型式|)(子型式|)s-->
-#### Module sub-type(型式|)(子型式|)s
+<!--label:type-system-module-sub-types-->
+### 模組子型式
 
-A module sub-type(型式|)(子型式|) is a type(型式|) declare(宣告|)d in a module with a different name than that module. This allow(容許|又：允許)s a single .hx file to contain multiple type(型式|)s, which can be accessed unqualified from within the module, and by using `package.Module.type(型式|)` from other modules:
+模組子型式是在模組中宣告的名稱與模組不同的型式。這可容許單個 .hx 檔案包含多種型式，並可在模組內以及在使用 `package.Module.Type` 的其他模組中無限制地存取這些型式：
 
 ```haxe
-var e:haxe.macro(巨集|).Expr.ExprDef;
+var e:haxe.macro.Expr.ExprDef;
 ```
 
-Here the sub-type(型式|)(子型式|) `ExprDef` within module `haxe.macro(巨集|).Expr` is accessed.
+此處存取了在 `haxe.macro.Expr` 模組中的 `ExprDef` 子型式。
 
-An example sub-type(型式|)(子型式|) declaration(宣告|) would look like the following :
+樣例子型式宣告看起來會像這樣：
 
 ```haxe
 // a/A.hx
 package a;
 
-class(類別|) A { public function(函式|) new() {} }
-// sub-type(型式|)(子型式|)
-class(類別|) B { public function(函式|) new() {} }
+class A { public function new() {} }
+// 子型別
+class B { public function new() {} }
 ```
 
 ```haxe
 // Main.hx
 import a.A;
 
-class(類別|) Main {
-    static(靜態|) function(函式|) main() {
-        var subtype(型式|)1 = new a.A.B();
+class Main {
+    static function main() {
+        var subtype1 = new a.A.B();
 
-        // these are also valid(有效|), but require import a.A or import a.A.B :
-        var subtype(型式|)2 = new B();
-        var subtype(型式|)3 = new a.B();
+        // 這些同樣有效，但需要先匯入 a.A 或 匯入 a.A.B：
+        var subtype2 = new B();
+        var subtype3 = new a.B();
     }
 }
 ```
@@ -636,10 +637,10 @@ The sub-type(型式|)(子型式|) relation is not reflected at run-time(執行�
 sub-type(型式|)(子型式|)s can also be made private:
 
 ```haxe
-private class(類別|) C { ... }
-private enum(枚舉|) E { ... }
-private type(型式|)def T { ... }
-private abstract(抽象|) A { ... }
+private class C { ... }
+private enum E { ... }
+private typedef T { ... }
+private abstract A { ... }
 ```
 
 > ##### define(定義：|): Private type(型式|)
