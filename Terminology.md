@@ -77,6 +77,7 @@ error message | 錯誤訊息 |
 evaluate | 評估 |
 exhaustiveness | 完整性 | TODO:
 explicitly | 明確 |
+export | 匯出 |
 expose | 公開 |
 expression | 表達式 |
 extract | 擷取 | 又：抽取
@@ -97,6 +98,7 @@ identifier | 識別符 |
 implement | 實作 |
 implementation | 實作 |
 implicit | 隱含 |
+import | 匯入 |
 inference | 推斷 | 又：推定、推理
 inherit | 繼承 |
 inheritance | 繼承 |
@@ -114,6 +116,7 @@ invocation | 引動 |
 iterate | 迭代 |
 key-value pair | 鍵值對 |
 keyword | 關鍵字 |
+legibility | 可讀性 |
 list | 列表 |
 local value | 局部值 |
 local variable | 局部變數 |
@@ -145,6 +148,7 @@ optional | 任選 |
 overflow | 溢位 |
 overload | 多載 |
 override | 覆寫 |
+package | 套件 |
 package manager | 套件管理員 |
 path | 路徑 |
 parameter | 參數 |
@@ -159,15 +163,18 @@ property | 屬性 |
 pseudo-type | 偽型式 |
 push | 推入 |
 real object | 真實物件 |
+recursion | 遞迴 |
 redundant | 冗餘 |
 reflection | 反射 |
 resolve | 解析 |
+resolution | 解析 |
 return | 回傳 |
 robust | 強健 |
 run-time | 執行期 | 又：執行時
 semantic | 語意 |
 separated | 分隔 |
 setter | 設定器 | 又：寫入器 TODO:
+signature | 簽章 |
 sourcecode | 原始碼 |
 specific | 特定 |
 standard library | 標準函式庫 |
@@ -201,6 +208,7 @@ typing system | 型式系統 |
 undefined | 未定義 |
 underlying type | 底層型式 |
 unification | 統一 | TODO:
+unqualified | 不合格 | 另：非限定 TODO:
 unspecific | 非特定 |
 use case | 使用案例 |
 user | 使用者 |
