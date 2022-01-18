@@ -127,7 +127,7 @@ class Main {
 - 它要與 `Iterable<String>` 相容，並且
 - 有型式為 `Int` 的唯讀屬性 `length`。
 
-在上面的例子中我們可以看到，在第 7 列使用空陣列和第 8 列使用 `Array<String>` 引動 `test` 都工作得很好。之所以這樣是由於 `Array` 具有 `length` 屬性和 `iterator` 方法。但是在第 9 行傳遞 `String` 引數則會在約束檢查上失敗，這是由於 `String` 與 `Iterable<T>` 並不相容。
+在上面的例子中我們可以看到，在第 7 列使用空陣列和第 8 列使用 `Array<String>` 引動 `test` 都工作得很好。之所以這樣是由於 `Array` 具有 `length` 屬性和 `iterator` 方法。但是在第 9 列傳遞 `String` 引數則會在約束檢查上失敗，這是由於 `String` 與 `Iterable<T>` 並不相容。
 
 當約束為單一型式時括號可以省略：
 
@@ -498,7 +498,7 @@ class Main {
 >
 > `$type` 是一種編譯期機制，其呼叫方式類似具有單個引數的函式。編譯器會評估引數表達式，然後輸出該表達式的型式。
 
-在上面的例子中，第一個 `$type` 列印出 `Unknown<0>`，這是[單形](types-monomorph)，也就是還不知曉的型式。下一行的 `x = "foo` 將字串文字賦值給 `x`，這使單型與 `String` 相[統一](type-system-unification)。然後我們可以看到 `x` 的型式已變成 `String`。
+在上面的例子中，第一個 `$type` 列印出 `Unknown<0>`，這是[單形](types-monomorph)，也就是還不知曉的型式。下一列的 `x = "foo` 將字串文字賦值給 `x`，這使單型與 `String` 相[統一](type-system-unification)。然後我們可以看到 `x` 的型式已變成 `String`。
 
 每當[動態](types-dynamic)以外的型式與單型統一時，該單型就會**變型**為該型式，或者更簡單地說，**變成**該型式。因此，它以後不能在變型為不同的型式，這個屬性也就是其名稱中「**單**」所表明的。
 
@@ -632,9 +632,9 @@ class Main {
 }
 ```
 
-The sub-type(型式|)(子型式|) relation is not reflected at run-time(執行期|又：執行時); public sub-type(型式|)(子型式|)s become a member of their containing package, which could lead to conflicts if two modules within the same package tried to define(定義：|) the same sub-type(型式|)(子型式|). Naturally, the Haxe compiler(編譯器|) detects these cases and reports them accordingly. In the example above `ExprDef` is generated as `haxe.macro(巨集|).ExprDef`.
+子型式關係不會在執行期反射，公用子型式會成為其所包含套件的成員，如果同一個套件中的兩個模組試圖去定義相同的子型式則可能導致衝突。自然而然，Haxe 編譯器會偵測到這些情況並相應地回報它們。在上面的例子中 `ExprDef` 會產生 `haxe.macro.ExprDef`。
 
-sub-type(型式|)(子型式|)s can also be made private:
+子型式也可以設為是私用的：
 
 ```haxe
 private class C { ... }
@@ -643,99 +643,100 @@ private typedef T { ... }
 private abstract A { ... }
 ```
 
-> ##### define(定義：|): Private type(型式|)
+> #### 定義：私用型式
 >
-> A type(型式|) can be made private by using the `private` modifier. Afterwards, the type(型式|) can only be directly accessed from within the [module](define(定義：|)-module) it is define(定義：|)d in.
+> 可以以 `private` 修飾符將型式設為私用。之後，該型式將只能從定義它的模組中存取。
 >
-> Private type(型式|)s, unlike public ones, do not become a member of their containing package.
+> 與公用型式不同，私用型式不會成為其包含套件的成員。
 
-The accessibility of type(型式|)s can be controlled more precisely by using [access control](lf-access-control).
+型式的可存取性可以透過使用[存取控制](lf-access-control)來更精確地控制。
 
-<!--label:type(型式|)-system-import-->
-#### Import
+<!--label:type-system-import-->
+### 匯入
 
-If a type(型式|) path(路徑|) is used multiple times in a .hx file, it might make sense to use an `import` to shorten it. The package can then be omitted when using the type(型式|):
+如果型式路徑在 .hx 檔案中多次使用，那麼使用匯入來縮短可能會有意義。在使用該型式時可以省略套件：
+
 
 <!-- [code asset](assets/Import.hx) -->
 ```haxe
-import haxe.ds.Stringmap(映射|);
+import haxe.ds.StringMap;
 
-class(類別|) Main {
-  static(靜態|) public function(函式|) main() {
-    // instead of: new haxe.ds.Stringmap(映射|)();
-    new Stringmap(映射|)();
+class Main {
+  static public function main() {
+    // instead of: new haxe.ds.StringMap();
+    new StringMap();
   }
 }
 ```
 
-With `haxe.ds.Stringmap(映射|)` being imported in the first line, the compiler(編譯器|) is able to resolve(解析|) the unqualified identifier(識別符|) `Stringmap(映射|)` in the `main` function(函式|) to this package. The module `Stringmap(映射|)` is said to be **imported** into the current file.
+由於在第一列中匯入了 `haxe.ds.StringMap`，所以編譯器能夠將 `main` 函式中的非限定識別符 `StringMap` 解析至這個套件。就是說模組 `StringMap` 匯入至了對應檔案中。
 
-In this example, we are actually importing a **module**, not just a specific type(型式|) within that module. This means that all type(型式|)s define(定義：|)d within the imported module are available:
+在這個例子中，我們實際上匯入了一個模組，而不僅是該模組中的特定型式，這意味著在匯入中的模組中定義的所有型式都是可用的：
 
 <!-- [code asset](assets/Import2.hx) -->
 ```haxe
-import haxe.macro(巨集|).Expr;
+import haxe.macro.Expr;
 
-class(類別|) Main {
-  static(靜態|) public function(函式|) main() {
+class Main {
+  static public function main() {
     var e:Binop = OpAdd;
   }
 }
 ```
 
-The type(型式|) `Binop` is an [enum(枚舉|)](type(型式|)s-enum(枚舉|)-instance(實例|)) declare(宣告|)d in the module `haxe.macro(巨集|).Expr`, and thus available after the import of said module. If we were to import only a specific type(型式|) of that module, for example, `import haxe.macro(巨集|).Expr.ExprDef`, the program would fail to compile with `class(類別|) not found : Binop`.
+型式 `Binop` 是在模組 `haxe.macro.Expr` 中宣告的[枚舉](types-enum-instance)，因此在匯入上述模組後可用。如果我們只匯入該模組中的特定型式，例如 `import haxe.macro.Expr.ExprDef`，那麼程式會以「類別未找到：Binop」（`Class not found : Binop`）編譯失敗。
 
-There are several aspects worth knowing about importing:
+對於匯入，有幾個方面值得了解：
 
-* The bottommost import takes priority (detailed in [Resolution Order](type(型式|)-system-resolution-order)).
-* The [static(靜態|) extension(延伸|)](lf-static(靜態|)-extension(延伸|)) keyword(關鍵字|) `using` implies the effect of `import`.
-* If an enum(枚舉|) is imported (directly or as part of a module import), all of its [enum(枚舉|) construct(結構體|)(建構|)ors](type(型式|)s-enum(枚舉|)-construct(結構體|)(建構|)or) are also imported (this is what allow(容許|又：允許)s the `OpAdd` usage in the above example).
+- 最底部的匯入有優先權（詳見[解析順序](type-system-resolution-order)）。
+- [靜態延伸](lf-static-extension)關鍵字 `using` 意味著<!--TODO: implies--> `import` 的效果。
+- 如果（直接或作為模組匯入的一部分）匯入枚舉，則其所有[枚舉建構式](types-enum-constructor)也會匯入（這就是上面例子中容許使用 `OpAdd` 的原因）。
 
-Furthermore, it is also possible to import [static(靜態|) field(欄位|)s](class(類別|)-field(欄位|)) of a class(類別|) and use them unqualified:
+此外，也可以匯入一個類別的[靜態欄位](class-field)並以非限定的方式使用：
 
 <!-- [code asset](assets/Import3.hx) -->
 ```haxe
 import Math.random;
 
-class(類別|) Main {
-  static(靜態|) public function(函式|) main() {
+class Main {
+  static public function main() {
     random();
   }
 }
 ```
 
-Special care has to be taken with field(欄位|) names or local variable(變數|)(局部變數|) names that conflict with a package name. Since field(欄位|)s and local variable(變數|)(局部變數|)s take priority over packages, a local variable(變數|)(局部變數|) named `haxe` blocks off usage of the entire `haxe` package.
+特別注意，對於與套件名衝突的欄位名稱或局部變數名稱，由於欄位和局部變數的優先權高於套件，名為 `haxe` 的局部變數會阻擋對整個 `haxe` 套件的使用。
 
-##### Wildcard import
+#### 萬用匯入
 
-Haxe allow(容許|又：允許)s using a wildcard symbol `.*` to allow(容許|又：允許) import of all modules in a package, all type(型式|)s in a module, or all static(靜態|) field(欄位|)s in a type(型式|). It is important to understand that this kind of import only crosses a single level as we can see in the following example:
+Haxe 容許使用萬用符號 `.*` 來容許匯入套件中的所有模組，模組中的所有型式或者型式中的所有欄位。重要的是要理解這種匯入只會跨越一個層級，我們可以在下面的例子中看到：
 
 <!-- [code asset](assets/ImportWildcard.hx) -->
 ```haxe
-import haxe.macro(巨集|).*;
+import haxe.macro.*;
 
-class(類別|) Main {
-  static(靜態|) function(函式|) main() {
-    var expr:Expr = null(空|);
-    // var expr:ExprDef = null(空|); // class(類別|) not found : ExprDef
+class Main {
+  static function main() {
+    var expr:Expr = null;
+    // var expr:ExprDef = null; // Class not found : ExprDef
   }
 }
 ```
 
-Using the wildcard import on `haxe.macro(巨集|)` allow(容許|又：允許)s accessing `Expr`, which is a module in this package, but it does not allow(容許|又：允許) accessing `ExprDef` which is a sub-type(型式|)(子型式|) of the `Expr` module. This rule extend(擴充|又：延伸)s to static(靜態|) field(欄位|)s when a module is imported.
+在 `haxe.macro` 上使用萬用字元匯入將容許存取 `Expr`，它是這個套件中的一個模組，但這樣不能容許存取 `Expr` 模組的子型式 `ExprDef`。當匯入一個模組時，這個規則也會擴充到靜態欄位。
 
-When using wildcard imports on a package, the compiler(編譯器|) does not eagerly process all modules in that package; modules that have not been used explicitly(明確|) are not part of the generated output.
+當在一個套件上使用萬用字元匯入時，編譯器不會急於處理該套件中的所有模組，沒有明確使用的模組不會成為生成輸出的一部份。
 
-##### Import with alias
+#### 帶別名的匯入
 
-If an imported type(型式|) or static(靜態|) field(欄位|) is used frequently in a module, it might help to alias it to a shorter name. This can also be used to disambiguate conflicting names by giving them a unique identifier(識別符|).
+如果匯入的型式或靜態欄位在模組中頻繁使用，給其一個更短的別名可能會有幫助。這也可以用於透過給它們唯一的識別符來消除沖突的名稱。
 
 <!-- [code asset](assets/ImportAlias.hx) -->
 ```haxe
 import String.fromCharCode in f;
 
-class(類別|) Main {
-  static(靜態|) function(函式|) main() {
+class Main {
+  static function main() {
     var c1 = f(65);
     var c2 = f(66);
     trace(c1 + c2); // AB
@@ -743,46 +744,46 @@ class(類別|) Main {
 }
 ```
 
-Here, we import `String.fromCharCode` as `f` which allow(容許|又：允許)s us to use `f(65)` and `f(66)`. While the same could be achieved with a local variable(變數|)(局部變數|), this method is compile-time(編譯期|又：編譯時) exclusive and guaranteed to have no run-time(執行期|又：執行時) overhead.
+此處，我們將 `String.fromCharCode` 匯入為 `f`，這樣我們就可以使用 `f(65)` 和 `f(66)`。雖然這同樣可以以局部變數實現，但這種方法是編譯期專用的，並可以保證沒有執行期的開銷。
 
-##### since Haxe 3.2.0
+#### 自 Haxe 3.2.0
 
-The more natural `as` can be used in place of `in` when importing modules.
+在匯入模組時可以使用更自然的 `as` 來替代 `in`。
 
-<!--label:type(型式|)-system-import-default(預設|)s-->
-#### Import default(預設|)s / import.hx
+<!--label:type-system-import-defaults-->
+### 匯入預設、import.hx
 
-##### since Haxe 3.3.0
+#### 自 Haxe 3.3.0
 
-Using the specially named `import.hx` file (note the lowercase name), default(預設|) imports and usings can be define(定義：|)d that will be applied for all modules inside a directory, which reduces the number of imports for large code bases with many helpers and static(靜態|) extension(延伸|)s.
+使用特別命名的 `import.hx` 檔案（注意名稱是小寫的），可以定義默認的匯入和使用這將使用與一個所有目錄下的所有模組，並將減少有許多輔助和靜態延伸的大型程式庫的匯入數量。
 
-The `import.hx` file must be placed in the same directory as your code. It can only contain import and using statements, which will be applied to all Haxe modules in the directory and its subdirectories.
+`import.hx` 檔案必須和你的程式放在同一個目錄下，它只能包含匯入和使用語句這些語句將套用至該目錄及其子目錄下的所有 Haxe 模組。
 
-default(預設|) imports of `import.hx` act as if its contents are placed at the top of each module.
+`import.hx` 的預設匯入就如同其內容放置在每個模組的頂部一樣。
 
-##### Related content
+#### 相關內容
 
-* [Introduction of `import.hx`](https://haxe.org/blog/importhx-intro/)
+- [`import.hx` 的介紹]((https://haxe.org/blog/importhx-intro/))
 
-<!--label:type(型式|)-system-resolution-order-->
-#### Resolution Order
+<!--label:type-system-resolution-order-->
+### 解析順序
 
-Resolution order comes into play as soon as unqualified identifier(識別符|)s are involved. These are [expression(表達式|)s](expression(表達式|)) in the form of `foo()`, `foo = 1` and `foo.field(欄位|)`. The last one in particular includes module path(路徑|)s such as `haxe.ds.Stringmap(映射|)`, where `haxe` is an unqualified identifier(識別符|).
+一旦涉及非限定的識別符，解析順序就將開始發揮作用。非限定識別符是形如 `foo()`、`foo = 1` 和 `foo.field` 的[表達式](expression)。特別是最後一種還包含模組路徑，如 `haxe.ds.StringMap`，其中 `haxe` 是非限定識別符。
 
-We describe(描述|) the resolution order algorithm here, which depends on the following state:
+我們在此描述解析順序的算法，其取決于以下狀態：
 
-* The declare(宣告|)d [local variable(變數|)(局部變數|)s](expression(表達式|)-var) (including function(函式|) argument(引數|)s).
-* The [imported](type(型式|)-system-import) modules, type(型式|)s and static(靜態|)s.
-* The available [static(靜態|) extension(延伸|)s](lf-static(靜態|)-extension(延伸|)).
-* The kind (static(靜態|) or member) of the current field(欄位|).
-* The declare(宣告|)d member field(欄位|)s on the current class(類別|) and its parent class(父類別|)(類別|)es.
-* The declare(宣告|)d static(靜態|) field(欄位|)s on the current class(類別|).
-* The [expected type(型式|)](define(定義：|)-expected-type(型式|)).
-* The expression(表達式|) being `untype(型式|)d` or not.
+- 宣告的[局部變數](expression-var)（包含函式引數）。
+- [匯入](type-system-import)的模組型式和靜態。
+- 可用的[靜態延伸](lf-static-extension)。
+- 當前欄位的種類（靜態或成員）。
+- 在當前類別和其父類別上宣告的成員欄位。
+- 當前類別中已宣告的靜態欄位。
+- [預期型式](define-expected-type)。
+- 表達式是否為 `untyped`。
 
-![](assets/figures/type(型式|)-system-resolution-order-diagram.svg)
+![圖：識別符 `i` 的解析順序](assets/figures/type-system-resolution-order-diagram.svg)
 
-_Figure: Resolution order of identifier(識別符|) `i'_
+_圖：識別符 `i` 的解析順序_
 
 Given an identifier(識別符|) `i`, the algorithm is as follows:
 
