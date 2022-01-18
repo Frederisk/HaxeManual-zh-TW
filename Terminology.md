@@ -5,6 +5,8 @@
 英文 | 中文 | 備註
 --- | --- | ---
 abstract | 抽象 |
+access | 存取 |
+accessibility | 可存取性 |
 achieve | 達成 |
 addressing | 定址 |
 alias | 別名 |
@@ -12,6 +14,7 @@ allow | 容許 | 又：允許
 alternative | 替代 |
 anonymous | 匿名 |
 annotate | 標記 |
+apply | 套用 |
 argument | 引數 |
 array | 陣列 |
 arrow function | 箭頭函式 |
@@ -117,6 +120,7 @@ iterate | 迭代 |
 key-value pair | 鍵值對 |
 keyword | 關鍵字 |
 legibility | 可讀性 |
+line | 列 |
 list | 列表 |
 local value | 局部值 |
 local variable | 局部變數 |
@@ -127,6 +131,7 @@ match | 匹配 |
 member | 成員 |
 metadata | 元資料 |
 method | 方法 |
+modifier | 修飾符 |
 module | 模組 |
 monomorph | 單型 |
 morph | 變型 |
@@ -157,14 +162,19 @@ parent class | 父類別 |
 pattern matching | 模式匹配 |
 performance | 效能 |
 pop | 爆出 |
+priority | 優先權 |
+private | 私用 |
 programming language | 程式語言 |
 promotion | 提升 | TODO:
 property | 屬性 |
+protect | 保護 |
 pseudo-type | 偽型式 |
+public | 公用 | 又：公開
 push | 推入 |
 real object | 真實物件 |
 recursion | 遞迴 |
 redundant | 冗餘 |
+reflect | 反射 |
 reflection | 反射 |
 resolve | 解析 |
 resolution | 解析 |
@@ -208,7 +218,7 @@ typing system | 型式系統 |
 undefined | 未定義 |
 underlying type | 底層型式 |
 unification | 統一 | TODO:
-unqualified | 不合格 | 另：非限定 TODO:
+unqualified | 非限定 | 另：不合格 TODO:
 unspecific | 非特定 |
 use case | 使用案例 |
 user | 使用者 |
@@ -217,3 +227,4 @@ value | 值 |
 variable | 變數 |
 variant | 變體/變異 | n./adj.
 variance | 變異數 |
+wildcard | 萬用(字元) |
