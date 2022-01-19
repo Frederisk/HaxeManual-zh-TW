@@ -85,7 +85,7 @@ class Main {
 }
 ```
 
-`equals` 函式的兩個引數 `expected` 和 `actual` 的形式是 `T`，這意味著對 `eunqals` 的每次引動這兩個引數都必須具有相同的型式。編譯器會容許第一次（兩個引數都是 `Int`）和第二次（個引數都是 `String`）呼叫，但第三次嘗試則會由於型式不匹配而造成編譯器錯誤。
+`equals` 函式的兩個引數 `expected` 和 `actual` 的形式是 `T`，這意味著對 `equals` 的每次引動這兩個引數都必須具有相同的型式。編譯器會容許第一次（兩個引數都是 `Int`）和第二次（個引數都是 `String`）呼叫，但第三次嘗試則會由於型式不匹配而造成編譯器錯誤。
 
 > #### 瑣事： 表達式語法中的型式參數
 >
@@ -350,7 +350,7 @@ class Main {
 > #### 定義：共變數
 >
 > 如果[複合型式](define-compound-type)的組件型式可賦值至更不具體的組件，也就是說它們是唯讀但從不寫入，則認其為共變。
-
+<!---->
 > #### 定義：反變數
 >
 > 如果[複合型式](define-compound-type)的組件型式可賦值至更不通用的組件，也就是說它們是唯寫但從不讀取，則認其為反變。
@@ -435,7 +435,7 @@ unification(統一|TODO) of type(型式|)s having or being a [monomorph(變型|)
 <!--label:type-system-unification-function-return-->
 ### 函式回傳
 
-函式回傳型式的回傳可能涉及 [`Void`]()型式，並且需要明確定義與 `Void` 統一的內容。`Void` 用作描述型式的缺失，其不可賦值給任何其他型式，甚至 `Dynamic` 也不行。這也意味著函式若明確宣告為回傳 `Dynamic`，則其不可返回 `Void`。
+函式回傳型式的回傳可能涉及 [`Void`](types-void)型式，並且需要明確定義與 `Void` 統一的內容。`Void` 用作描述型式的缺失，其不可賦值給任何其他型式，甚至 `Dynamic` 也不行。這也意味著函式若明確宣告為回傳 `Dynamic`，則其不可返回 `Void`。
 
 反之亦然：函式若明確宣告為回傳 `Void`，則其不可返回 `Dynamic` 或是其他型式。但是在為函式型式時則容許這種統一方向：
 
@@ -521,14 +521,13 @@ class Main {
 <!--label:type-system-top-down-inference-->
 ### 自上而下推斷
 
-
 大多數時候，類型是自己推斷出來的，然後可以與預期的類型統一。 然而，在少數地方，可能會使用預期類型來影響推理。 然後我們談到**自上而下的推理**。
 
 > #### 定義：預期型式
 >
 > 當表達式的型式在輸入表達式之前就已經已知時就會出現預期型式。比如在表達式是函式呼叫的引數時。預期型式可透過[自上而下推斷](type-system-top-down-inference)影響表達式的型式。
 
-一個很好的例子是混合型式的陣列，如[動態]()中所述，編譯器會因無法確定元素型式而拒絕 `[1, "foo"]`。而採用自上而下推斷則可以克服這個問題：
+一個很好的例子是混合型式的陣列，如[動態](types-dynamic)中所述，編譯器會因無法確定元素型式而拒絕 `[1, "foo"]`。而採用自上而下推斷則可以克服這個問題：
 
 <!-- [code asset](assets/TopDownInference.hx) -->
 ```haxe
@@ -579,8 +578,6 @@ class Main {
 > 所有的 Haxe 程式碼都組織在模組中並使用路徑定址。本質上，每個 .hx 檔案代表一個可能包含多種型式的模組。型別可能是 `private` 的，在這種情況下則只有包含它的模組可以存取它。
 
 模組與其同名的包含型式之間的區別是模糊的。事實上，對 `haxe.ds.StringMap<Int>` 的定址可視作是 `haxe.ds.StringMap.StringMap<Int>` 的簡寫。後者由四部分組成：
-
-模塊與其同名的包含類型之間的區別在設計上是模糊的。事實上，尋址 haxe.ds.StringMap<Int> 可以被認為是 haxe.ds.StringMap.StringMap<Int> 的簡寫。後一個版本由四個部分組成：
 
 1. 套件 `haxe.ds`。
 1. 模組名 `StringMap`。
@@ -655,7 +652,6 @@ private abstract A { ... }
 ### 匯入
 
 如果型式路徑在 .hx 檔案中多次使用，那麼使用匯入來縮短可能會有意義。在使用該型式時可以省略套件：
-
 
 <!-- [code asset](assets/Import.hx) -->
 ```haxe
@@ -785,41 +781,41 @@ class Main {
 
 _圖：識別符 `i` 的解析順序_
 
-Given an identifier(識別符|) `i`, the algorithm is as follows:
+給定一個識別符 `i`，其算法如下：
 
-1. If i is `true(真|)`, `false(假|)`, `this`, `super` or `null(空|)`, resolve(解析|) to the matching constant and halt.
-2. If a local variable(變數|)(局部變數|) named `i` is accessible, resolve(解析|) to it and halt.
-3. If the current field(欄位|) is static(靜態|), go to 6.
-4. If the current class(類別|) or any of its parent class(父類別|)(類別|)es has a field(欄位|) named `i`, resolve(解析|) to it and halt.
-5. If a static(靜態|) extension(延伸|) with a first argument(引數|) of the type(型式|) of the current class(類別|) is available, resolve(解析|) to it and halt.
-6. If the current class(類別|) has a static(靜態|) field(欄位|) named `i`, resolve(解析|) to it and halt.
-7. If an enum(枚舉|) construct(結構體|)(建構|)or named `i` is declare(宣告|)d on an imported enum(枚舉|), resolve(解析|) to it and halt.
-8. If a static(靜態|) named `i` is explicitly(明確|) imported, resolve(解析|) to it and halt.
-9. If `i` starts with a lower-case character, go to 11.
-10. If a type(型式|) named `i` is available, resolve(解析|) to it and halt.
-11. If the expression(表達式|) is not in untype(型式|)d mode, go to 14.
-12. If `i` equals `__this__`, resolve(解析|) to the `this` constant and halt.
-13. Generate a local variable(變數|)(局部變數|) named `i`, resolve(解析|) to it and halt.
-14. Fail.
+1. 如果 `i` 是 `true`、`false`、`this`、`super` 或 `null`解析至匹配的常數並停止。
+2. 如果有名為 `i` 的可存取局部變數，解析至其並停止。
+3. 如果當前欄位是靜態的，轉至 6。
+4. 如果當前類別或任何父類別中有名為 `i` 的欄位，解析至其並停止。
+5. 如果具有當前類別型式第一個引數的靜態延伸可用，解析至其並停止。
+6. 如果當前類別中有名為 `i` 的靜態欄位，解析至其並停止。
+7. 如果在匯入的枚舉中有名為 `i` 的枚舉建構式宣告，解析至其並停止。
+8. 如果有名為 `i` 的靜態明確匯入，解析至其並停止。
+9. 如果 `i` 以小寫字元開頭，轉至 11。
+10. 如果名為 `i` 的型式可用，解析至其並停止。
+11. 如果表達式不在非具型式模式下，轉至 14。
+12. 如果 `i` 等於 `__this__`，解析至 `this` 常數並停止。
+13. 產生一個名為 `i` 的局部變數，解析至其並停止。
+14. 失敗。
 
-For step 10, it is also necessary to define(定義：|) the resolution order of type(型式|)s:
+對於第 10 步，還需要定義型式的解析順序：
 
-1. If a type(型式|) named `i` is imported (directly or as part of a module), resolve(解析|) to it and halt.
-2. If the current package contains a module named `i` with a type(型式|) named `i`, resolve(解析|) to it and halt.
-3. If a type(型式|) named `i` is available at top-level, resolve(解析|) to it and halt.
-4. Fail.
+1. 如果有（直接或作為模組的一部份）導入名為 `i` 的型式，解析至其並停止。
+1. 如果當前套件包含名為 `i` 的模組，並有名為 `i` 的型式，解析至其並停止。
+1. 如果名為 `i` 的型式在頂層可用，解析至其並停止。
+1. 失敗。
 
-For step 1 of this algorithm, as well as steps 5 and 7 of the previous one, the order of import resolution is important:
+對於這個算法的第 1 步，以及前一個算法的第 5 和第 7 步，匯入的解析順序十分重要：
 
-* Imported modules and static(靜態|) extension(延伸|)s are checked from bottom to top with the first match being picked.
-* Imports that come from [import.hx](type(型式|)-system-import-default(預設|)s) files are considered to be at the top of affected modules, which means they have the lowest priority. If multiple `import.hx` files affect a module, the ones in child directories have priority over the ones in parent directories.
-* Within a given module, type(型式|)s are checked from top to bottom.
-* For imports, a match is made if the name equals.
-* For [static(靜態|) extension(延伸|)s](lf-static(靜態|)-extension(延伸|)), a match is made if the name equals and the first argument(引數|) [unifies](type(型式|)-system-unification(統一|TODO)). Within a given type(型式|) being used as a static(靜態|) extension(延伸|), the field(欄位|)s are checked from top to bottom.
+- 匯入模組和靜態延伸會自下至上檢查，並選中第一個所匹配的。
+- 自 [`import.hx`](type-system-import-defaults) 的匯入會認為是在受影響的模組的頂部，這意味著它們的優先權最低。如果多個 `import.hx` 檔案影響同一個模組，則子目錄較父目錄中的更有優先權。
+- 在給定的模組中，型式自上而下檢查。
+- 對於匯入，如果名稱相同則匹配。
+- 對於[靜態延伸](lf-static-extension)，如果名稱相同且第一個引數[統一](type-system-unification)，則匹配。在用作靜態延伸的給定型式中，欄位自上而下檢查。
 
-<!--label:type(型式|)-system-untype(型式|)d-->
-### untype(型式|)d
+<!--label:type-system-untyped-->
+## 非具型式
 
-**Important note:** This syntax should be avoided whenever possible. The produced code cannot be properly checked by the Haxe compiler(編譯器|) and so it may have type(型式|) error(錯誤|)s or other bug(錯誤|)s that would be caught at compile time in regular code. Use only when absolutely necessary and when you know what you are doing.
+**重要提示：**只要有其他可能就應該避免使用這種語法。以此產生的程式碼 Haxe 編譯器無法正確檢查，因此可能會有型式錯誤或其他錯誤，而這些錯誤在常規程式碼中的編譯期就可發現。只有在絕對必要和你知道自己在做什麼時才使用。
 
-It is possible to completely circumvent the type(型式|) checker by prefixing an expression(表達式|) with the keyword(關鍵字|) `untype(型式|)d`. The majority of type(型式|) error(錯誤|)s are not emitted inside an untype(型式|)d expression(表達式|). This is primarily used with the target(目標|)-specific [code injection expression(表達式|)s](target(目標|)-syntax).
+在表達式前加上關鍵字 `untyped` 可完全規避型式檢查器。大多數型式錯誤都不會在非具型式表達式中發生。該語法主要用於特定目標的[程式碼插入表達式](target-syntax)。
