@@ -1,33 +1,33 @@
 using namespace System;
 using namespace System.Text.RegularExpressions;
 
+Import-Module -Name '.\scripts\Get-FilePathByIndex.psm1' | Out-Null;
+
 # file path
-[String]$file = Read-Host -Prompt 'Enter the file path';
-$file = $file.Trim().Trim('"');
-
+[String]$fileIndex = Read-Host -Prompt 'Enter the file index';
+[String]$file = Get-FilePathByIndex -FileIndex $fileIndex;
 # exists
-if ((Get-Item -Path $file).Exists) {
-    $dictionary =
-    [String]$dictionary = Read-Host -Prompt 'Enter the source code dictionary path'
-    | Join-Path -ChildPath '*';
+if (!((Get-Item -Path $file).Exists)) {
+    Write-Error -Message 'File does not exist';
+    exit 1;
+}
 
-    [String]$content = Get-Content -Path $file -Raw;
+[String]$content = Get-Content -Path $file -Raw;
 
-    Get-ChildItem -Path $dictionary -Include '*.hx'
-    | ForEach-Object -Process {
-        [String]$sourceCode = Get-Content -Path $_.FullName -Raw;
-        $content = [Regex]::Replace(
-            $content,
-            "(?i)(?m)^\[code asset\]\(assets/$($_.NameString)\)",
-            "<!-- [code asset](assets/$($_.NameString)) -->
+[String]$dictionary = '..\HaxeManual\assets\*';
+Get-ChildItem -Path $dictionary -Include '*.hx'
+| ForEach-Object -Process {
+    [String]$sourceCode = Get-Content -Path $_.FullName -Raw;
+    $content = [Regex]::Replace(
+        $content,
+        "(?i)(?m)^\[code asset\]\(assets/$($_.NameString)\)",
+        "<!-- [code asset](assets/$($_.NameString)) -->
 ``````haxe
 $sourceCode
 ``````"
-        );
-    }
-    # write
-    Set-Content -Path $file -Value $content;
-}
-else {
-    Write-Error -Message 'File does not exist';
-}
+    );
+} | Out-Null;
+# write
+Set-Content -Path $file -Value $content | Out-Null;
+
+exit 0;
