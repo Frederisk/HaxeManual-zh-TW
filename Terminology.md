@@ -31,6 +31,7 @@ build | 構建 |
 build macros | 構建巨集 | TODO:
 bytecode | 位元組碼 | 又：二進位碼
 cast | 轉換 | 又：轉型 TODO:
+checker | 檢查器 |
 child class | 子類別 |
 class | 類別 |
 class instance | 類別實例 |
@@ -43,6 +44,7 @@ compiler | 編譯器 |
 component | 組件 |
 compound type | 複合型式 |
 concrete | 具體 |
+constant | 常數 |
 constant value | 定值 |
 constraint | 約束 |
 construct | 建構/構造 | v./n.
@@ -96,6 +98,7 @@ functionality | 功能 |
 generate | 產生 |
 generic function | 泛型函式 |
 getter | 取得器 | TODO:
+halt | 停止 |
 high-level | 高階 |
 identifier | 識別符 |
 implement | 實作 |
@@ -107,6 +110,7 @@ inherit | 繼承 |
 inheritance | 繼承 |
 initialization | 初始化 |
 initialize | 初始化 |
+inject | 插入 | 又：注入
 inline | 內聯 |
 instance | 實例 |
 instantiate | 實例化 |
@@ -220,6 +224,7 @@ underlying type | 底層型式 |
 unification | 統一 | TODO:
 unqualified | 非限定 | 另：不合格 TODO:
 unspecific | 非特定 |
+untyped | 非具型式 |
 use case | 使用案例 |
 user | 使用者 |
 valid | 有效 |
