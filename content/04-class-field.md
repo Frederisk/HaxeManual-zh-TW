@@ -1,26 +1,26 @@
 <!--label:class-field-->
-## class(類別|) field(欄位|)s
+# 類別欄位
 
-> ##### define(定義|): class(類別|) field(欄位|)
+> #### 定義：類別欄位
 >
-> A class(類別|) field(欄位|) is a variable(變數|), property(屬性|) or method(方法|) of a class(類別|) which can either be static(靜態|) or non-static(靜態|). Non-static(靜態|) field(欄位|)s are referred to as **member(成員|)** field(欄位|)s, so we speak of e.g. a **static(靜態|) method(方法|)** or a **member(成員|) variable(變數|)**.
+> 類別欄位是類別的變數、屬性或方法，其可以是靜態或非靜態的。非靜態欄位可稱其為**成員**欄位，所以我們將其稱之為例如**靜態方法**或**成員變數**。
 
-So far we have seen how type(型式|n. 又：型別)s and Haxe programs, in general, are structure(結構|)d. This section about class(類別|) field(欄位|)s concludes the struct(結構體|)ural part and at the same time bridges to the behavior(行為|)al part of Haxe. This is because class(類別|) field(欄位|)s are the place where [expression(表達式|)s](expression) are at home.
+在目前為止，我們已經了解到了型式和 Haxe 程式的結構。對於類別欄位部分總結了結構的部分以及連接至 Haxe 行為的部分。這是由於類別欄位是[表達式](expression)所在的地方。
 
-There are three kinds of class(類別|) field(欄位|)s:
+類別欄位有三種：
 
-* variable(變數|): A [variable(變數|)](class-field-variable) class(類別|) field(欄位|) holds a value(值|) of a certain type(型式|n. 又：型別), which can be read or written.
-* property(屬性|): A [property(屬性|)](class-field-property) class(類別|) field(欄位|) define(定義|)s a custom(客製|) access(存取|) behavior(行為|) for something that, outside the class(類別|), looks like a variable(變數|) field(欄位|).
-* method(方法|): A [method(方法|)](class-field-method) is a function(函式|) which can be called to execute code.
+- 變數：[變數](class-field-variable)類別欄位儲存某種型式的值以供讀寫。
+- 屬性：[屬性](class-field-property)類別欄位為在類別之外的內容定義了客製存取行為始知看起來像是變數欄位。
+- 方法：[方法](class-field-method)是可呼叫以執行程式碼的函式。
 
-Strictly speaking, a variable(變數|) could be considered to be a property(屬性|) with certain access(存取|) modifier(修飾符|)s. Indeed, the Haxe compiler(編譯器|) does not distinguish variable(變數|)s and properties during its typing(型態/型式|n./adj.) phase, but they remain separated(分隔|) at the syntax(語法|) level.
+嚴格來說，變數是可視作具有某些存取修飾符的屬性。事實上，Haxe 編譯器在其編寫階段不區分變數和屬性，但在語法級別上兩者保持分隔。
 
-Regarding terminology, a method(方法|) is a (static(靜態|) or non-static(靜態|)) function(函式|) belonging to a class(類別|). Other function(函式|)s, such as a [local function(函式|)s](expression-arrow-function) in expression(表達式|)s, are not considered method(方法|)s.
+在術語方面，方法是所屬類的（靜態或非靜態）函式。而其他函式，例如表達式中的局部函式則不會視為方法。
 
 <!--label:class-field-variable-->
-### variable(變數|)
+## 變數
 
-We have already seen variable(變數|) field(欄位|)s in several code examples of previous sections. variable(變數|) field(欄位|)s hold value(值|)s, a characteristic which they share with most (but not all) properties:
+我們已經在前幾部分的幾個程式碼例子中見到過了變數欄位。變數欄位儲存值，這是它們與大多數（但不是全部）屬性共有的特徵。
 
 <!-- [code asset](assets/VariableField.hx) -->
 ```haxe
@@ -33,7 +33,6 @@ class Main {
     trace(example);
   }
 }
-
 ```
 
 We can learn from this that a variable
@@ -50,8 +49,6 @@ It should be noted that the explicit type(型式|n. 又：型別) is not require
 ![](assets/figures/class(類別|)-field(欄位|)-variable(變數|)-init-value(值|)s.svg)
 
 _Figure: initialization(初始化|) value(值|)s of a variable(變數|) field(欄位|)._
-
-
 
 <!--label:class-field-property-->
 ### property(屬性|)
@@ -746,5 +743,3 @@ The `final` keyword(關鍵字|) can be used on class(類別|) field(欄位|)s wi
 * `inline final x = ...` is the same but [inline(內聯|)s](class-field-inline) the value(值|) wherever it is used. Only constant value(定值|)s can be assign(賦值|又：指派、指定、分配)ed.
 
 `static final` field(欄位|)s must be initialize(初始化|)d immediately by providing an expression(表達式|). If a class(類別|) has non-static(靜態|) `final` variable(變數|)s which are not initialize(初始化|)d immediately, it requires a constructor(建構式|) which has to assign(賦值|又：指派、指定、分配) value(值|)s to all such field(欄位|)s. `final` does not affect [visibility](class-field-visibility) and it is not supported on [properties](class-field-property).
-
-
