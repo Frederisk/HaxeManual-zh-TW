@@ -35,29 +35,29 @@ class Main {
 }
 ```
 
-We can learn from this that a variable
+我們可以從中得知，變數：<!--TODO: example -> member-->
 
-1. has a name (here: `member`),
-2. has a type (here: `String`),
-3. may have a constant initialization (here: `"bar"`) and
-4. may have [access modifiers](class-field-access-modifier) (here: `static`)
+1. 有一個名稱（此處：`member`），
+2. 有一個型式（此處：`String`），
+3. 可以有一個常數初始化（此處：`"bar"`）以及
+4. 可以有[存取修飾符](class-field-access-modifier)（此處：`static`）。
 
-The example first prints the initialization value of `member`, then sets it to `"foo"` before printing its new value(值|). The effect of access(存取|) modifier(修飾符|)s is shared by all three class(類別|) field(欄位|) kinds and explained in a separate section.
+這個例子首先會列印 `member` 的初始化值，然後將其設定為 `"foo"` 並列印其新值。存取修飾符的效果由全部三種類別欄位共享並在單獨的部分中得到解釋。
 
-It should be noted that the explicit type(型式|n. 又：型別) is not required if there is an initialization(初始化|) value(值|). The compiler(編譯器|) will [infer](type-system-type-inference) it in this case.
+需要注意的是如果有初始化值的話，則不需要明確型式。在這種情況下，編譯器會[推斷](type-system-type-inference)。
 
-![](assets/figures/class(類別|)-field(欄位|)-variable(變數|)-init-value(值|)s.svg)
+![圖：變數欄位的初始化值](assets/figures/class-field-variable-init-values.svg)
 
-_Figure: initialization(初始化|) value(值|)s of a variable(變數|) field(欄位|)._
+_圖：變數欄位的初始化值。_
 
 <!--label:class-field-property-->
-### property(屬性|)
+## 屬性
 
-Next to [variable(變數|)s](class-field-variable), properties are the second option for dealing with data on a class(類別|). Unlike variable(變數|)s, however, they offer more control of which kind of field(欄位|) access(存取|) should be allow(容許|又：允許)ed and how it should be generate(產生|)d. Common use case(使用案例|)s include:
+除[變數](class-field-variable)以外，屬性是處理類別資料的第二個選項。不過，以變數不同的是，它們提供了應該容許哪種欄位的存取以及如何產生其的更多控制。常見的使用案例包括：
 
-* Have a field(欄位|) which can be read from anywhere but only be written from within the defining class(類別|).
-* Have a field(欄位|) which invoke(引動|)s a **getter(取得器|TODO:)**-method(方法|) upon read-access(存取|).
-* Have a field(欄位|) which invoke(引動|)s a **setter(設定器|又：寫入器 TODO:)**-method(方法|) upon write-access(存取|).
+- 有可以從任何地方讀取但只能在定義類別中寫入的欄位。
+- 有在讀存取時引動**取得器**方法的欄位。
+- 有在寫存取時引動**設定器**方法的欄位。
 
 When dealing with properties, it is import(匯入|)ant to understand the two kinds of access(存取|):
 
