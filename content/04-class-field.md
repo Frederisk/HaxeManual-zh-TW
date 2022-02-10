@@ -55,22 +55,21 @@ _圖：變數欄位的初始化值。_
 
 除[變數](class-field-variable)以外，屬性是處理類別資料的第二個選項。不過，以變數不同的是，它們提供了應該容許哪種欄位的存取以及如何產生其的更多控制。常見的使用案例包括：
 
-- 有可以從任何地方讀取但只能在定義類別中寫入的欄位。
+- 有可以從任何地方讀出但只能在定義類別中寫入的欄位。
 - 有在讀存取時引動**取得器**方法的欄位。
 - 有在寫存取時引動**設定器**方法的欄位。
 
-When dealing with properties, it is import(匯入|)ant to understand the two kinds of access(存取|):
+在處理屬性時，了解兩種存取方式很重要：
 
-> ##### define(定義|): Read access(存取|)
+> #### 定義：讀存取
 >
-> A read access(存取|) to a field(欄位|) occurs when a right-hand side [field(欄位|) access(存取|) expression(表達式|)](expression-field-access) is used. This includes calls in the form of `obj.field()`, where `field` is access(存取|)ed to be read.
-
-> ##### define(定義|): Write access(存取|)
+> 在使用右側[欄位存取表達式](expression-field-access)時，會發生對欄位的讀存取。這包括形如 `obj.field()` 的呼叫，其中 `field` 以讀的方式受存取。
+<!---->
+> #### 定義：寫存取
 >
-> A write access(存取|) to a field(欄位|) occurs when a [field(欄位|) access(存取|) expression(表達式|)](expression-field-access) is assign(賦值|又：指派、指定、分配)ed a value(值|) in the form of `obj.field = value`. It may also occur in combination with [read access](define-read-access) for special assignment operators such as `+=` in expression(表達式|)s like `obj.field += value`.
+> 當[欄位存取表達式](expression-field-access)以形如 `obj.field = value` 的方式賦值時，會發生對欄位的寫存取。這也可能會與`obj.field += value` 等表達式中的如 `+=` 的特殊賦值運算子的[讀存取](define-read-access)結合使用。
 
-
-Read access and write access are directly reflected in the syntax, as the following example shows:
+讀存取和寫存取會直接反應在語法當中，如以下例子所示：
 
 <!-- [code asset](assets/Property.hx) -->
 ```haxe
@@ -79,39 +78,38 @@ class Main {
 
   static public function main() {}
 }
-
 ```
 
-For the most part, the syntax is similar to variable syntax, and the same rules indeed apply. Properties are identified by
+在大多數情況下其語法類似於變數的語法，並且確實適用相同的規則。屬性識別由：
 
-* the opening parenthesis `(` after the field(欄位|) name,
-* followed by a special **access(存取|) identifier(識別符|)** (here: `default`),
-* with a comma `,` separating
-* another special access(存取|) identifier(識別符|) (here: `null`)
-* before a closing parenthesis `)`.
+- 在欄位名稱之后是左括號 `(`，
+- 后跟一個特殊的**存取識別符**（此處為 `default`），
+- 用逗號 `,` 分隔，
+- 另一個特殊的存取識別符（此處為 `null`），
+- 隨後是右括號 `)`。
 
-The access identifiers define the behavior when the field is read (first identifier) and written (second identifier). The accepted values are:
+存取識別符定義了讀出（第一個識別符）和寫入（第二個標識符）欄位時的行為。接受的值有：
 
-* `default`: Allows normal field access if the field has public visibility, otherwise equal to `null` access(存取|).
-* `null`: Allows access only from within the defining class.
-* `get`/`set`: Access is generated as a call to an **accessor method**. The compiler ensures that the accessor is available.
-* `dynamic`: Like `get`/`set` access(存取|), but does not verify the existence of the access(存取|)or field(欄位|).
-* `never`: Allows no access at all.
+- `default`：若欄位的可見性是共用的，則容許正常的欄位存取，否則等同於 `null` 存取。
+- `null`：只允許從定義的類別中存取。
+- `get` 或 `set`：存取將生成為對**存取器方法**的呼叫。編譯器將確保存取器可用。
+- `dynamic`：與 `get` 或 `set` 存取相似，但是不會驗證存取器欄位的存在。
+- `never`：完全不容許存取。
 
-> ##### Define: Accessor method
+> #### 定義：存取器方法
 >
-> An **accessor method** (or short **accessor**) for a field named `field` of type(型式|n. 又：型別) `T` is a **getter(取得器|TODO:)** named `get_field` of type(型式|n. 又：型別) `Void->T` or a **setter(設定器|又：寫入器 TODO:)** named `set_field` of type(型式|n. 又：型別) `T->T`.
-
-> ##### Trivia: Accessor names
+> 對型式為 `T` 名為 `field` 的欄位，**存取器方法**或**存取器**是型式為 `Void->T` 名為 `get_field` 的**取得器**或型式為 `T->T` 名為 `set_field` 的**設定器**。
+<!---->
+> #### 瑣事：存取器名稱
 >
-> In Haxe 2, arbitrary identifiers were allowed as access identifiers and would lead to custom accessor method names to be admitted. This made parts of the implementation quite tricky to deal with. In particular, `Reflect.getProperty()` and `Reflect.setProperty()` had to assume(假設|) that any name could have been used, requiring the target(目標|) generators to generate(產生|) meta-information and perform lookups.
+> 在 Haxe 2 中，可以使用任意識別符作為存取識別符，這會導致容許自訂存取器方法名稱。同時還也使得部分的實作非常難以處理，特別是 `Reflect.getProperty()` 和 `Reflect.setProperty()` 必須假設可以使用任意名稱，這要求目標產生器產生元資訊並執行查找。
 >
-> We disallow(容許|又：允許)ed these identifier(識別符|)s and went for the `get_` and `set_` naming convention which greatly simplified implementation(實作|). This was one of the breaking change(重大變更|)s between Haxe 2 and 3.
+> 我們不容許使用這些識別符並採取了 `get_` 和`set_` 命名約定，這大大簡化了實作。這是 Haxe 2 和 3 之間的重大變更之一。
 
 <!--label:class-field-property-common-combinations-->
-#### Common access(存取|)or identifier(識別符|) combinations
+### 常見存取器識別符組合
 
-The next example shows common access(存取|) identifier(識別符|) combinations for properties:
+下一個例子展示了屬性常見存取器識別符組合：
 
 <!-- [code asset](assets/Property2.hx) -->
 ```haxe
@@ -149,17 +147,16 @@ class Main {
     new Main();
   }
 }
-
 ```
 
-The JavaScript output helps understand what the field access in the `main`-method is compiled to:
+JavaScript 輸出有助於理解，`main` 方法中的欄位存取會編譯為：
 
 ```js
 var Main = function() {
-	var v = this.get_x();
-	this.set_x(2);
-	var _g = this;
-	_g.set_x(_g.get_x() + 1);
+  var v = this.get_x();
+  this.set_x(2);
+  var _g = this;
+  _g.set_x(_g.get_x() + 1);
 };
 ```
 
@@ -180,19 +177,16 @@ class Main {
     new Main().x += 1;
   }
 }
-
 ```
 
 What happens here is that the expression part of the field access to `x` in the `main` method(方法|) is **complex**: It has potential side-effects, such as the construct(建構/構造|v./n.)ion of `Main` in this case. Thus, the compiler(編譯器|) cannot generate(產生|) the `+=` operation(運算|) as `new Main().x = new Main().x + 1` and has to cache the complex expression(表達式|) in a local variable(局部變數|):
 
 ```js
 Main.main = function() {
-	var _g = new Main();
-	_g.set_x(_g.get_x() + 1);
+  var _g = new Main();
+  _g.set_x(_g.get_x() + 1);
 }
 ```
-
-
 
 <!--label:class-field-property-type-system-impact-->
 #### Impact on the type system
@@ -209,7 +203,6 @@ class Main {
 
   static public function main() {}
 }
-
 ```
 
 The method `get_x` is missing, but it need not be declare(宣告|)d on the class(類別|) defining the property(屬性|) itself as long as a parent class(父類別|) define(定義|)s it:
@@ -226,12 +219,9 @@ class Main extends Base {
 
   static public function main() {}
 }
-
 ```
 
 The `dynamic` access(存取|) modifier(修飾符|) works exactly like `get` or `set`, but does not check for the existence
-
-
 
 <!--label:class-field-property-rules-->
 #### Rules for getter and setter
@@ -251,7 +241,6 @@ class Main {
 
   static public function main() {}
 }
-
 ```
 
 However, the compiler assumes that a physical field exists only if at least one of the access identifiers is `default` or `null`.
@@ -261,10 +250,9 @@ However, the compiler assumes that a physical field exists only if at least one 
 > A field is considered to be **physical** if it is either
 >
 > * a [variable](class-field-variable)
-> * a [property](class-field-property) with the read-access or write-access identifier being `default` or `null`
-> * a [property](class-field-property) with `:isVar` [metadata(元資料|)](lf-metadata)
+> - a [property](class-field-property) with the read-access or write-access identifier being `default` or `null`
 >
->
+> - a [property](class-field-property) with `:isVar` [metadata(元資料|)](lf-metadata)
 
 If this is not the case, access(存取|) to the field(欄位|) from within an access(存取|)or method(方法|) causes a compilation(編譯|名詞) error(錯誤|):
 
@@ -284,7 +272,6 @@ class Main {
 
   static public function main() {}
 }
-
 ```
 
 If a physical field is indeed intended, it can be forced by attributing the field in question with the `:isVar` [metadata(元資料|)](lf-metadata):
@@ -305,7 +292,6 @@ class Main {
 
   static public function main() {}
 }
-
 ```
 
 > ##### Trivia: Property setter type
@@ -313,10 +299,6 @@ class Main {
 > It is not uncommon for new Haxe users to be surprised by the type of a setter being required to be `T->T` instead of the seemingly more natural `T->Void`. After all, why would a **setter** have to return something?
 >
 > The rationale is that we still want to be able to use field assignments using setters as right-side expressions. Given a chain like `x = y = 1`, it is evaluated as `x = (y = 1)`. In order to assign the result of `y = 1` to `x`, the former must have a value. If `y` had a setter(設定器|又：寫入器 TODO:) return(回傳|)ing `Void`, this would not be possible.
-
-
-
-
 
 <!--label:class-field-method-->
 ### Method
@@ -326,15 +308,14 @@ While [variables](class-field-variable) hold data, methods are defining behavior
 <!-- [code asset](assets/HelloWorld.hx) -->
 ```haxe
 /**
-	Multi-line comments for documentation.
+  Multi-line comments for documentation.
 **/
 class Main {
-	static public function main():Void {
-		// Single line comment
-		trace("Hello World");
-	}
+  static public function main():Void {
+    // Single line comment
+    trace("Hello World");
+  }
 }
-
 ```
 
 Methods are identified by the `function` keyword(關鍵字|). We can also learn that they
@@ -358,7 +339,6 @@ class Main {
     return true;
   }
 }
-
 ```
 
 Arguments are given by an opening parenthesis `(` after the field(欄位|) name, a comma `,` separated(分隔|) list(列表|) of argument(引數|) specific(特定|)ations and a closing parenthesis `)`. Additional information on the argument specification is described in [Function Type](types-function).
@@ -392,7 +372,6 @@ class Main {
     trace(child.myMethod()); // Child
   }
 }
-
 ```
 
 The important components here are:
@@ -431,12 +410,9 @@ class Main {
     trace(child.callHome()); // Base
   }
 }
-
 ```
 
 The section on [Inheritance](types-class-inheritance) explains the use of `super()` from within a `new` constructor(建構式|).
-
-
 
 <!--label:class-field-override-effects-->
 #### Effects of variance(變異數|) and access(存取|) modifier(修飾符|)s
@@ -464,7 +440,6 @@ class ChildChild extends Child {
 class Main {
   static public function main() {}
 }
-
 ```
 
 Intuitively, this follows from the fact that arguments are "written to" the function and the return value is "read from" it.
@@ -472,10 +447,6 @@ Intuitively, this follows from the fact that arguments are "written to" the func
 The example also demonstrates how [visibility](class-field-visibility) may be changed: An overriding field may be `public` if the overridden field(欄位|) is `private`, but not the other way around.
 
 It is not possible to override fields which are declared as [`inline`](class-field-inline). This is due to the conflicting concepts: While inlining is done at compile-time by replacing a call with the function body, overriding fields necessarily have to be resolved at runtime.
-
-
-
-
 
 <!--label:class-field-access-modifier-->
 ### Access Modifier
@@ -504,7 +475,6 @@ class Main {
     MyClass.unavailable();
   }
 }
-
 ```
 
 Access to field `available` of class(類別|) `MyClass` is allow(容許|又：允許)ed from within `Main` because it is denote(表示|)d as being `public`. However, while access to field `unavailable` is allow(容許|又：允許)ed from within class(類別|) `MyClass`, it is not allowed from within class `Main` because it is `private` (explicitly(明確|), although this identifier(識別符|) is redundant(冗餘|) here).
@@ -535,7 +505,6 @@ class Child2 extends Base {
 class Main {
   static public function main() {}
 }
-
 ```
 
 We can see that access to `child1.baseField()` is allow(容許|又：允許)ed from within `Child2` even though `child1` is of a different type(型式|n. 又：型別), `Child1`. This is because the field is defined on their common ancestor class `Base`, contrary to field `child1Field` which can not be access(存取|)ed from within `Child2`.
@@ -550,8 +519,6 @@ Omitting the visibility modifier usually defaults the visibility to `private`, b
 > ##### Trivia: Protected
 >
 > Haxe does not support the `protected` keyword(關鍵字|) known from many other object-oriented(物件導向|) programming language(程式語言|)s like Java and C++. However, Haxe's `private` behaves similarly to `protected` in other languages, but does not allow(容許|又：允許) access(存取|) from non-inherit(繼承|)ing class(類別|)es in the same package(套件|).
-
-
 
 <!--label:class-field-inline-->
 #### inline(內聯|)
@@ -573,7 +540,6 @@ class Main {
     var c = mid(a, b);
   }
 }
-
 ```
 
 The generated JavaScript output reveals the effect of inline:
@@ -582,9 +548,9 @@ The generated JavaScript output reveals the effect of inline:
 (function () { "use strict";
 var Main = function() { }
 Main.main = function() {
-	var a = 1;
-	var b = 2;
-	var c = (a + b) / 2;
+  var a = 1;
+  var b = 2;
+  var c = (a + b) / 2;
 }
 Main.main();
 })();
@@ -615,7 +581,6 @@ class Main {
     throw s;
   }
 }
-
 ```
 
 If the call to `error` is inline(內聯|)d the program compiles correctly because the control flow checker(檢查器|) is satisfied due to the inline(內聯|)d [throw](expression-throw) expression(表達式|). If inline(內聯|) is not done, the compiler(編譯器|) only sees a function(函式|) call to `error` and emits the error(錯誤|) `A return is missing here`.
@@ -637,7 +602,6 @@ class Main {
     trace(language);
   }
 }
-
 ```
 
 The generated JavaScript shows that the `language` variable(變數|) is not present anymore:
@@ -646,7 +610,7 @@ The generated JavaScript shows that the `language` variable(變數|) is not pres
 (function ($global) { "use strict";
 var Main = function() { };
 Main.main = function() {
-	console.log("root/program/Main.hx:5:","Haxe");
+  console.log("root/program/Main.hx:5:","Haxe");
 };
 Main.main();
 })({});
@@ -678,14 +642,11 @@ class Main {
     trace(test()); // new
   }
 }
-
 ```
 
 The first call to `test()` invoke(引動|)s the original function(函式|) which return(回傳|)s the `String` `"original"`. In the next line, `test` is **assign(賦值|又：指派、指定、分配)ed** a new function(函式|). This is precisely what `dynamic` allow(容許|又：允許)s: function(函式|) field(欄位|)s can be assign(賦值|又：指派、指定、分配)ed a new function(函式|). As a result, the next invocation(引動|) of `test()` return(回傳|)s the `String` `"new"`.
 
 Dynamic fields cannot be `inline` for obvious reasons: While inlining is done at compile-time(編譯期|又：編譯時), dynamic(動態|) function(函式|)s necessarily have to be resolve(解析|)d at runtime.
-
-
 
 <!--label:class-field-override-->
 #### override(覆寫|)
@@ -693,8 +654,6 @@ Dynamic fields cannot be `inline` for obvious reasons: While inlining is done at
 The access(存取|) modifier(修飾符|) `override` is required when a field(欄位|) is declare(宣告|)d which also exists on a [parent class(父類別|)](types-class-inheritance). Its purpose is to ensure that the author of a class(類別|) is aware of the override(覆寫|) as this may not always be obvious in large class(類別|) hierarchies. Likewise, having `override` on a field(欄位|) which does not actually override(覆寫|) anything (e.g. due to a misspelt field(欄位|) name) triggers an error(錯誤|).
 
 The effects of overriding field(欄位|)s are detailed in [Overriding method(方法|)s](class-field-overriding). This modifier(修飾符|) is only allow(容許|又：允許)ed on [method(方法|)](class-field-method) field(欄位|)s.
-
-
 
 <!--label:class-field-static-->
 #### static(靜態|)
@@ -711,12 +670,9 @@ class Main {
 
   static var staticField:Int;
 }
-
 ```
 
 Static [variable](class-field-variable) and [property](class-field-property) fields can have arbitrary initialization [expressions](expression).
-
-
 
 <!--label:class-field-extern-->
 #### Extern
@@ -728,8 +684,6 @@ The `extern` keyword(關鍵字|) causes the compiler(編譯器|) to not generate
 > ##### Trivia: `:extern` metadata(元資料|)
 >
 > Prior to Haxe 4, this access(存取|) modifier(修飾符|) could only be applied to a field(欄位|) using the `:extern` [metadata(元資料|)](lf-metadata).
-
-
 
 <!--label:class-field-final-->
 #### final(最終|)
