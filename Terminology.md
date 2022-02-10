@@ -6,6 +6,7 @@
 --- | --- | ---
 abstract | 抽象 |
 access | 存取 |
+accessor | 存取器 |
 accessibility | 可存取性 |
 achieve | 達成 |
 addressing | 定址 |
@@ -128,6 +129,7 @@ line | 列 |
 list | 列表 |
 local value | 局部值 |
 local variable | 局部變數 |
+lookup | 查找 |
 macro | 巨集 |
 manual | 手冊/手動 | n./adj.
 map | 映射 |
@@ -175,6 +177,7 @@ protect | 保護 |
 pseudo-type | 偽型式 |
 public | 公用 | 又：公開
 push | 推入 |
+read | 讀出 |
 real object | 真實物件 |
 recursion | 遞迴 |
 redundant | 冗餘 |
@@ -233,3 +236,4 @@ variable | 變數 |
 variant | 變體/變異 | n./adj.
 variance | 變異數 |
 wildcard | 萬用(字元) |
+write | 寫入 |
