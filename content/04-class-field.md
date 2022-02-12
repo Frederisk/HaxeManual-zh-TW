@@ -114,27 +114,25 @@ class Main {
 <!-- [code asset](assets/Property2.hx) -->
 ```haxe
 class Main {
-  // read from outside, write only within Main
+  // 可以在外部讀出，只能在 Main 中寫入
   public var ro(default, null):Int;
 
-  // write from outside, read only within Main
+  // 可以在外部寫入，只能在 Main 中讀出
   public var wo(null, default):Int;
 
-  // access through getter get_x and setter
-  // set_x
+  // 透過取得器 get_x 和設定器 set_x 存取
   public var x(get, set):Int;
 
-  // read access through getter, no write
-  // access
+  // 透過取得器讀存取，不能寫存取
   public var y(get, never):Int;
 
-  // required by field x
+  // 由欄位 x 所需
   function get_x() return 1;
 
-  // required by field x
+  // 由欄位 x 所需
   function set_x(x) return x;
 
-  // required by field y
+  // 由欄位 y 所需
   function get_y() return 1;
 
   function new() {
@@ -160,7 +158,7 @@ var Main = function() {
 };
 ```
 
-As specified, the read access generates a call to `get_x()`, while the write access generates a call to `set_x(2)` where `2` is the value(值|) being assign(賦值|又：指派、指定、分配)ed to `x`. The way the `+=` is being generate(產生|)d might look a little odd at first, but can easily be justified by the following example:
+如同指定的那樣，讀存取產生 ˋget_x()` 的呼叫，而寫存取產生對 `set_x(2)` 的呼叫，其中 `2` 是賦給 `x`的值。`+=` 的生成方式起初看起來有點奇怪，不過可以透過下面的例子輕鬆證明：
 
 <!-- [code asset](assets/Property3.hx) -->
 ```haxe
@@ -179,7 +177,7 @@ class Main {
 }
 ```
 
-What happens here is that the expression part of the field access to `x` in the `main` method(方法|) is **complex**: It has potential side-effects, such as the construct(建構/構造|v./n.)ion of `Main` in this case. Thus, the compiler(編譯器|) cannot generate(產生|) the `+=` operation(運算|) as `new Main().x = new Main().x + 1` and has to cache the complex expression(表達式|) in a local variable(局部變數|):
+在此處發生的情況是，在 `main` 方法中存取 `x` 欄位的表達式部分是**複合的**：其具有潛在的副作用，比如在這種情況下需要建構 `Main`。因此，編譯器無法將 `+=` 運算生成為 `new Main().x = new Main().x + 1`，並且將複合表達式快取在局部變數中：
 
 ```js
 Main.main = function() {
@@ -189,23 +187,23 @@ Main.main = function() {
 ```
 
 <!--label:class-field-property-type-system-impact-->
-#### Impact on the type system
+### 對型式系統的影響
 
-The presence of properties has several consequences on the type system. Most importantly, it is necessary to understand that properties are a compile-time feature and thus **require the types to be known**. If we were to assign a class with properties to `Dynamic`, field access would **not** respect accessor methods. Likewise, access restrictions no longer apply and all access is virtually public.
+屬性的存在對型式系統有許多影響。最重要的是，必須了解到屬性是編譯期特徵，因此**需求的是已知型式**。如果我們將具有屬性的類別賦值為 `Dynamic`，那麼欄位存取將**不再**考量存取器方法。同樣，存取限制也將不再適用，所有的存取實際上都會是公開。
 
-When using `get` or `set` access(存取|) identifier(識別符|), the compiler(編譯器|) ensures that the getter(取得器|TODO:) and setter(設定器|又：寫入器 TODO:) actually exists. The following code snippet does not compile:
+在使用 `get` 或 `set` 存取識別符時，編譯器會確保取得器和設定器確實存在。下列程式碼片段無法編譯：
 
 <!-- [code asset](assets/Property4.hx) -->
 ```haxe
 class Main {
-  // Method get_x required by property x is missing
+  // 方法 get_x 為屬性 x 的取得器方法缺失
   public var x(get, null):Int;
 
   static public function main() {}
 }
 ```
 
-The method `get_x` is missing, but it need not be declare(宣告|)d on the class(類別|) defining the property(屬性|) itself as long as a parent class(父類別|) define(定義|)s it:
+缺少方法 `get_x`，但只要在父類別中定義，就不需要在本身定義了屬性的類別上宣告它。
 
 <!-- [code asset](assets/Property5.hx) -->
 ```haxe
@@ -214,14 +212,14 @@ class Base {
 }
 
 class Main extends Base {
-  // ok, get_x is declared by parent class
+  // 可以，get_x 已經在父類別中宣告
   public var x(get, null):Int;
 
   static public function main() {}
 }
 ```
 
-The `dynamic` access(存取|) modifier(修飾符|) works exactly like `get` or `set`, but does not check for the existence
+`dynamic` 存取修飾符的工作方式與 `get` 或 `set` 完全相同，但不會檢查是否存在。
 
 <!--label:class-field-property-rules-->
 #### Rules for getter and setter
