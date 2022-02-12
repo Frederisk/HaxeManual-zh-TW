@@ -42,6 +42,7 @@ compatible | 相容 |
 compilation | 編譯 | 名詞
 compile-time | 編譯期 | 又：編譯時
 compiler | 編譯器 |
+complex | 複合 |
 component | 組件 |
 compound type | 複合型式 |
 concrete | 具體 |
