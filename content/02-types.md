@@ -676,9 +676,7 @@ var point = { "x" : 1, "y" : -5 };
 <!--label:types-structure-class-notation-->
 ### 結構型式的類別表示法
 
-在定義結構型式時，Haxe 容許使用與類別相同的語法描述。下面的 [typedef](type-system-typedef) 宣告了擁有 `Int` 型式變數欄位 `x` 和 `y` 的結構：
-
-When defining a structure type, Haxe allows the use of the same syntax described in [Class Fields](class-field). The following [typedef](type-system-typedef) declares a `Point` type with variable fields `x` and `y` of type `Int`:
+在定義結構型式時，Haxe 容許使用與[類別欄位](class-field)相同的語法描述。下面的 [typedef](type-system-typedef) 宣告了擁有 `Int` 型式變數欄位 `x` 和 `y` 的結構：
 
 ```haxe
 typedef Point = {
