@@ -158,7 +158,7 @@ var Main = function() {
 };
 ```
 
-如同指定的那樣，讀存取產生 ˋget_x()` 的呼叫，而寫存取產生對 `set_x(2)` 的呼叫，其中 `2` 是賦給 `x`的值。`+=` 的生成方式起初看起來有點奇怪，不過可以透過下面的例子輕鬆證明：
+如同指定的那樣，讀存取產生 `get_x()` 的呼叫，而寫存取產生對 `set_x(2)` 的呼叫，其中 `2` 是賦給 `x`的值。`+=` 的生成方式起初看起來有點奇怪，不過可以透過下面的例子輕鬆證明：
 
 <!-- [code asset](assets/Property3.hx) -->
 ```haxe
@@ -196,7 +196,7 @@ Main.main = function() {
 <!-- [code asset](assets/Property4.hx) -->
 ```haxe
 class Main {
-  // 方法 get_x 為屬性 x 的取得器方法缺失
+  // 屬性 x 的取得器方法 get_x 缺失
   public var x(get, null):Int;
 
   static public function main() {}
@@ -222,11 +222,11 @@ class Main extends Base {
 `dynamic` 存取修飾符的工作方式與 `get` 或 `set` 完全相同，但不會檢查是否存在。
 
 <!--label:class-field-property-rules-->
-#### Rules for getter and setter
+### 取得器與設定器的規則
 
-Visibility of accessor methods has no effect on the accessibility of its property. That is, if a property is `public` and define(定義|)d to have a getter(取得器|TODO:), that getter(取得器|TODO:) may be define(定義|)d as `private` regardless.
+存取器方法的可見性對其屬性的可存取性沒有影響。也就是說，如果屬性是 `public` 的並且定義有取得器，那這個取得器識可定義為 `private` 的。
 
-Both getter(取得器|TODO:) and setter(設定器|又：寫入器 TODO:) may access(存取|) their physical field(欄位|) for data storage. The compiler(編譯器|) ensures that this kind of field(欄位|) access(存取|) does not go through the access(存取|)or method(方法|) when made from within the access(存取|)or method(方法|) itself, thus avoiding infinite recursion(遞迴|):
+取得器和設定器都可透過其實體欄位以資料儲存。編譯器會確保在存取器方法本身內部執行欄位存取時不會透過存取器方法以避免發生無盡遞迴。
 
 <!-- [code asset](assets/GetterSetter.hx) -->
 ```haxe
@@ -241,16 +241,15 @@ class Main {
 }
 ```
 
-However, the compiler assumes that a physical field exists only if at least one of the access identifiers is `default` or `null`.
+不過，編譯器會在至少有一個存取器識別符為 `default` 或 `null` 時才假定其實體欄位存在。
 
-> ##### Define: Physical field
+> #### 定義：實體欄位
 >
-> A field is considered to be **physical** if it is either
+> 滿足下列條件的欄位是**實體的**：
 >
-> * a [variable](class-field-variable)
-> - a [property](class-field-property) with the read-access or write-access identifier being `default` or `null`
->
-> - a [property](class-field-property) with `:isVar` [metadata(元資料|)](lf-metadata)
+> - [變數](class-field-variable)，
+> - 讀存取或寫存取識別符為 `default` 或 `null` 的[屬性](class-field-property)，
+> - 有 `:isVar` [元資料](lf-metadata)的[屬性](class-field-property)。
 
 If this is not the case, access(存取|) to the field(欄位|) from within an access(存取|)or method(方法|) causes a compilation(編譯|名詞) error(錯誤|):
 
