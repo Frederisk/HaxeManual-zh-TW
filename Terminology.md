@@ -168,6 +168,7 @@ parametrization | 參數化 |
 parent class | 父類別 |
 pattern matching | 模式匹配 |
 performance | 效能 |
+physical field | 實體欄位 |
 pop | 爆出 |
 priority | 優先權 |
 private | 私用 |
@@ -198,6 +199,7 @@ specific | 特定 |
 standard library | 標準函式庫 |
 static | 靜態 |
 static target | 靜態目標 |
+storage | 儲存 |
 string | 字串 |
 string interpolation | 字串插值 |
 string literal | 字串文字 |
