@@ -251,12 +251,12 @@ class Main {
 > - 讀存取或寫存取識別符為 `default` 或 `null` 的[屬性](class-field-property)，
 > - 有 `:isVar` [元資料](lf-metadata)的[屬性](class-field-property)。
 
-If this is not the case, access(存取|) to the field(欄位|) from within an access(存取|)or method(方法|) causes a compilation(編譯|名詞) error(錯誤|):
+若不在上列而在存取器方法之內存取欄位將導致編譯錯誤：
 
 <!-- [code asset](assets/GetterSetter2.hx) -->
 ```haxe
 class Main {
-  // This field cannot be accessed because it is not a real variable
+  // 該欄位由於不是實體欄位，所以無法存取
   public var x(get, set):Int;
 
   function get_x() {
@@ -271,12 +271,12 @@ class Main {
 }
 ```
 
-If a physical field is indeed intended, it can be forced by attributing the field in question with the `:isVar` [metadata(元資料|)](lf-metadata):
+若確實需用實體欄位，則可以強制透過 `:isVar` [元資料](lf-metadata)標定所需的欄位：
 
 <!-- [code asset](assets/GetterSetter3.hx) -->
 ```haxe
 class Main {
-  // @isVar forces the field to be physical allowing the program to compile.
+  // @:isVar 強制使欄位為實體的以容許程式編譯。
   @:isVar public var x(get, set):Int;
 
   function get_x() {
@@ -291,39 +291,39 @@ class Main {
 }
 ```
 
-> ##### Trivia: Property setter type
+> #### 瑣事：屬性設定器的型式
 >
-> It is not uncommon for new Haxe users to be surprised by the type of a setter being required to be `T->T` instead of the seemingly more natural `T->Void`. After all, why would a **setter** have to return something?
+> 對新的 Haxe 使用者來說很常見的困惑是設定器的型式要求是 `T->T` 而不是看似更自然的 `T->Void`。畢竟**設定器**為何需要返回一些東西？
 >
-> The rationale is that we still want to be able to use field assignments using setters as right-side expressions. Given a chain like `x = y = 1`, it is evaluated as `x = (y = 1)`. In order to assign the result of `y = 1` to `x`, the former must have a value. If `y` had a setter(設定器|又：寫入器 TODO:) return(回傳|)ing `Void`, this would not be possible.
+> 其原因是我們仍會希望使用設定器作為右表達式來賦值。比如表達式鏈 `x = y = 1`將會解析為 `x = (y = 1)`。為了將 `y = 1` 的結果賦值給 `x`，前者必須要有一個值。若 `y` 的設定器回傳是 `Void` 就無法實現。
 
 <!--label:class-field-method-->
-### Method
+## 方法
 
-While [variables](class-field-variable) hold data, methods are defining behavior of a program by hosting [expressions](expression). We have seen method fields in every code example of this document with even the initial [Hello World](introduction-hello-world) example containing a `main` method(方法|):
+[變數](class-field-variable)儲存資料，方法則透過存放表達式定義程式的行為。我們在本文件的每個程式碼樣例中都見到了方法欄位，甚至在最初的 [Hello World](introduction-hello-world)中都包含有 `main` ：
 
 <!-- [code asset](assets/HelloWorld.hx) -->
 ```haxe
 /**
-  Multi-line comments for documentation.
+    多行文檔註釋。
 **/
 class Main {
   static public function main():Void {
-    // Single line comment
+    // 單行註釋
     trace("Hello World");
   }
 }
 ```
 
-Methods are identified by the `function` keyword(關鍵字|). We can also learn that they
+方法由 `function` 關鍵字識別。我們可以了解到它們：
 
-1. have a name (here: `main`),
-2. have an argument list (here: empty `()`),
-3. have a return type (here: `Void`),
-4. may have [access modifiers](class-field-access-modifier) (here: `static` and `public`) and
-5. may have an expression (here: `{trace("Hello World");}`).
+1. 有一個名稱（此處：`main`），
+1. 有一個引數清單（此處：空 `()`），
+1. 有一個回傳型式（此處：`Void`），
+1. 可以有若干[存取修飾符](class-field-access-modifier)（此處：`static`、`public`），
+1. 可以有一個表達式（此處：`{trace("Hello World");}`）。
 
-We can also look at the next example to learn more about arguments and return types:
+我們可以看看下一個例子以了解到關於引數和回傳型式的更多資訊：
 
 <!-- [code asset](assets/MethodField.hx) -->
 ```haxe
@@ -338,14 +338,14 @@ class Main {
 }
 ```
 
-Arguments are given by an opening parenthesis `(` after the field(欄位|) name, a comma `,` separated(分隔|) list(列表|) of argument(引數|) specific(特定|)ations and a closing parenthesis `)`. Additional information on the argument specification is described in [Function Type](types-function).
+引數由欄位名之後的左括號 `(` 開始，然後就是以逗號分隔的引數規格列表，最後再以右括號 `)` 結束。引數規格中的其餘資訊由[函式型式](types-function)描述。
 
-The example demonstrates how [type inference](type-system-type-inference) can be used for both argument and return types. The method `myFunc` has two argument(引數|)s but only explicitly(明確|) gives the type(型式|n. 又：型別) of the first one, `f`, as `String`. The second one, `i`, is not type-hinted and it is left to the compiler to infer its type from calls made to it. Likewise, the return type of the method is inferred from the `return true` expression(表達式|) as `Bool`.
+該例子演示了如何將型式推理應用於引數和回傳型式。方法 `myFunc` 有兩個引數，但只有第一個引數 `f` 明確給定了型式為 `String`，而第二個引數 `i` 則沒有型式提示，這會留給編譯器在對其的呼叫中推斷其型式。同樣，方法的回傳型式可以由 `return true` 表達式推斷為 `Bool`。
 
 <!--label:class-field-overriding-->
-#### Overriding Methods
+### 覆寫方法
 
-Overriding fields is instrumental for creating class hierarchies. Many design patterns utilize it, but here we will explore only the basic functionality. In order to use overrides in a class, it is required that this class has a [parent class](types-class-inheritance). Let us consider the following example:
+覆寫欄位有助於建立類別的層次結構，有許多設計型樣都有用到這點，但在此處我們將只探討其基本功能。為了在類別中使用覆寫，這個類需要有一個[父類別](types-class-inheritance)。我們考慮以下例子：
 
 <!-- [code asset](assets/Override.hx) -->
 ```haxe
@@ -371,15 +371,15 @@ class Main {
 }
 ```
 
-The important components here are:
+此處的重要組成部分是：
 
-* the class `Base` which has a method(方法|) `myMethod` and a constructor(建構式|),
-* the class(類別|) `Child` which `extends Base` and also has a method(方法|) `myMethod` being declare(宣告|)d with `override`, and
-* the `Main` class(類別|) whose `main` method(方法|) create(建立|)s an instance(實例|) of `Child`, assigns it to a variable `child` of explicit type(型式|n. 又：型別) `Base` and calls `myMethod()` on it.
+- 類別 `Base`，有一個方法 `myMethod` 和建構式。
+- 類別 `Child`，`extends Base` 並且也有一個方法 `myMethod` 以 `override` 宣告。
+- `Main` 類別的 `main` 方法建立了 `Child` 的實例，並將其賦值至了型式為 `Base` 的變數 `child`，然後在其上呼叫了 `myMethod` 方法。
 
-The variable(變數|) `child` is explicitly(明確|) type(型式|n. 又：型別)d as `Base` to highlight an import(匯入|)ant difference: At compile-time(編譯期|又：編譯時) the type(型式|n. 又：型別) is known to be `Base`, but the runtime still finds the correct method `myMethod` on class(類別|) `Child`. This is because field access is resolved dynamically at runtime.
+變數 `child` 在此明確形式化為了 `Base`，這是為了突出一個重要區別：雖然編譯期可知其型式為 `Base`，但在執行期欄位呼叫仍會找到在類別 `Child` 中的正確方法 `myMethod`。這是由於欄位的存取是在執行期動態解析的。
 
-The `Child` class(類別|) can access(存取|) method(方法|)s it has overridden by calling `super.methodName()`:
+`Child` 類別可以透過呼叫 `super.methodName()` 存取覆寫前的方法。
 
 <!-- [code asset](assets/OverrideCallParent.hx) -->
 ```haxe
@@ -409,12 +409,12 @@ class Main {
 }
 ```
 
-The section on [Inheritance](types-class-inheritance) explains the use of `super()` from within a `new` constructor(建構式|).
+在[繼承](types-class-inheritance)中，對 `new` 建構式中 `super()` 的使用有所解釋。
 
 <!--label:class-field-override-effects-->
-#### Effects of variance(變異數|) and access(存取|) modifier(修飾符|)s
+### 變異數和存取修飾符的影響
 
-Overriding adheres to the rules of [variance(變異數|)](type-system-variance). That is, their argument(引數|) type(型式|n. 又：型別)s allow(容許|又：允許) **contravariance(反變數|)** (less specific(特定|) type(型式|n. 又：型別)s) while their return(回傳|) type(型式|n. 又：型別) allow(容許|又：允許)s **covariance(共變數|)** (more specific(特定|) type(型式|n. 又：型別)s):
+覆寫遵循[變異數](type-system-variance)規則。也就是其引數的型式容許**反變數**（更不特定的型式），而回傳型式則容許**共變數**（更特定的型式）：
 
 <!-- [code asset](assets/OverrideVariance.hx) -->
 ```haxe
@@ -439,21 +439,21 @@ class Main {
 }
 ```
 
-Intuitively, this follows from the fact that arguments are "written to" the function and the return value is "read from" it.
+直觀來說，這是由於引數是要「寫入」函式而回傳值是由它「讀出」的事實決定的。
 
-The example also demonstrates how [visibility](class-field-visibility) may be changed: An overriding field may be `public` if the overridden field(欄位|) is `private`, but not the other way around.
+該例子還演示了如何修改[可見性](class-field-visibility)：如果受覆寫欄位是 `private` 的，那覆寫的欄位可以是 `public` 的，但反之則不然。
 
-It is not possible to override fields which are declared as [`inline`](class-field-inline). This is due to the conflicting concepts: While inlining is done at compile-time by replacing a call with the function body, overriding fields necessarily have to be resolved at runtime.
+宣告為 [`inline`](class-field-inline)的欄位不可覆寫。這是由於概念上的衝突：內聯是在編譯期透過替換呼叫完成的，而欄位覆寫需要在執行期解析。
 
 <!--label:class-field-access-modifier-->
-### Access Modifier
+## 存取修飾符
 
 <!--subtoc-->
 
 <!--label:class-field-visibility-->
-#### Visibility
+### 可見性
 
-Fields are by default **private**, meaning that only the class and its sub-classes may access them. They can be made **public** by using the `public` access(存取|) modifier(修飾符|), allow(容許|又：允許)ing access(存取|) from anywhere.
+欄位默認下是**私用的**，也就是說只有類別及其子類別可以存取它們。不過可以透過使用 `public` 存取修飾符使之成為**公用的**，這將容許其可於任何位置存取。
 
 <!-- [code asset](assets/Visibility.hx) -->
 ```haxe
@@ -468,7 +468,7 @@ class MyClass {
 class Main {
   static public function main() {
     MyClass.available();
-    // Cannot access private field unavailable
+    // 無法存取私有欄位 unavailable
     MyClass.unavailable();
   }
 }
@@ -689,8 +689,8 @@ The `extern` keyword(關鍵字|) causes the compiler(編譯器|) to not generate
 
 The `final` keyword(關鍵字|) can be used on class(類別|) field(欄位|)s with the following effects:
 
-* `final function ...` to make a function(函式|) non-overridable in subclass(類別|)es.
-* `final x = ...` to declare(宣告|) a constant(常數|) that must be initialize(初始化|)d immediately or in the constructor(建構式|) and cannot be written to.
-* `inline final x = ...` is the same but [inline(內聯|)s](class-field-inline) the value(值|) wherever it is used. Only constant value(定值|)s can be assign(賦值|又：指派、指定、分配)ed.
+- `final function ...` to make a function(函式|) non-overridable in subclass(類別|)es.
+- `final x = ...` to declare(宣告|) a constant(常數|) that must be initialize(初始化|)d immediately or in the constructor(建構式|) and cannot be written to.
+- `inline final x = ...` is the same but [inline(內聯|)s](class-field-inline) the value(值|) wherever it is used. Only constant value(定值|)s can be assign(賦值|又：指派、指定、分配)ed.
 
 `static final` field(欄位|)s must be initialize(初始化|)d immediately by providing an expression(表達式|). If a class(類別|) has non-static(靜態|) `final` variable(變數|)s which are not initialize(初始化|)d immediately, it requires a constructor(建構式|) which has to assign(賦值|又：指派、指定、分配) value(值|)s to all such field(欄位|)s. `final` does not affect [visibility](class-field-visibility) and it is not supported on [properties](class-field-property).
