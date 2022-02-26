@@ -19,7 +19,7 @@ apply | 套用 |
 argument | 引數 |
 array | 陣列 |
 arrow function | 箭頭函式 |
-assign | 賦值 | 又：指派、指定、分配
+assign | 賦值 | TODO:又：指派、指定、分配
 assume | 假設 |
 basic type | 基底型式 | TODO: basic 基本/base 基底？
 behavior | 行為 |
@@ -60,6 +60,7 @@ covariant | 共變 | adj. TODO:
 create | 建立 |
 curly braces | 大括號 |
 custom | 客製 |
+data | 資料 |
 data structure | 資料結構 |
 dead code elimination | 死碼刪除 |
 declaration | 宣告 |
@@ -70,8 +71,10 @@ definition | 定義 |
 denote | 表示 |
 derivation | 衍生 | NO
 derived class | 衍生類別 | NO
+design pattern | 設計型樣 |
 describe | 描述 |
 directional | 定向 |
+document | 文件 |
 dynamic | 動態 |
 dynamic target | 動態目標 |
 enclosed | 括住 |
@@ -102,6 +105,7 @@ generic function | 泛型函式 |
 getter | 取得器 | TODO:
 halt | 停止 |
 high-level | 高階 |
+hold | 儲存 | TODO:又：存儲
 identifier | 識別符 |
 implement | 實作 |
 implementation | 實作 |
@@ -196,6 +200,7 @@ setter | 設定器 | 又：寫入器 TODO:
 signature | 簽章 |
 sourcecode | 原始碼 |
 specific | 特定 |
+specification | 規格 | 另：規範
 standard library | 標準函式庫 |
 static | 靜態 |
 static target | 靜態目標 |
