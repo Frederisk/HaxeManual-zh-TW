@@ -92,6 +92,7 @@ expose | 公開 |
 expression | 表達式 |
 extract | 擷取 | 又：抽取
 extend | 擴充 | 又：延伸
+extern | 外部 |
 extension | 延伸 |
 false | 假 |
 feature | 特徵 |
@@ -243,5 +244,6 @@ value | 值 |
 variable | 變數 |
 variant | 變體/變異 | n./adj.
 variance | 變異數 |
+visibility | 可見性 |
 wildcard | 萬用(字元) |
 write | 寫入 |
