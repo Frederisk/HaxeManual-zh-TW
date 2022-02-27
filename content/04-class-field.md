@@ -474,9 +474,9 @@ class Main {
 }
 ```
 
-Access to field `available` of class(類別|) `MyClass` is allow(容許|又：允許)ed from within `Main` because it is denote(表示|)d as being `public`. However, while access to field `unavailable` is allow(容許|又：允許)ed from within class(類別|) `MyClass`, it is not allowed from within class `Main` because it is `private` (explicitly(明確|), although this identifier(識別符|) is redundant(冗餘|) here).
+因為 `available` 是以 `public` 表示的，所以其在 `Main` 中是可以存取的。不過，由於 `unavailable` 是 `private` 的（是明確寫出的，不過在此處是冗餘的）所以欄位 `unavailable` 可以在類別 `MyClass` 中存取但在類別 `Main` 中不行。
 
-The example demonstrates visibility through **static(靜態|)** field(欄位|)s, but the rules for member(成員|) field(欄位|)s are equivalent. The following example demonstrates visibility behavior(行為|) for when [inheritance(繼承|)](types-class-inheritance) is involved.
+該例子以**靜態**欄位演示了可見性，不過對於成員欄位來說規則也是一樣的。以下例子演示了涉及[繼承](types-class-inheritance)時的可見性行為。
 
 <!-- [code asset](assets/Visibility2.hx) -->
 ```haxe
@@ -494,7 +494,7 @@ class Child2 extends Base {
   public function child2Field() {
     var child1 = new Child1();
     child1.baseField();
-    // Cannot access private field child1Field
+    // 無法存取私有欄位 child1Field
     child1.child1Field();
   }
 }
@@ -504,25 +504,25 @@ class Main {
 }
 ```
 
-We can see that access to `child1.baseField()` is allow(容許|又：允許)ed from within `Child2` even though `child1` is of a different type(型式|n. 又：型別), `Child1`. This is because the field is defined on their common ancestor class `Base`, contrary to field `child1Field` which can not be access(存取|)ed from within `Child2`.
+我們可以看到透過 `Child2` 存取 `child1.baseField()` 是容許的，即便 `child1` 是另一種不同的型式。這是由於該欄位是由它們的共同父類別 `Base` 上定義的，與無法在 `Child2` 中存取的欄位 `childField` 不同。
 
-Omitting the visibility modifier usually defaults the visibility to `private`, but there are exceptions where it becomes `public` instead:
+省略可見性修飾符通常會使得可見性莫認為 `private`，但也有例外，下列將會變為 `public`：
 
-1. If the class(類別|) is declare(宣告|)d as `extern`.
-2. If the field is declared on an [interface](types-interfaces).
-3. If the field [overrides](class-field-overriding) a public field.
-4. If the class has metadata `@:publicFields`, which forces all class fields of inheriting classes to be public.
+1. 類別宣告為 `extern`。
+1. 欄位宣告在[介面](types-interfaces)上。
+1. 欄位[覆寫](class-field-overriding)了共用欄位。
+1. 類別具有元資料 `@:publicFields`，這將強制繼承的所有類別的欄位是共用的。
 
-> ##### Trivia: Protected
+> #### 瑣事：保護
 >
-> Haxe does not support the `protected` keyword(關鍵字|) known from many other object-oriented(物件導向|) programming language(程式語言|)s like Java and C++. However, Haxe's `private` behaves similarly to `protected` in other languages, but does not allow(容許|又：允許) access(存取|) from non-inherit(繼承|)ing class(類別|)es in the same package(套件|).
+> Haxe 並不支援在其他許多物件導向程式語言，比如 Java 和 C++ 中的 `protected` 關鍵字。不過，Haxe 的 `private` 行為和其他語言中的 `protected` 很類似，但是不容許在相同套件的從非繼承類存取。
 
 <!--label:class-field-inline-->
-#### inline(內聯|)
+### 內聯
 
-##### inline(內聯|) function(函式|)s
+#### 內聯函式
 
-The `inline` keyword(關鍵字|) allow(容許|又：允許)s function(函式|) bodies to be directly inserted in place of calls to them. This can be a powerful optimization tool but should be used judiciously as not all function(函式|)s are good candidates for inline(內聯|) behavior(行為|). The following example demonstrates the basic usage:
+`inline` 關鍵字容許以函式本體直接插入替代對其的呼叫。這可以是非常強大的優化工具，但應謹慎使用，因為並非所有的函式都適合內聯行為。以下例子展示了其基本用法：
 
 <!-- [code asset](assets/Inline.hx) -->
 ```haxe
@@ -539,7 +539,7 @@ class Main {
 }
 ```
 
-The generated JavaScript output reveals the effect of inline:
+產生的 JavaScript 輸出揭示了內聯的效果：
 
 ```js
 (function () { "use strict";
@@ -553,13 +553,13 @@ Main.main();
 })();
 ```
 
-As evident, the function body `(s1 + s2) / 2` of field(欄位|) `mid` was generate(產生|)d in place of the call to `mid(a, b)`, with `s1` being replaced by `a` and `s2` being replaced by `b`. This avoids a function call which, depending on the target and frequency of occurrences, may yield noticeable performance improvements.
+顯然，對 `mid(a, b)` 的呼叫會以欄位 `mid` 的函式本體替代，其中 `s1` 與 `s2` 分別替換為 `a` 與 `b`。這樣可以迴避函式呼叫，根據目標和發生頻次，這樣可能會產生顯著的效能提升。
 
-It is not always easy to judge if a function qualifies for being inline. Short functions that have no writing expressions (such as a `=` assign(賦值|又：指派、指定、分配)ment) are usually a good choice, but even more complex function(函式|)s can be candidates. However, in some cases, inlining can actually be detrimental to performance(效能|), e.g. because the compiler(編譯器|) has to create(建立|) temporary variable(變數|)s for complex expression(表達式|)s.
+判斷一個函式是否符合內聯的條件並不總是那麼容易。不過對沒有書寫表達式的短函式（例如： `=` 指派式）通常是個不錯的選擇，不過更複雜的函式也可以是候選函式。不過在某些情形下，內聯又可能會損害效能，例如編譯器會必須為複雜的表達式建立臨時變數。
 
-inline(內聯|) is not guaranteed to be done. The compiler(編譯器|) might cancel inlining for various reasons or a user(使用者|) could supply the `--no-inline` command line(列|) argument(引數|) to disable inlining. The only exception is if the class(類別|) is [extern](lf-externs) or if the class(類別|) field(欄位|) has the [`extern`](class-field-extern) access modifier, in which case inline is forced. If it cannot be done, the compiler emits an error.
+內聯不能確保會完成，編譯器可能會出於各種原因取消內聯，或者用戶可以以 `--no-inline` 命令列引數來停用內聯。唯一的例外是如若類別是[外部的](lf-externs)或者是類別欄位有[`extern`](class-field-extern)存取修飾符，在這種情況下會強制內聯。如果無法完成則編譯器會出錯。
 
-It is important to remember this when relying on inline:
+在依賴內聯時記住這點很重要：
 
 <!-- [code asset](assets/InlineRelying.hx) -->
 ```haxe
