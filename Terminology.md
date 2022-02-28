@@ -19,7 +19,7 @@ apply | 套用 |
 argument | 引數 |
 array | 陣列 |
 arrow function | 箭頭函式 |
-assign | 賦值 | TODO:又：指派、指定、分配
+assign | 指派 | 又：賦值、指定、分配
 assume | 假設 |
 basic type | 基底型式 | TODO: basic 基本/base 基底？
 behavior | 行為 |
@@ -77,6 +77,7 @@ directional | 定向 |
 document | 文件 |
 dynamic | 動態 |
 dynamic target | 動態目標 |
+emit | 發出 |
 enclosed | 括住 |
 enum | 枚舉 |
 enum case | 枚舉成員 | 又：枚舉案例 TODO:
@@ -219,6 +220,7 @@ syntax | 語法 |
 target | 目標 |
 target language | 目標語言 |
 textual | 文本 |
+throw | 擲回 |
 top-down | 自上而下 |
 transitive | 遞移 |
 true | 真 |
