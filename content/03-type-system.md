@@ -297,7 +297,7 @@ class Main {
 }
 ```
 
-即便 `Child` 可以賦值給 `Base`，但顯然 `Array<Child>` 不能賦值給 `Array<Base>`。會這樣的原因可能有些出人意料：由於陣列可以寫入所以不容許賦值，比如說有 `push()` 方法。忽略變異數很容易會導致問題：
+即便 `Child` 可以指派給 `Base`，但顯然 `Array<Child>` 不能指派給 `Array<Base>`。會這樣的原因可能有些出人意料：由於陣列可以寫入所以不容許指派，比如說有 `push()` 方法。忽略變異數很容易會導致問題：
 
 <!-- [code asset](assets/Variance2.hx) -->
 ```haxe
@@ -321,9 +321,9 @@ class Main {
 }
 ```
 
-在此處，我們使用[轉換](expression-cast)來顛覆型式檢查器，從而使得能夠容許註釋行之後的賦值。如此一來，我們有了型式為 `Array<Base>` 的原始陣列引用 `bases`。這將容許我們將另一種與 `Base` 相容的型式推入至陣列中（在此實例中為 `OtherChild`）。然而在我們最初的引用中 `children` 依然是 `Array<Child>` 型式，所以當我們在迭代時遇到其元素中的一個 `OtherChild` 時，事情就會變得非常糟糕。
+在此處，我們使用[轉換](expression-cast)來顛覆型式檢查器，從而使得能夠容許註釋行之後的指派。如此一來，我們有了型式為 `Array<Base>` 的原始陣列引用 `bases`。這將容許我們將另一種與 `Base` 相容的型式推入至陣列中（在此實例中為 `OtherChild`）。然而在我們最初的引用中 `children` 依然是 `Array<Child>` 型式，所以當我們在迭代時遇到其元素中的一個 `OtherChild` 時，事情就會變得非常糟糕。
 
-若 `Array` 沒有 `push()` 方法以及其他的修改方法，則該賦值將會因為不能向其中添加不相容的型式而是安全的。
+若 `Array` 沒有 `push()` 方法以及其他的修改方法，則該指派將會因為不能向其中添加不相容的型式而是安全的。
 
 <!-- [code asset](assets/Variance3.hx) -->
 ```haxe
@@ -345,15 +345,15 @@ class Main {
 }
 ```
 
-我們可以安全地賦值給型式為 `MyArray<Base>` 且 `MyArray` 只有 `pop()` 方法的 `b`。在 `MyArray` 中並沒有定義可以添加不相容型式的方法。這種稱之為**共變**。
+我們可以安全地指派給型式為 `MyArray<Base>` 且 `MyArray` 只有 `pop()` 方法的 `b`。在 `MyArray` 中並沒有定義可以添加不相容型式的方法。這種稱之為**共變**。
 
 > #### 定義：共變數
 >
-> 如果[複合型式](define-compound-type)的組件型式可賦值至更不具體的組件，也就是說它們是唯讀但從不寫入，則認其為共變。
+> 如果[複合型式](define-compound-type)的組件型式可指派至更不具體的組件，也就是說它們是唯讀但從不寫入，則認其為共變。
 <!---->
 > #### 定義：反變數
 >
-> 如果[複合型式](define-compound-type)的組件型式可賦值至更不通用的組件，也就是說它們是唯寫但從不讀取，則認其為反變。
+> 如果[複合型式](define-compound-type)的組件型式可指派至更不通用的組件，也就是說它們是唯寫但從不讀取，則認其為反變。
 
 <!--label:type-system-unification-->
 ## 統一
@@ -362,7 +362,7 @@ class Main {
 
 > #### 定義：統一
 >
-> 兩種型式 A 與 B 之間的統一是定向的過程，其回答了 A 是否**可以賦值給** B 的問題。若其是或有[單型](types-monomorph)則可**變異**為任一型式。
+> 兩種型式 A 與 B 之間的統一是定向的過程，其回答了 A 是否**可以指派給** B 的問題。若其是或有[單型](types-monomorph)則可**變異**為任一型式。
 
 統一錯誤很容易就能觸發：
 
@@ -375,11 +375,11 @@ class Main {
 }
 ```
 
-我們嘗試將 `Int` 型式的值賦值給 `String` 變數，這會導致變異氣嘗試去**以 String 統一 Int**。當然，這是不允許的，並會使編譯器發出「Int 應當是 String」（`Int should be String`）的錯誤。
+我們嘗試將 `Int` 型式的值指派給 `String` 變數，這會導致變異氣嘗試去**以 String 統一 Int**。當然，這是不允許的，並會使編譯器發出「Int 應當是 String」（`Int should be String`）的錯誤。
 
-在這種特殊情形下，統一是由**賦值**所觸發的，由「可賦值」所定義的上下文很直觀。這是會執行統一的幾種情形之一：
+在這種特殊情形下，統一是由**指派**所觸發的，由「可指派」所定義的上下文很直觀。這是會執行統一的幾種情形之一：
 
-- 賦值：如果將 `a` 賦值給 `b`，則 `a` 的型式以 `b` 的型式相統一。
+- 指派：如果將 `a` 指派給 `b`，則 `a` 的型式以 `b` 的型式相統一。
 - 函式呼叫：我們在介紹[函式](types-function)的型式時已經簡要看過這樣的例子。通常，編譯器會嘗試將第一個給定引數的型式以第一個預期引數的型式統一，將第二個給定引數的型式以第二個預期引數的型式統一，以此類推，直到處理完所有引數的型式。
 - 函式回傳：只要函式有 `return e` 的表達式，`e` 的型式就會以函式的返回型式相統一。如果函式沒有明確的返回型式，則推斷其為 `e` 的型式，並隨後的 `return` 表達式會針對它進行推斷。 TODO:  If the function(函式|) has no explicit return(回傳|) type(型式|), it is inferred to the type(型式|) of `e` and subsequent `return(回傳|)` expression(表達式|)s are inferred against it.
 - 陣列宣告：編譯器會嘗試在陣列宣告中的所有給定型式之間找到最小型式。參閱[共同基底型式](type-system-unification-common-base-type)以獲取詳情。
@@ -389,15 +389,15 @@ class Main {
 <!--label:type-system-unification-between-classes-and-interfaces-->
 ### 類別、介面之間
 
-在定義類別之間的統一行為時，很重要的一點是要記得統一是定向的。我們可以將更為具體的類別賦值給更寬犯的類別，但反之不是有效的。
+在定義類別之間的統一行為時，很重要的一點是要記得統一是定向的。我們可以將更為具體的類別指派給更寬犯的類別，但反之不是有效的。
 
-下列的賦值是容許的：
+下列的指派是容許的：
 
 - 子類別到父類別。
 - 類別到實作的介面。
 - 介面到基底介面。
 
-這些規則是遞移的，這意味著子類別也可以賦值給其基底類別的基底類別、其基底類別的實作的介面、實作的介面的基底介面等。
+這些規則是遞移的，這意味著子類別也可以指派給其基底類別的基底類別、其基底類別的實作的介面、實作的介面的基底介面等。
 
 <!--label:type-system-structural-subtyping-->
 ### 結構子型態
@@ -435,7 +435,7 @@ unification(統一|TODO) of type(型式|)s having or being a [monomorph(變型|)
 <!--label:type-system-unification-function-return-->
 ### 函式回傳
 
-函式回傳型式的回傳可能涉及 [`Void`](types-void)型式，並且需要明確定義與 `Void` 統一的內容。`Void` 用作描述型式的缺失，其不可賦值給任何其他型式，甚至 `Dynamic` 也不行。這也意味著函式若明確宣告為回傳 `Dynamic`，則其不可返回 `Void`。
+函式回傳型式的回傳可能涉及 [`Void`](types-void)型式，並且需要明確定義與 `Void` 統一的內容。`Void` 用作描述型式的缺失，其不可指派給任何其他型式，甚至 `Dynamic` 也不行。這也意味著函式若明確宣告為回傳 `Dynamic`，則其不可返回 `Void`。
 
 反之亦然：函式若明確宣告為回傳 `Void`，則其不可返回 `Dynamic` 或是其他型式。但是在為函式型式時則容許這種統一方向：
 
@@ -443,7 +443,7 @@ unification(統一|TODO) of type(型式|)s having or being a [monomorph(變型|)
 var func:Void->Void = function() return "foo";
 ```
 
-右側的函式的型式顯然是 `Void->String`，然而我們可將其賦值給 `Void->Void` 型式的變數 `func`。這是由於編譯器可以安全地假定返回型別是無關緊要的，因為其不可賦值給任何非 `Void` 的型式。
+右側的函式的型式顯然是 `Void->String`，然而我們可將其指派給 `Void->Void` 型式的變數 `func`。這是由於編譯器可以安全地假定返回型別是無關緊要的，因為其不可指派給任何非 `Void` 的型式。
 
 <!--label:type-system-unification-common-base-type-->
 ### 共同基底型式
@@ -498,7 +498,7 @@ class Main {
 >
 > `$type` 是一種編譯期機制，其呼叫方式類似具有單個引數的函式。編譯器會評估引數表達式，然後輸出該表達式的型式。
 
-在上面的例子中，第一個 `$type` 列印出 `Unknown<0>`，這是[單形](types-monomorph)，也就是還不知曉的型式。下一列的 `x = "foo` 將字串文字賦值給 `x`，這使單型與 `String` 相[統一](type-system-unification)。然後我們可以看到 `x` 的型式已變成 `String`。
+在上面的例子中，第一個 `$type` 列印出 `Unknown<0>`，這是[單形](types-monomorph)，也就是還不知曉的型式。下一列的 `x = "foo` 將字串文字指派給 `x`，這使單型與 `String` 相[統一](type-system-unification)。然後我們可以看到 `x` 的型式已變成 `String`。
 
 每當[動態](types-dynamic)以外的型式與單型統一時，該單型就會**變型**為該型式，或者更簡單地說，**變成**該型式。因此，它以後不能在變型為不同的型式，這個屬性也就是其名稱中「**單**」所表明的。
 
@@ -559,7 +559,7 @@ class Main {
 }
 ```
 
-在此處以明確型式 `String` 和 `haxe.Template` 明確型式來確定了 `make` 的回傳型式。這種做法有效，因為該方法以 `make()` 引動，所以我們知道回傳型式將賦值給變數。利用這資訊，就可以將未知型式 `T` 分別繫結至 `String` 和 `haxe.Template` 了。
+在此處以明確型式 `String` 和 `haxe.Template` 明確型式來確定了 `make` 的回傳型式。這種做法有效，因為該方法以 `make()` 引動，所以我們知道回傳型式將指派給變數。利用這資訊，就可以將未知型式 `T` 分別繫結至 `String` 和 `haxe.Template` 了。
 
 <!--label:type-system-inference-limitations-->
 ### 限制
