@@ -67,7 +67,7 @@ _圖：變數欄位的初始化值。_
 <!---->
 > #### 定義：寫存取
 >
-> 當[欄位存取表達式](expression-field-access)以形如 `obj.field = value` 的方式賦值時，會發生對欄位的寫存取。這也可能會與`obj.field += value` 等表達式中的如 `+=` 的特殊賦值運算子的[讀存取](define-read-access)結合使用。
+> 當[欄位存取表達式](expression-field-access)以形如 `obj.field = value` 的方式指派時，會發生對欄位的寫存取。這也可能會與`obj.field += value` 等表達式中的如 `+=` 的特殊指派運算子的[讀存取](define-read-access)結合使用。
 
 讀存取和寫存取會直接反應在語法當中，如以下例子所示：
 
@@ -189,7 +189,7 @@ Main.main = function() {
 <!--label:class-field-property-type-system-impact-->
 ### 對型式系統的影響
 
-屬性的存在對型式系統有許多影響。最重要的是，必須了解到屬性是編譯期特徵，因此**需求的是已知型式**。如果我們將具有屬性的類別賦值為 `Dynamic`，那麼欄位存取將**不再**考量存取器方法。同樣，存取限制也將不再適用，所有的存取實際上都會是公開。
+屬性的存在對型式系統有許多影響。最重要的是，必須了解到屬性是編譯期特徵，因此**需求的是已知型式**。如果我們將具有屬性的類別指派為 `Dynamic`，那麼欄位存取將**不再**考量存取器方法。同樣，存取限制也將不再適用，所有的存取實際上都會是公開。
 
 在使用 `get` 或 `set` 存取識別符時，編譯器會確保取得器和設定器確實存在。下列程式碼片段無法編譯：
 
@@ -295,7 +295,7 @@ class Main {
 >
 > 對新的 Haxe 使用者來說很常見的困惑是設定器的型式要求是 `T->T` 而不是看似更自然的 `T->Void`。畢竟**設定器**為何需要返回一些東西？
 >
-> 其原因是我們仍會希望使用設定器作為右表達式來賦值。比如表達式鏈 `x = y = 1`將會解析為 `x = (y = 1)`。為了將 `y = 1` 的結果賦值給 `x`，前者必須要有一個值。若 `y` 的設定器回傳是 `Void` 就無法實現。
+> 其原因是我們仍會希望使用設定器作為右表達式來指派。比如表達式鏈 `x = y = 1`將會解析為 `x = (y = 1)`。為了將 `y = 1` 的結果指派給 `x`，前者必須要有一個值。若 `y` 的設定器回傳是 `Void` 就無法實現。
 
 <!--label:class-field-method-->
 ## 方法
@@ -375,7 +375,7 @@ class Main {
 
 - 類別 `Base`，有一個方法 `myMethod` 和建構式。
 - 類別 `Child`，`extends Base` 並且也有一個方法 `myMethod` 以 `override` 宣告。
-- `Main` 類別的 `main` 方法建立了 `Child` 的實例，並將其賦值至了型式為 `Base` 的變數 `child`，然後在其上呼叫了 `myMethod` 方法。
+- `Main` 類別的 `main` 方法建立了 `Child` 的實例，並將其指派至了型式為 `Base` 的變數 `child`，然後在其上呼叫了 `myMethod` 方法。
 
 變數 `child` 在此明確形式化為了 `Base`，這是為了突出一個重要區別：雖然編譯期可知其型式為 `Base`，但在執行期欄位呼叫仍會找到在類別 `Child` 中的正確方法 `myMethod`。這是由於欄位的存取是在執行期動態解析的。
 
@@ -580,15 +580,15 @@ class Main {
 }
 ```
 
-If the call to `error` is inline(內聯|)d the program compiles correctly because the control flow checker(檢查器|) is satisfied due to the inline(內聯|)d [throw](expression-throw) expression(表達式|). If inline(內聯|) is not done, the compiler(編譯器|) only sees a function(函式|) call to `error` and emits the error(錯誤|) `A return is missing here`.
+如果對 `error` 的呼叫是內聯的，則程式可以正常編譯，因為內聯的[擲回](expression-throw)表達式可以滿足流控制檢查器的要求。若內聯沒有完成，編譯器只會程式對 `error` 的呼叫並發出錯誤「此處缺少回傳值」（`A return is missing here`）。
 
-Since Haxe 4 it is also possible to inline specific calls to a function or constructor, see [`inline` expression(表達式|)](expression(表達式|)-inline(內聯|)).
+自 Haxe 4 後，也可以內聯對函式或構造器的特定呼叫，請參閱 [`inline` 表達式](expression-inline)。
 
-##### inline(內聯|) variable(變數|)s
+#### 內聯變數
 
-The `inline` keyword(關鍵字|) can also be applied to variable(變數|)s, but only when used together with `static`. An inline variable must be initialized to a [constant](expression-constants), otherwise the compiler emits an error. The value of the variable is used everywhere in place of the variable itself.
+`inline` 關鍵字也可用於變數，但僅可與 `static` 共用。內聯變數必須初始化為[常數](expression-constants)，否則編譯器會發出錯誤。在任何地方的變數的值將替換掉變數本身。
 
-The following code demonstrates the usage of an inline variable:
+以下程式碼演示了內聯變數的用法：
 
 <!-- [code asset](assets/InlineVariable.hx) -->
 ```haxe
@@ -601,7 +601,7 @@ class Main {
 }
 ```
 
-The generated JavaScript shows that the `language` variable(變數|) is not present anymore:
+生成的 JavaScript 顯示出 `language` 變數不再存在：
 
 ```js
 (function ($global) { "use strict";
@@ -613,16 +613,16 @@ Main.main();
 })({});
 ```
 
-Note that even though we call such kind of fields "variables", inline variables can never be reassigned as the value must be known at compile-time to be inlined at the place of usage. This makes inline variables a subset of [`final` field(欄位|)s](class(類別|)-field(欄位|)-final(最終|)), hence the usage of the `final` keyword(關鍵字|) in the code example above.
+注意即便我們仍將這類欄位稱為「變數」，但內聯變數永遠無法重新指派，因為必須在編譯期時知道該值才可以在使用處內聯。這也使得內聯變數成為了 [`final` 欄位](class-field-final)的子集，因此在上面的例子中有使用 `final` 關鍵字。
 
-> ##### Trivia: `inline var`
+> #### 瑣事：`inline var`
 >
-> Prior to Haxe 4, there was no `final` keyword(關鍵字|). The inline(內聯|) variable(變數|)s feature(特徵|) however was present for a long time, using the `var` keyword(關鍵字|) instead of `final`. Using `inline var` still works in Haxe 4 but might be deprecated in the future, because `final` is more appropriate.
+> 在 Haxe 4 之前並沒有 `final` 關鍵字。不過內聯變數功能已經存在了相當長時間，不過使用的是 `var` 而不是 `final` 關鍵字。在 Haxe 4 中使用 `inline var` 仍然有效，但在將來這種寫法可能會棄用，因為 `final` 更為合適。
 
 <!--label:class-field-dynamic-->
-#### dynamic(動態|)
+### 動態
 
-method(方法|)s can be denote(表示|)d with the `dynamic` keyword(關鍵字|) to make them (re-)bind(繫結|)able:
+方法可以以 `dynamic` 關鍵字表示，已使之可以（重新）繫結：
 
 <!-- [code asset](assets/DynamicFunction.hx) -->
 ```haxe
@@ -641,19 +641,19 @@ class Main {
 }
 ```
 
-The first call to `test()` invoke(引動|)s the original function(函式|) which return(回傳|)s the `String` `"original"`. In the next line, `test` is **assign(賦值|又：指派、指定、分配)ed** a new function(函式|). This is precisely what `dynamic` allow(容許|又：允許)s: function(函式|) field(欄位|)s can be assign(賦值|又：指派、指定、分配)ed a new function(函式|). As a result, the next invocation(引動|) of `test()` return(回傳|)s the `String` `"new"`.
+對 `test()` 的第一次呼叫引動了回傳 `String` `"original"` 的原始函式。然會在下一列中又為 `test` **指派**了一個新的函式。這正是 `dynamic` 所容許的：可以為函式欄位指派新的函式。所以，下一次對 `test()` 的引動回傳了 `String` `"new"`。
 
-Dynamic fields cannot be `inline` for obvious reasons: While inlining is done at compile-time(編譯期|又：編譯時), dynamic(動態|) function(函式|)s necessarily have to be resolve(解析|)d at runtime.
+動態欄位無法是 `inline` 的，原因很顯然：內聯是在編譯期完成的，而動態函式必須在執行期解析。
 
 <!--label:class-field-override-->
-#### override(覆寫|)
+### 覆寫
 
-The access(存取|) modifier(修飾符|) `override` is required when a field(欄位|) is declare(宣告|)d which also exists on a [parent class(父類別|)](types-class-inheritance). Its purpose is to ensure that the author of a class(類別|) is aware of the override(覆寫|) as this may not always be obvious in large class(類別|) hierarchies. Likewise, having `override` on a field(欄位|) which does not actually override(覆寫|) anything (e.g. due to a misspelt field(欄位|) name) triggers an error(錯誤|).
+當欄位的宣告也於[父類別](types-class-inheritance)存在時，就需要存取修飾符 `override`。這是為了讓類別的作者知道自己在覆寫，因為在大型的類別層次結構中這並不總是顯而易見的。在沒有實際覆寫任何內容的欄位使用 `override`（例如欄位名稱的拼寫錯誤）會觸發錯誤。
 
-The effects of overriding field(欄位|)s are detailed in [Overriding method(方法|)s](class-field-overriding). This modifier(修飾符|) is only allow(容許|又：允許)ed on [method(方法|)](class-field-method) field(欄位|)s.
+覆寫欄位的效果在[覆寫方法](class-field-overriding)中有詳細說明。此修飾符僅容許於[方法](class-field-method)欄位上使用。
 
 <!--label:class-field-static-->
-#### static(靜態|)
+### 靜態
 
 All field(欄位|)s are member(成員|) field(欄位|)s unless the modifier(修飾符|) `static` is used. static(靜態|) field(欄位|)s are used "on the class(類別|)" whereas non-static(靜態|) field(欄位|)s are used "on a class instance(類別實例|)":
 
@@ -691,6 +691,6 @@ The `final` keyword(關鍵字|) can be used on class(類別|) field(欄位|)s wi
 
 - `final function ...` to make a function(函式|) non-overridable in subclass(類別|)es.
 - `final x = ...` to declare(宣告|) a constant(常數|) that must be initialize(初始化|)d immediately or in the constructor(建構式|) and cannot be written to.
-- `inline final x = ...` is the same but [inline(內聯|)s](class-field-inline) the value(值|) wherever it is used. Only constant value(定值|)s can be assign(賦值|又：指派、指定、分配)ed.
+- `inline final x = ...` is the same but [inline(內聯|)s](class-field-inline) the value(值|) wherever it is used. Only constant value(定值|)s can be assign(指派|又：指派、指定、分配)ed.
 
-`static final` field(欄位|)s must be initialize(初始化|)d immediately by providing an expression(表達式|). If a class(類別|) has non-static(靜態|) `final` variable(變數|)s which are not initialize(初始化|)d immediately, it requires a constructor(建構式|) which has to assign(賦值|又：指派、指定、分配) value(值|)s to all such field(欄位|)s. `final` does not affect [visibility](class-field-visibility) and it is not supported on [properties](class-field-property).
+`static final` field(欄位|)s must be initialize(初始化|)d immediately by providing an expression(表達式|). If a class(類別|) has non-static(靜態|) `final` variable(變數|)s which are not initialize(初始化|)d immediately, it requires a constructor(建構式|) which has to assign(指派|又：指派、指定、分配) value(值|)s to all such field(欄位|)s. `final` does not affect [visibility](class-field-visibility) and it is not supported on [properties](class-field-property).
