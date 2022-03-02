@@ -655,7 +655,7 @@ class Main {
 <!--label:class-field-static-->
 ### 靜態
 
-All field(欄位|)s are member(成員|) field(欄位|)s unless the modifier(修飾符|) `static` is used. static(靜態|) field(欄位|)s are used "on the class(類別|)" whereas non-static(靜態|) field(欄位|)s are used "on a class instance(類別實例|)":
+除了使用 `static` 了的以外，其他所有的欄位會是成員欄位。靜態欄位「在類別中」使用，而非靜態欄位則「在類別實例中」使用：
 
 <!-- [code asset](assets/StaticField.hx) -->
 ```haxe
@@ -669,28 +669,28 @@ class Main {
 }
 ```
 
-Static [variable](class-field-variable) and [property](class-field-property) fields can have arbitrary initialization [expressions](expression).
+靜態[變數](class-field-variable)與[屬性](class-field-property)欄位可以有任意初始化[表達式](expression)。
 
 <!--label:class-field-extern-->
-#### Extern
+### 外部
 
-##### since Haxe 4.0.0
+#### 自 Haxe 4.0.0
 
-The `extern` keyword(關鍵字|) causes the compiler(編譯器|) to not generate(產生|) the field(欄位|) in the output. This can be used in combination with the [`inline`](class-field-inline) keyword to force a field to be inlined (or cause an error if this is not possible). Forcing inline may be desirable in abstracts or extern classes.
+`extern` 關鍵字會使得編譯器不在輸出中產生對應欄位，這可以與 [`inline`](class-field-inline)聯合使用以強制使欄位內聯（如果不可行則可能導致錯誤）。在抽象類別或外部類別中可能會需要強制內聯。
 
-> ##### Trivia: `:extern` metadata(元資料|)
+> #### 瑣事：`:extern` 元資料
 >
-> Prior to Haxe 4, this access(存取|) modifier(修飾符|) could only be applied to a field(欄位|) using the `:extern` [metadata(元資料|)](lf-metadata).
+> 在 Haxe 4 之前，該存取修飾符只能以 `:extern` 元資料套用於欄位。
 
 <!--label:class-field-final-->
-#### final(最終|)
+### 最終
 
-##### since Haxe 4.0.0
+#### 自 Haxe 4.0.0
 
-The `final` keyword(關鍵字|) can be used on class(類別|) field(欄位|)s with the following effects:
+`final` 關鍵字可以用於也下列效果的欄位：
 
-- `final function ...` to make a function(函式|) non-overridable in subclass(類別|)es.
-- `final x = ...` to declare(宣告|) a constant(常數|) that must be initialize(初始化|)d immediately or in the constructor(建構式|) and cannot be written to.
-- `inline final x = ...` is the same but [inline(內聯|)s](class-field-inline) the value(值|) wherever it is used. Only constant value(定值|)s can be assign(指派|又：指派、指定、分配)ed.
+- `final function ...` 可使函式在子類別中不能覆寫。
+- `final x = ...` 會宣告必須立即或在構造函式中初始化的不可寫入欄位。
+- `inline final x = ...` 同上，不過在所有使用了的地方都會內聯該值，該變數只可指派定值。
 
-`static final` field(欄位|)s must be initialize(初始化|)d immediately by providing an expression(表達式|). If a class(類別|) has non-static(靜態|) `final` variable(變數|)s which are not initialize(初始化|)d immediately, it requires a constructor(建構式|) which has to assign(指派|又：指派、指定、分配) value(值|)s to all such field(欄位|)s. `final` does not affect [visibility](class-field-visibility) and it is not supported on [properties](class-field-property).
+`static final` 欄位必須以表達式立即初始化，如若類別有未有立即初始化的非靜態 `final` 變數，則需要指派值至所有欄位的建構式。`final` 不會影響可見性，並且不支援在屬性上使用。
