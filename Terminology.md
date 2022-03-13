@@ -75,6 +75,7 @@ design pattern | 設計型樣 |
 describe | 描述 |
 directional | 定向 |
 document | 文件 |
+dollar sign | 貨幣符號 |
 dynamic | 動態 |
 dynamic target | 動態目標 |
 emit | 發出 |
@@ -134,6 +135,7 @@ keyword | 關鍵字 |
 legibility | 可讀性 |
 line | 列 |
 list | 列表 |
+local function | 局部函式 |
 local value | 局部值 |
 local variable | 局部變數 |
 lookup | 查找 |
@@ -149,6 +151,7 @@ module | 模組 |
 monomorph | 單型 |
 morph | 變型 |
 mutate | 變異 | TODO:
+name | 名稱 |
 native | 原生 |
 nested | 巢套 |
 notation | 表示法 |
@@ -241,6 +244,7 @@ unspecific | 非特定 |
 untyped | 非具型式 |
 use case | 使用案例 |
 user | 使用者 |
+underscore | 底線 |
 valid | 有效 |
 value | 值 |
 variable | 變數 |
