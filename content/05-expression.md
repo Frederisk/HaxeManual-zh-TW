@@ -1,26 +1,26 @@
 <!--label:expression-->
-## expression(表達式|)s
+# 表達式
 
-expression(表達式|)s in Haxe define(定義|) what a program **does**. Most expression(表達式|)s are found in the body(本體|) of a [method(方法|)](class-field-method), where they are combined to express what that method(方法|) should do. This section explains the different kinds of expression(表達式|)s. Some definition(定義|)s help here:
+在 Haxe 中，表達式定義了程式要**做**甚麼。大多數表達式都在[方法](class-field-method)的本體中，在其中它們互相組合以表達程式應當做甚麼。這部分會介紹不同種類的表達式。有一些會有幫助的定義：
 
-> ##### define(定義|): Name
+> #### 定義：名稱
 >
-> A general name may refer to
+> 通常上的名稱可以去指代：
 >
-> * a type(型式|n. 又：型別),
-> * a local variable(局部變數|),
-> * a local function(函式|) or
-> * a field(欄位|).
+> - 型式、
+> - 局部變數、
+> - 局部函式、
+> - 欄位。
+<!---->
+> #### 定義：識別符
 >
-
-> ##### define(定義|): identifier(識別符|)
+> Haxe 的識別符會以底線 `_`、貨幣符號 `$`、小寫字元 `a-z` 或大寫字元 `A-Z` 開頭，之後可以是若干 `_`、`A-Z`、`a-z` 或 `0-9` 的任意組合。
 >
-> Haxe identifier(識別符|)s start with an underscore `_`, a dollar `$`, a lower-case character `a-z` or an upper-case character `A-Z`. After that, any combination and number of `_`, `A-Z`, `a-z` and `0-9` may follow.
+> 另外根據上下文也會有對輸入的進一步檢查：
+ Further limitations follow from the usage context, which are checked upon typing(型態/型式|n./adj.):
 >
-> Further limitations follow from the usage context, which are checked upon typing(型態/型式|n./adj.):
->
-> * type(型式|n. 又：型別) names must start with an upper-case letter `A-Z` or an underscore `_`.
-> * Leading dollars are not allowed for any kind of [name](define-name) (dollar-names are mostly used for [macro reification](macro-reification)).
+> - type(型式|n. 又：型別) names must start with an upper-case letter `A-Z` or an underscore `_`.
+> - Leading dollars are not allowed for any kind of [name](define-name) (dollar-names are mostly used for [macro reification](macro-reification)).
 >
 
 ##### since Haxe 3.3.0
@@ -31,55 +31,57 @@ Haxe reserves the identifier prefix `_hx_` for internal use. This is not enforce
 
 The following Haxe keyword(關鍵字|)s may not be used as identifier(識別符|)s:
 
-* `abstract`
+- `abstract`
+
 * `break`
-* `case`
-* `cast`
-* `catch`
-* `class`
-* `continue`
-* `default`
-* `do`
-* `dynamic`
-* `else`
-* `enum`
-* `extends`
-* `extern`
-* `false`
-* `final`
-* `for`
-* `function`
-* `if`
-* `implements`
-* `import`
-* `in`
-* `inline`
-* `interface`
-* `macro`
-* `new`
-* `null`
-* `operator`
-* `overload`
-* `override`
-* `package`
-* `private`
-* `public`
-* `return`
-* `static`
-* `switch`
-* `this`
-* `throw`
-* `true`
-* `try`
-* `typedef`
-* `untyped`
-* `using`
-* `var`
-* `while`
+
+- `case`
+- `cast`
+- `catch`
+- `class`
+- `continue`
+- `default`
+- `do`
+- `dynamic`
+- `else`
+- `enum`
+- `extends`
+- `extern`
+- `false`
+- `final`
+- `for`
+- `function`
+- `if`
+- `implements`
+- `import`
+- `in`
+- `inline`
+- `interface`
+- `macro`
+- `new`
+- `null`
+- `operator`
+- `overload`
+- `override`
+- `package`
+- `private`
+- `public`
+- `return`
+- `static`
+- `switch`
+- `this`
+- `throw`
+- `true`
+- `try`
+- `typedef`
+- `untyped`
+- `using`
+- `var`
+- `while`
 
 ##### Related content
 
-* Haxe Code Cookbook  article: [Everything is an expression](http://code.haxe.org/category/principles/everything-is-an-expression.html).
+- Haxe Code Cookbook  article: [Everything is an expression](http://code.haxe.org/category/principles/everything-is-an-expression.html).
 
 <!--label:expression-block-->
 ### Blocks
@@ -392,8 +394,8 @@ The types of operand 1 and operand 2 must [unify](type-system-unification).
 
 **Enums:**
 
-* Enums without parameters always represent the same value, so `MyEnum.A == MyEnum.A`.
-* Enums with parameters can be compared with `a.equals(b)` (which is short for `Type.enumEq()`).
+- Enums without parameters always represent the same value, so `MyEnum.A == MyEnum.A`.
+- Enums with parameters can be compared with `a.equals(b)` (which is short for `Type.enumEq()`).
 
 **Dynamic:**
 
@@ -454,9 +456,9 @@ Operators | Note | Associativity
 
 Many languages (C++, Java, PHP, JavaScript, etc) use the same operator precedence rules as C. In Haxe, there are a couple of differences from these rules:
 
-* `%` (modulo) has a higher precedence than `*` and `/`; in C they have the same precedence
-* <code>&#124;</code>, `&`, `^` (bitwise operator(運算子|)s) have the same precedence; in C the three operator(運算子|)s all have a different precedence
-* <code>&#124;</code>, `&`, `^` (bitwise operator(運算子|)s) also have a lower precedence than `==`, `!=`, etc (comparison operators)
+- `%` (modulo) has a higher precedence than `*` and `/`; in C they have the same precedence
+- <code>&#124;</code>, `&`, `^` (bitwise operator(運算子|)s) have the same precedence; in C the three operator(運算子|)s all have a different precedence
+- <code>&#124;</code>, `&`, `^` (bitwise operator(運算子|)s) also have a lower precedence than `==`, `!=`, etc (comparison operators)
 
 <!--label:expression-operators-overloading-->
 #### Overloading and macros
@@ -491,8 +493,8 @@ expr[indexExpr]
 
 This notation is allowed with arbitrary expressions, but at typing level only certain combinations are admitted:
 
-* `expr` is of `Array` or `Dynamic` and `indexExpr` is of `Int`
-* `expr` is an [abstract(抽象|) type(型式|n. 又：型別)](types-abstract) which define(定義|)s a match(匹配|)ing [array(陣列|) access(存取|)](types-abstract-array-access)
+- `expr` is of `Array` or `Dynamic` and `indexExpr` is of `Int`
+- `expr` is an [abstract(抽象|) type(型式|n. 又：型別)](types-abstract) which define(定義|)s a match(匹配|)ing [array(陣列|) access(存取|)](types-abstract-array-access)
 
 <!--label:expression-function-call-->
 ### function(函式|) Call
@@ -509,8 +511,8 @@ subject(e1, e2, /*...*/ eN);
 
 ##### Related content
 
-* Haxe Code Cookbook article: [How to declare functions](http://code.haxe.org/category/beginner/declare-functions.html)
-* Class Methods: [Method](class-field-method)
+- Haxe Code Cookbook article: [How to declare functions](http://code.haxe.org/category/beginner/declare-functions.html)
+- Class Methods: [Method](class-field-method)
 
 <!--label:expression-var-->
 ### var and final
@@ -599,8 +601,8 @@ var myLocalFunction = function(a) { }
 
 However, there are some differences related to type parameters and the position of the function. We speak of a "lvalue" function if it is not assigned to anything upon its declaration, and an "rvalue" function otherwise.
 
-* Lvalue functions require a name and can have [type parameters](type-system-type-parameters).
-* Rvalue functions may have a name, but cannot have type parameters.
+- Lvalue functions require a name and can have [type parameters](type-system-type-parameters).
+- Rvalue functions may have a name, but cannot have type parameters.
 
 ##### since Haxe 4.0.0
 
@@ -633,9 +635,9 @@ class Main {
 
 Arrow functions are very similar to normal local functions, with a couple of differences:
 
-* The expression after the arrow is implicitly treated as the return value of the function. For simple functions like `myConcat` above, this can be a convenient way to shorten the code. Normal `return` expression(表達式|)s can still be used, as shown in `myContains` above.
-* There is no way to declare(宣告|) the return(回傳|) type(型式|n. 又：型別), although you can use a [type(型式|n. 又：型別) check](expression-type-check) to unify the function(函式|) expression(表達式|) with the desired return(回傳|) type(型式|n. 又：型別).
-* [metadata(元資料|)](lf-metadata) cannot be applied to the argument(引數|)s of an arrow function(箭頭函式|).
+- The expression after the arrow is implicitly treated as the return value of the function. For simple functions like `myConcat` above, this can be a convenient way to shorten the code. Normal `return` expression(表達式|)s can still be used, as shown in `myContains` above.
+- There is no way to declare(宣告|) the return(回傳|) type(型式|n. 又：型別), although you can use a [type(型式|n. 又：型別) check](expression-type-check) to unify the function(函式|) expression(表達式|) with the desired return(回傳|) type(型式|n. 又：型別).
+- [metadata(元資料|)](lf-metadata) cannot be applied to the argument(引數|)s of an arrow function(箭頭函式|).
 
 <!--label:expression-new-->
 ### new
@@ -727,8 +729,8 @@ for (key => value in map) {
 
 ##### Related content
 
-* Manual: [Haxe iterators documentation](lf-iterators), [Haxe Data Structures documentation](std-ds)
-* Cookbook: [Haxe iterators examples](http://code.haxe.org/tag/iterator.html), [Haxe data structures examples](http://code.haxe.org/tag/data-structures.html)
+- Manual: [Haxe iterators documentation](lf-iterators), [Haxe Data Structures documentation](std-ds)
+- Cookbook: [Haxe iterators examples](http://code.haxe.org/tag/iterator.html), [Haxe data structures examples](http://code.haxe.org/tag/data-structures.html)
 
 <!--label:expression-while-->
 ### while
@@ -831,8 +833,8 @@ switch (0) {
 
 ##### Related content
 
-* Further details on syntax of pattern expressions are detailed in [Pattern Matching](lf-pattern-matching).
-* [Snippets and tutorials about pattern matching](http://code.haxe.org/tag/pattern-matching.html) in the Haxe Code Cookbook.
+- Further details on syntax of pattern expressions are detailed in [Pattern Matching](lf-pattern-matching).
+- [Snippets and tutorials about pattern matching](http://code.haxe.org/tag/pattern-matching.html) in the Haxe Code Cookbook.
 
 <!--label:expression-throw-->
 ### throw
@@ -865,9 +867,9 @@ catch (varName2:Type2) catch-expr-2
 
 If during runtime the evaluation of `try-expression` causes a [`throw`](expression-throw), it can be caught by any subsequent `catch` block. These blocks consist of
 
-* a variable(變數|) name which hold(儲存|TODO:又：存儲)s the throw(擲回|)n value(值|),
-* an explicit type(型式|n. 又：型別) annotation(表示法|) which determines which type(型式|n. 又：型別)s of value(值|)s to catch, and
-* the expression(表達式|) to execute in that case.
+- a variable(變數|) name which hold(儲存|TODO:又：存儲)s the throw(擲回|)n value(值|),
+- an explicit type(型式|n. 又：型別) annotation(表示法|) which determines which type(型式|n. 又：型別)s of value(值|)s to catch, and
+- the expression(表達式|) to execute in that case.
 
 Haxe allow(容許|又：允許)s throw(擲回|)ing and catching any kind of value(值|), it is not limited to type(型式|n. 又：型別)s inherit(繼承|)ing from a specific(特定|) exception or error(錯誤|) class(類別|). However since Haxe 4.1.0 it's highly recommended to throw(擲回|) and catch only instance(實例|)s of `haxe.Exception` and its descendants.
 
@@ -875,8 +877,8 @@ Catch blocks are checked from top to bottom with the first one whose type(型式
 
 This process has many similarities to the compile-time(編譯期|又：編譯時) [unification(統一|TODO:)](type(型式|n. 又：型別)-system-unification) behavior(行為|). However, since the check has to be done at runtime there are several restrictions:
 
-* The type(型式|n. 又：型別) must exist at runtime: [class instance(類別實例|)s](types-class-instance), [enum instance(枚舉實例|)s](types-enum-instance), [abstract(抽象|) core type(型式|n. 又：型別)s](types-abstract-core-type) and [dynamic(動態|)](types-dynamic).
-* type parameter(型式參數|)s can only be [dynamic(動態|)](types-dynamic).
+- The type(型式|n. 又：型別) must exist at runtime: [class instance(類別實例|)s](types-class-instance), [enum instance(枚舉實例|)s](types-enum-instance), [abstract(抽象|) core type(型式|n. 又：型別)s](types-abstract-core-type) and [dynamic(動態|)](types-dynamic).
+- type parameter(型式參數|)s can only be [dynamic(動態|)](types-dynamic).
 
 #### wildcard(萬用(字元)|) catch
 
