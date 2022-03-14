@@ -24,6 +24,7 @@ assume | 假設 |
 basic type | 基底型式 | TODO: basic 基本/base 基底？
 behavior | 行為 |
 bind | 繫結 |
+block | 塊段 |
 bound | 繫結 |
 body | 本體 |
 breaking change | 重大變更 |
@@ -175,10 +176,12 @@ path | 路徑 |
 parameter | 參數 |
 parametrization | 參數化 |
 parent class | 父類別 |
+parser | 剖析器 |
 pattern matching | 模式匹配 |
 performance | 效能 |
 physical field | 實體欄位 |
 pop | 爆出 |
+prefix | 前綴 | 又：前綴
 priority | 優先權 |
 private | 私用 |
 programming language | 程式語言 |
@@ -194,6 +197,7 @@ recursion | 遞迴 |
 redundant | 冗餘 |
 reflect | 反射 |
 reflection | 反射 |
+reification | 具體化 |
 resolve | 解析 |
 resolution | 解析 |
 return | 回傳 |
