@@ -238,7 +238,7 @@ Haxe 中有一種特殊型式與所有類別相容：
 var p = new Point(-1, 65);
 ```
 
-上述程式碼將產生類別 `Point` 的實例，該實例指派給了名為 `p` 的變數。`Point`的建構式接收到了兩個引數 `x` 和 `y`（可在[類別實例](types-class-instance)比較其定義）。我們將在之後的 [new](expression-new) 部分重新審視 `new` 表達式的確切含意。目前，先將其視為呼叫類別建構式並返回了適合的物件。
+上述程式碼將產生類別 `Point` 的實例，該實例指派給了名為 `p` 的變數。`Point`的建構式接收到了兩個引數 `x` 和 `y`（可在[類別實例](types-class-instance)比較其定義）。我們將在之後的 [new](expression-new) 部分重新審視 `new` 運算式的確切含意。目前，先將其視為呼叫類別建構式並返回了適合的物件。
 
 <!--label:types-class-inheritance-->
 ### 繼承
@@ -263,7 +263,7 @@ class Point3 extends Point {
 - `extend Point` 表示這個類別繼承自類別 `Point`
 - `super(x, y)` 呼叫父類別的建構式，在此例中是 `Point.new`
 
-為子類別定義其自己的建構式並不是必要的，但只要定義了，則定義內對 `super()` 是必要的，與其他物件導向的語言不同，這個呼叫可以出現在建構式的任何位置而不必只能是第一個表達式。
+為子類別定義其自己的建構式並不是必要的，但只要定義了，則定義內對 `super()` 是必要的，與其他物件導向的語言不同，這個呼叫可以出現在建構式的任何位置而不必只能是第一個運算式。
 
 類別也可通過 `override` 關鍵字覆寫其父類的[方法](class-field-method)，其效果和限制在[覆寫方法](class-field-overriding)中有更多詳細描述。
 
@@ -289,7 +289,7 @@ interface Printable {
 語法與類別相似，但有一些差異:
 
 - 使用關鍵字 `interface` 而不是 `class`。
-- 函式沒有任何[表達式](expression)。
+- 函式沒有任何[運算式](expression)。
 - 所有欄位都必須具有明確的型式。
 
 介面不同於<!--TODO-->[結構子型態](type-system-structural-subtyping)描述的是類別之間的靜態關係。給定的類別需要明確宣告才會視為與介面兼容：
@@ -465,7 +465,7 @@ class Child extends Parent {
 <!--label:types-enum-instance-->
 ## 枚舉實例
 
-Haxe 提供了極其強大的枚舉型式，其實質上是**代數資料型式**（ADT）。雖然此種型式不能擁有任何表達式，但其在描述資料時十分有用。
+Haxe 提供了極其強大的枚舉型式，其實質上是**代數資料型式**（ADT）。雖然此種型式不能擁有任何運算式，但其在描述資料時十分有用。
 
 <!-- [code asset](assets/Color.hx) -->
 ```haxe
@@ -574,7 +574,7 @@ class Main {
 }
 ```
 
-首先透過分配 `getColor()` 的回傳值給 `color` 來檢索它的值，然後[`switch` 表達式](expression-switch)根據其值分支。前三個 case 中的 `Red`、`Green` 以及 `Blue` 十分簡單，會對應 `Color` 的無引數建構式。最後一個 case 中的 `Rgb(r, g, b)` 展示了從建構式中擷取引數值的方式，這幾個名稱在 case 的主體內可以如同使用了[`var` 表達式](expression-var)的局部變數一樣使用。
+首先透過分配 `getColor()` 的回傳值給 `color` 來檢索它的值，然後[`switch` 運算式](expression-switch)根據其值分支。前三個 case 中的 `Red`、`Green` 以及 `Blue` 十分簡單，會對應 `Color` 的無引數建構式。最後一個 case 中的 `Rgb(r, g, b)` 展示了從建構式中擷取引數值的方式，這幾個名稱在 case 的主體內可以如同使用了[`var` 運算式](expression-var)的局部變數一樣使用。
 
 對於 `switch` 的進階使用資訊之後將在[模式匹配](lf-pattern-matching)部分進一步探索。
 
@@ -597,7 +597,7 @@ class Main {
 1. 結構會用大括號 `{}` 括住並且
 1. 有一個**以逗號分隔**的鍵值對列表。
 1. 用**冒號**分隔的鍵和值，前者必須是一個有效[識別符](define-identifier)。
-1. 值可以是任何 Haxe 表達式。
+1. 值可以是任何 Haxe 運算式。
 
 規則 4 意味著結構可以是巢套複雜的，比如：
 
@@ -665,13 +665,13 @@ typedef Point3 = { > Point, z : Int }
 <!--label:types-structure-json-->
 ### 結構值的 JSON
 
-透過在鍵中使用**字串文字**，在結構中是可以用 <!--TODO-->**JavaScript Object Notation** 的。
+透過在鍵中使用**字串常值**，在結構中是可以用 <!--TODO-->**JavaScript Object Notation** 的。
 
 ```haxe
 var point = { "x" : 1, "y" : -5 };
 ```
 
-雖然允許使用任何字串文字，但只有在其是有效 [Haxe 識別符](define-identifier) 時該欄位會視為型式的一部分。此外，haxe 語法不容許表達對此類欄位的存取，而只能以 `Reflect.field` 和 `Reflect.setField` 使用[反射](std-reflection)作為替代。
+雖然允許使用任何字串常值，但只有在其是有效 [Haxe 識別符](define-identifier) 時該欄位會視為型式的一部分。此外，haxe 語法不容許表達對此類欄位的存取，而只能以 `Reflect.field` 和 `Reflect.setField` 使用[反射](std-reflection)作為替代。
 
 <!--label:types-structure-class-notation-->
 ### 結構型式的類別表示法
@@ -801,7 +801,7 @@ class Main {
 <!--label:types-function-->
 ## 函式型式
 
-函式型式以及[單型](types-monomorph)對 Haxe 使用者通常隱藏，但實際上到處存在。我們可以通過使用 `$type` 使之浮上水面，這是個可以在編譯時輸出型式自己表達式的特殊 `Haxe` 識別符：
+函式型式以及[單型](types-monomorph)對 Haxe 使用者通常隱藏，但實際上到處存在。我們可以通過使用 `$type` 使之浮上水面，這是個可以在編譯時輸出型式自己運算式的特殊 `Haxe` 識別符：
 
 <!-- [code asset](assets/FunctionType.hx) -->
 ```haxe
@@ -818,9 +818,9 @@ class Main {
 }
 ```
 
-函式 `test` 的宣告與第一個 `$type` 表達式的輸出十分相似，不過後者有一個微妙不同是**函式回傳型式**出現在了 `->` 後面。
+函式 `test` 的宣告與第一個 `$type` 運算式的輸出十分相似，不過後者有一個微妙不同是**函式回傳型式**出現在了 `->` 後面。
 
-在兩種表式中，無疑函式 `test` 接受一個  `Int` 型式的引數和一個 `String` 型式的引數，並回傳一個 `Bool` 型式的值。如果呼叫該函式，例如在第二個 `$type` 表達式中的 `test(1, "foo")` 那樣。haxe 型式系統會檢查 `1` 是否可以以 `Int` 指派以及 `"foo"` 是否可以以 `String` 指派，該呼叫的型式與 `test` 回傳值的型式相同，都是 `Bool`。
+在兩種表式中，無疑函式 `test` 接受一個  `Int` 型式的引數和一個 `String` 型式的引數，並回傳一個 `Bool` 型式的值。如果呼叫該函式，例如在第二個 `$type` 運算式中的 `test(1, "foo")` 那樣。haxe 型式系統會檢查 `1` 是否可以以 `Int` 指派以及 `"foo"` 是否可以以 `String` 指派，該呼叫的型式與 `test` 回傳值的型式相同，都是 `Bool`。
 
 注意函式型式中引數名稱是任選的。如果函式型式有其他函式型式作為其引數或回傳的型式，則可使用括號為它們正確分組。例如
 
@@ -1110,7 +1110,7 @@ var a = 12;
 console.log(a);
 ```
 
-抽象型式 `Abstract` 完全從輸出中消失了，存留下的只有其底層型式 `Int` 的值。這是由於 `Abstract` 的建構式是內聯的，並且其內聯表達式為為 `this` 指派。對於內聯，我們將在之後的[內聯](class-field-inline)部分去了解。若以類別去考慮，這可能有些令人吃驚。不過這正是我們在抽象的上下文中所想要表達的。抽象的任何**內聯成員方法**都可指派葛給 `this`，從而修改「內部值」。
+抽象型式 `Abstract` 完全從輸出中消失了，存留下的只有其底層型式 `Int` 的值。這是由於 `Abstract` 的建構式是內聯的，並且其內聯運算式為為 `this` 指派。對於內聯，我們將在之後的[內聯](class-field-inline)部分去了解。若以類別去考慮，這可能有些令人吃驚。不過這正是我們在抽象的上下文中所想要表達的。抽象的任何**內聯成員方法**都可指派葛給 `this`，從而修改「內部值」。
 
 有一個可能很明顯的問題是，如果一個成員函式沒有宣告為內聯的話會發生什麼？程式碼顯然必須放在某個地方！Haxe 會通過創建稱為 **實作類別** 的私用類別來處理這個問題，該類別會包括所有的成員函式作為靜態函式，該函式接受底層型式的第一個附加引數 `this`。
 
@@ -1576,8 +1576,8 @@ Main.main = function() {
 
 - 沒有基礎型式。
 - 除非使用 `@:notNull` 元資料標記，否則會是可空。
-- 可以宣告沒有表達式的[陣列存取](types-abstract-array-access)函式。
-- 沒有表達式的[運算子多載欄位](types-abstract-operator-overloading)不會強制遵守 Haxe 型式語意。
+- 可以宣告沒有運算式的[陣列存取](types-abstract-array-access)函式。
+- 沒有運算式的[運算子多載欄位](types-abstract-operator-overloading)不會強制遵守 Haxe 型式語意。
 
 <!--label:types-monomorph-->
 ## 單型
