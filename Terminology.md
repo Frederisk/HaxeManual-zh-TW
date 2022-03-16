@@ -27,6 +27,7 @@ bind | 繫結 |
 block | 塊段 |
 bound | 繫結 |
 body | 本體 |
+boolean | 布林 |
 breaking change | 重大變更 |
 bug | 錯誤 |
 build | 構建 |
@@ -37,6 +38,7 @@ checker | 檢查器 |
 child class | 子類別 |
 class | 類別 |
 class instance | 類別實例 |
+codepoint | 字碼指標 |
 common base type | 共同基底型式 |
 commutative | 可交換 |
 compatible | 相容 |
@@ -64,6 +66,7 @@ custom | 客製 |
 data | 資料 |
 data structure | 資料結構 |
 dead code elimination | 死碼刪除 |
+decimal | 十進位 |
 declaration | 宣告 |
 declare | 宣告 |
 default | 預設 |
@@ -92,7 +95,7 @@ exhaustiveness | 完整性 | TODO:
 explicitly | 明確 |
 export | 匯出 |
 expose | 公開 |
-expression | 表達式 |
+expression | 運算式 |
 extract | 擷取 | 又：抽取
 extend | 擴充 | 又：延伸
 extern | 外部 |
@@ -101,6 +104,7 @@ false | 假 |
 feature | 特徵 |
 field | 欄位 |
 final | 最終 |
+floating-point | 浮點 |
 forward | 轉送 |
 function | 函式 |
 functionality | 功能 |
@@ -125,6 +129,7 @@ inline | 內聯 |
 instance | 實例 |
 instantiate | 實例化 |
 instantiation | 實例化 | TODO:
+integer | 整數 |
 interface | 介面 |
 invariance | 不變數 |
 invariant | 不變 | adj. TODO:
@@ -136,6 +141,7 @@ keyword | 關鍵字 |
 legibility | 可讀性 |
 line | 列 |
 list | 列表 |
+literal | 常值 |
 local function | 局部函式 |
 local value | 局部值 |
 local variable | 局部變數 |
@@ -163,6 +169,7 @@ offset | 偏移 |
 object-oriented | 物件導向 |
 opaque | 不透明 |
 open source | 開源 |
+operand | 運算元 |
 operation | 運算 |
 operator | 運算子 |
 optimized | 最佳化 |
@@ -180,6 +187,7 @@ parser | 剖析器 |
 pattern matching | 模式匹配 |
 performance | 效能 |
 physical field | 實體欄位 |
+position | 位置 |
 pop | 爆出 |
 prefix | 前綴 | 又：前綴
 priority | 優先權 |
@@ -191,12 +199,16 @@ protect | 保護 |
 pseudo-type | 偽型式 |
 public | 公用 | 又：公開
 push | 推入 |
+range | 範圍 |
 read | 讀出 |
 real object | 真實物件 |
 recursion | 遞迴 |
 redundant | 冗餘 |
 reflect | 反射 |
 reflection | 反射 |
+regex | 正規表示式 |
+regular | 正規 |
+regular expression | 正規表示式 |
 reification | 具體化 |
 resolve | 解析 |
 resolution | 解析 |
@@ -216,7 +228,7 @@ static target | 靜態目標 |
 storage | 儲存 |
 string | 字串 |
 string interpolation | 字串插值 |
-string literal | 字串文字 |
+string literal | 字串常值 | 又：字串文字
 strongly typed | 強型別 | 強型
 struct | 結構體 |
 structural sub-typing | 結構子型態 | TODO:
@@ -240,6 +252,7 @@ type inference | 型式推理 |
 type parameter | 型式參數 |
 typer | 型式系統 | TODO:
 typing system | 型式系統 |
+unary | 一元 |
 undefined | 未定義 |
 underlying type | 底層型式 |
 unification | 統一 | TODO:
