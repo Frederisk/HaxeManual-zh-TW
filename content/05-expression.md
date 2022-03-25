@@ -93,7 +93,7 @@ Haxe 中的塊段以左大括號 `{` 開始，以右大括號 `}` 結束，一�
 }
 ```
 
-The value and by extension the type of a block-expression is equal to the value and the type of the last sub-expression.
+塊段表達式的值和拓展型式與最後一個子表達式的值和型式相同。<!--TODO: The value and by extension the type of a block-expression is equal to the value and the type of the last sub-expression. -->
 
 Blocks can contain local variables declared by [`var` expression(表達式|)](expression(表達式|)-var), as well as local function(函式|)s declare(宣告|)d by [`function` expression(表達式|)s](expression(表達式|)-arrow-function(函式|)). These are available within the block and within sub-blocks, but not outside the block. Also, they are available only after their declaration(宣告|). The following example uses `var`, but the same rules apply to `function` usage:
 
