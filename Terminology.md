@@ -38,6 +38,7 @@ checker | 檢查器 |
 child class | 子類別 |
 class | 類別 |
 class instance | 類別實例 |
+closure | 閉包 |
 codepoint | 字碼指標 |
 common base type | 共同基底型式 |
 commutative | 可交換 |
@@ -91,6 +92,7 @@ enumeration | 枚舉 |
 error | 錯誤 |
 error message | 錯誤訊息 |
 evaluate | 評估 |
+exception | 異常 |
 exhaustiveness | 完整性 | TODO:
 explicitly | 明確 |
 export | 匯出 |
@@ -106,6 +108,8 @@ field | 欄位 |
 final | 最終 |
 floating-point | 浮點 |
 forward | 轉送 |
+from bottom to top | 自底向頂 |
+from top to bottom | 自頂向底 |
 function | 函式 |
 functionality | 功能 |
 generate | 產生 |
@@ -159,6 +163,8 @@ monomorph | 單型 |
 morph | 變型 |
 mutate | 變異 | TODO:
 name | 名稱 |
+name space | 名稱空間 |
+namespace | 名稱空間 |
 native | 原生 |
 nested | 巢套 |
 notation | 表示法 |
@@ -218,6 +224,7 @@ run-time | 執行期 | 又：執行時
 semantic | 語意 |
 separated | 分隔 |
 setter | 設定器 | 又：寫入器 TODO:
+shadow | 遮蔽 |
 signature | 簽章 |
 sourcecode | 原始碼 |
 specific | 特定 |
@@ -265,6 +272,7 @@ underscore | 底線 |
 valid | 有效 |
 value | 值 |
 variable | 變數 |
+variable shadowing | 變數遮蔽 |
 variant | 變體/變異 | n./adj.
 variance | 變異數 |
 visibility | 可見性 |
