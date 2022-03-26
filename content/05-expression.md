@@ -93,9 +93,9 @@ Haxe 中的塊段以左大括號 `{` 開始，以右大括號 `}` 結束，一�
 }
 ```
 
-塊段表達式的值和拓展型式與最後一個子表達式的值和型式相同。<!--TODO: The value and by extension the type of a block-expression is equal to the value and the type of the last sub-expression. -->
+塊段運算式的值和拓展型式與最後一個子運算式的值和型式相同。<!--TODO: The value and by extension the type of a block-expression is equal to the value and the type of the last sub-expression. -->
 
-Blocks can contain local variables declared by [`var` expression(表達式|)](expression(表達式|)-var), as well as local function(函式|)s declare(宣告|)d by [`function` expression(表達式|)s](expression(表達式|)-arrow-function(函式|)). These are available within the block and within sub-blocks, but not outside the block. Also, they are available only after their declaration(宣告|). The following example uses `var`, but the same rules apply to `function` usage:
+塊段可以包含由 [`var` 運算式](expression-var)宣告的局部變數，以及由 [`function` 運算式](expression-arrow-function)宣告的局部函式。這些內容在所在塊段內及其子塊段內可以使用，但在塊段外則不可以。另外，它們只在宣告之後可用。以下的例子是以 `var` 示範，不過 `function` 也適用同樣的規則：
 
 ```haxe
 {
@@ -111,13 +111,11 @@ Blocks can contain local variables declared by [`var` expression(表達式|)](ex
 a; // 錯誤，`a` 在之外不可用
 ```
 
-At runtime, blocks are evaluated from top to bottom. Control flow (e.g. [exceptions](expression-try-catch) or [return expressions](expression-return)) may leave a block before all expressions
-are evaluated.
+在執行期，會自頂向底去評估塊段。控制流（比如[異常](expression-try-catch)或[回傳運算式](expression-return)）可能會在評估完所有運算式之前就離開塊段。
 
-##### Variable Shadowing
+#### 變數遮蔽
 
-Haxe allows local variable shadowing within the same block. This means that
-a `var`, `final`, or `function` can be declare(宣告|)d with the same name that was previously available in a block, effectively hiding it from the further code:
+Haxe 容許在同一塊段內對局部變數遮蔽。這表示 `var`、`final` 和 `function` 可以宣告為和塊段中之前可用名稱相同的名稱，從而將其有效地在之後的程式碼中隱藏：
 
 ```haxe
 {
@@ -128,11 +126,9 @@ a `var`, `final`, or `function` can be declare(宣告|)d with the same name that
 }
 ```
 
-It might come as a surprise that this is allowed, but it's useful to avoid pollution of local name space and thus prevent accidental usage of a wrong variable.
+容許這樣做可能會讓人有些意外，不過這樣有助於避免汙染局部名稱空間，從而避免意外用到錯誤的變數。
 
-Note, that the shadowing strictly follows syntax, so if a variable was captured
-in a closure before it was shadowed, that closure would still reference the
-original declaration:
+注意，遮蔽嚴格遵守語法，因此若變數是在遮蔽之前就由閉包捕獲，則閉包仍然會引用原始的宣告：
 
 ```haxe
 {
