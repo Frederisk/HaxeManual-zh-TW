@@ -9,21 +9,30 @@ access | 存取 |
 accessor | 存取器 |
 accessibility | 可存取性 |
 achieve | 達成 |
+addition | 加法 |
 addressing | 定址 |
+advanced | 進階 |
+after | 後於 |
 alias | 別名 |
 allow | 容許 | 又：允許
 alternative | 替代 |
+and | 及 | gate
 anonymous | 匿名 |
 annotate | 標記 |
+any | 任意 |
 apply | 套用 |
 argument | 引數 |
+arithmetic negation | 算術否定 |
 array | 陣列 |
 arrow function | 箭頭函式 |
 assign | 指派 | 又：賦值、指定、分配
+associativity | 結合性 |
 assume | 假設 |
 basic type | 基底型式 | TODO: basic 基本/base 基底？
+before | 前於 |
 behavior | 行為 |
 bind | 繫結 |
+bitwise negation | 位元否定 |
 block | 塊段 |
 bound | 繫結 |
 body | 本體 |
@@ -42,6 +51,7 @@ closure | 閉包 |
 codepoint | 字碼指標 |
 common base type | 共同基底型式 |
 commutative | 可交換 |
+comparison | 比較 |
 compatible | 相容 |
 compilation | 編譯 | 名詞
 compile-time | 編譯期 | 又：編譯時
@@ -49,7 +59,10 @@ compiler | 編譯器 |
 complex | 複合 |
 component | 組件 |
 compound type | 複合型式 |
+comprehension | 理解 |
+concatenation | 序連 |
 concrete | 具體 |
+condition | 條件 |
 constant | 常數 |
 constant value | 定值 |
 constraint | 約束 |
@@ -70,6 +83,7 @@ dead code elimination | 死碼刪除 |
 decimal | 十進位 |
 declaration | 宣告 |
 declare | 宣告 |
+decrement | 遞減 |
 default | 預設 |
 define | 定義 |
 definition | 定義 |
@@ -79,6 +93,7 @@ derived class | 衍生類別 | NO
 design pattern | 設計型樣 |
 describe | 描述 |
 directional | 定向 |
+division | 除法 |
 document | 文件 |
 dollar sign | 貨幣符號 |
 dynamic | 動態 |
@@ -89,6 +104,7 @@ enum | 枚舉 |
 enum case | 枚舉成員 | 又：枚舉案例 TODO:
 enum instance | 枚舉實例 |
 enumeration | 枚舉 |
+equal | 等於 | 又：相等
 error | 錯誤 |
 error message | 錯誤訊息 |
 evaluate | 評估 |
@@ -123,6 +139,7 @@ implement | 實作 |
 implementation | 實作 |
 implicit | 隱含 |
 import | 匯入 |
+increment | 遞增 |
 inference | 推斷 | 又：推定、推理
 inherit | 繼承 |
 inheritance | 繼承 |
@@ -135,20 +152,26 @@ instantiate | 實例化 |
 instantiation | 實例化 | TODO:
 integer | 整數 |
 interface | 介面 |
+internal | 內部 |
+interval | 區間 |
 invariance | 不變數 |
 invariant | 不變 | adj. TODO:
+inverter |
 invoke | 引動 |
 invocation | 引動 |
-iterate | 迭代 |
+iterate | 疊代 |
+iteration | 疊代 |
 key-value pair | 鍵值對 |
 keyword | 關鍵字 |
 legibility | 可讀性 |
+lexicographically | 字典序 |
 line | 列 |
 list | 列表 |
 literal | 常值 |
 local function | 局部函式 |
 local value | 局部值 |
 local variable | 局部變數 |
+logical negation | 邏輯否定 |
 lookup | 查找 |
 macro | 巨集 |
 manual | 手冊/手動 | n./adj.
@@ -159,14 +182,17 @@ metadata | 元資料 |
 method | 方法 |
 modifier | 修飾符 |
 module | 模組 |
+modulo | 模數 |
 monomorph | 單型 |
 morph | 變型 |
 mutate | 變異 | TODO:
+multiplication | 乘法 |
 name | 名稱 |
 name space | 名稱空間 |
 namespace | 名稱空間 |
 native | 原生 |
 nested | 巢套 |
+not | 非 | gate |
 notation | 表示法 |
 nullability | 可空性 |
 nullable | 可空 |
@@ -180,6 +206,7 @@ operation | 運算 |
 operator | 運算子 |
 optimized | 最佳化 |
 optional | 任選 |
+or | 或 | gate
 overflow | 溢位 |
 overload | 多載 |
 override | 覆寫 |
@@ -194,8 +221,9 @@ pattern matching | 模式匹配 |
 performance | 效能 |
 physical field | 實體欄位 |
 position | 位置 |
+postfix | 後綴 | 又：後置
 pop | 爆出 |
-prefix | 前綴 | 又：前綴
+prefix | 前綴 | 又：前置
 priority | 優先權 |
 private | 私用 |
 programming language | 程式語言 |
@@ -207,6 +235,8 @@ public | 公用 | 又：公開
 push | 推入 |
 range | 範圍 |
 read | 讀出 |
+read-only | 唯讀 |
+readonly | 唯讀 |
 real object | 真實物件 |
 recursion | 遞迴 |
 redundant | 冗餘 |
@@ -225,6 +255,9 @@ semantic | 語意 |
 separated | 分隔 |
 setter | 設定器 | 又：寫入器 TODO:
 shadow | 遮蔽 |
+shift | 移位 |
+shift left | 左移 |
+shift right | 右移 |
 signature | 簽章 |
 sourcecode | 原始碼 |
 specific | 特定 |
@@ -241,6 +274,7 @@ struct | 結構體 |
 structural sub-typing | 結構子型態 | TODO:
 structure | 結構 |
 sub-type | 子型式 |
+subtraction | 減法 |
 subvert | 顛覆 | TODO:
 syntax | 語法 |
 target | 目標 |
@@ -264,6 +298,7 @@ undefined | 未定義 |
 underlying type | 底層型式 |
 unification | 統一 | TODO:
 unqualified | 非限定 | 另：不合格 TODO:
+unsigned | 無符號 |
 unspecific | 非特定 |
 untyped | 非具型式 |
 use case | 使用案例 |
@@ -278,3 +313,6 @@ variance | 變異數 |
 visibility | 可見性 |
 wildcard | 萬用(字元) |
 write | 寫入 |
+write-only | 唯寫 |
+writeonly | 唯寫 |
+xor | 互斥或 | gate
