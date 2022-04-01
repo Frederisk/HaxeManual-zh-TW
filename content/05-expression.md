@@ -141,14 +141,14 @@ Haxe 容許在同一塊段內對局部變數遮蔽。這表示 `var`、`final` �
 }
 ```
 
-##### since Haxe 4.0.0
+#### 自 Haxe 4.0.0
 
-It is possible that variable shadowing in code is unintentional. The compiler can be set to emit warnings about all instances of variable shadowing with the `-D warn-var-shadowing` define(定義|).
+有時可能會在無意中寫出變數遮蔽。此時可以以 `-D warn-var-shadowing` 定義使編譯器設定為為所有變數遮蔽的實例發出警告。
 
 <!--label:expression-literals-->
-### Literals
+## 常值
 
-Literals are ways to construct(建構/構造|v./n.) value(值|)s for many Haxe core type(型式|n. 又：型別)s using reserved syntax(語法|). The following table summarizes the literals available in Haxe:
+常值是使用保留語法為許多 Haxe 核心型式建構值的方式。下表總結了 Haxe 中的可用常值：
 
 例子 | 型式 | 備註
 --- | --- | ---
@@ -165,16 +165,16 @@ Literals are ways to construct(建構/構造|v./n.) value(值|)s for many Haxe c
 `1...3` | `IntIterator` | [範圍](expression-for)
 
 <!--label:expression-array-declaration-->
-#### array(陣列|) declaration(宣告|)
+### 陣列宣告
 
-[array(陣列|)s](std-Array) are initialize(初始化|)d by enclosing comma `,` separated(分隔|) value(值|)s in brackets `[]`. A plain `[]` represents the empty array(陣列|), whereas `[1, 2, 3]` initialize(初始化|)s an array(陣列|) with three elements `1`, `2` and `3`.
+[陣列](std-Array)以用括號 `[]` 括住並以逗號 `,` 分隔的值初始化。空白的 `[]` 表示空陣列，而 `[1, 2, 3]` 會初始化包含三個元素 `1`, `2` 和 `3` 的陣列。
 
 ```haxe
 var b = [];
 var a = [1, 2, 3];
 ```
 
-The generated code may be less concise on platforms that do not support array initialization. Essentially, such initialization code then looks like this:
+在不支援陣列初始化的平台上，生成的程式碼可能會不那麼簡潔。在本質上，這種初始化程式碼會像是這樣：
 
 ```haxe
 var a = new Array();
@@ -183,23 +183,23 @@ a.push(2);
 a.push(3);
 ```
 
-This should be considered when deciding if a function should be [inlined](class-field-inline) as it may inline more code than visible in the syntax.
+在決定是否要[內聯](class-field-inline)時應考慮到這一點，因為這樣內聯的程式碼會比在語法中能看到的要多。
 
-Advanced initialization techniques are described in [Array Comprehension](lf-array-comprehension).
+在[陣列理解](lf-array-comprehension)中描述有進階初始化技術。
 
 <!--label:expression-map-declaration-->
-#### Map Declaration
+### 映射宣告
 
-[Maps](std-Map) are initialized similarly to arrays, but include both keys and their corresponding values. `["example" => 1, "data" => 2]` initialize(初始化|)s a map(映射|) (`Map<String, Int>` specific(特定|)ally) where the key `"example"` stores the value(值|) `1` and `"data"` stores the value(值|) 2.
+[映射](std-Map)的初始化與陣列類似，不過內容鍵和其對應的值。`["example" => 1, "data" => 2]` 初始化了一個映射（特定為 `Map<String, Int>`），其中鍵 `"example"` 存儲值 `1`，`"data"` 存儲值 `2`。
 
-##### since Haxe 4.0.0
+#### 自 Haxe 4.0.0
 
-Where a map(映射|) type(型式|n. 又：型別) is expected (based on [top-down(自上而下|) inference(推斷|又：推定、推理)](type(型式|n. 又：型別)-system-top-down(自上而下|)-inference(推斷|又：推定、推理))), `[]` refers to an empty map(映射|).
+在需要映射型式的地方（基於[自上而下的推斷](type-system-top-down-inference)），`[]` 指的是空映射。
 
 <!--label:expression-object-declaration-->
-#### Object declaration(宣告|)
+### 物件宣告
 
-Object declaration(宣告|) begins with an opening curly brace `{` after which `key: value`-pairs separated by comma `,` follow, and which ends in a closing curly brace `}`.
+物件宣告由左大括號 `{` 開始，然後是 `key: value` 的鍵值對並以逗號分隔 `,`，然後最後是右大括號 `}`。
 
 ```haxe
 {
@@ -210,45 +210,45 @@ Object declaration(宣告|) begins with an opening curly brace `{` after which `
 }
 ```
 
-Further details of object declaration are described in the section about [anonymous structures](types-anonymous-structure).
+對物件宣告得更多細節有在[匿名結構](types-anonymous-structure)的部分中描述。
 
 <!--label:expression-constants-->
-### Constants
+## 常數
 
-Constants are values which are immutable. These values can be used as [inline variables](class-field-inline#inline-variables) and [default values for function arguments](types-function-default-values). All constants are [literals](expression-literals), except for argument-less enum constructors:
+常數是不會改變的值。這些值可用於[內聯變數](class-field-inline#inline-variables)和[函式的默認值](types-function-default-values)。除了無引數枚舉構造器外，所有的常數都是[常值](expression-literals)：
 
-例子 | 型式  | 備註
---- | --- | --- | ---
-`42`, `0xFF42` | `Int` | [integer](define-int) constant(常數|)
-`0.32`, `3.`, `2.1e5` | `Float` | [floating-point](define(定義|)-float) decimal constant(常數|)
-`true`, `false` | `Bool` | [boolean](define-bool) constant(常數|)
-`~/haxe/gi` | `EReg` | [regular expression(表達式|)](std-regex)
-`null` | `T` | null(空|) value(值|) for any [nullable(可空|)](types-nullability) type(型式|n. 又：型別)
-`"XXX"`, `'XXX'` | `String` | [string literal(字串常值|)](std-String-literals)
-`"X".code`, `'X'.code` | `Int` | [Unicode character codepoint](std-String#character-code)
-`MyEnum.Haxe` | `T` | [enum(枚舉|) constructor(建構式|)](types-enum-constructor) with no argument(引數|)s
+例子 | 型式 | 備註
+--- | --- | ---
+`42`, `0xFF42` | `Int` | [整數](define-int)常數
+`0.32`, `3.`, `2.1e5` | `Float` | [浮點](define-float)十進位常數
+`true`, `false` | `Bool` | [布林](define-bool)常數
+`~/haxe/gi` | `EReg` | [正規表示式](std-regex)
+`null` | `T` |  任何[可空](types-nullability)型式的空值
+`"XXX"`, `'XXX'` | `String` | [字串常值](std-String-literals)
+`"X".code`, `'X'.code` | `Int` | [Unicode 字元字碼指標](std-String#character-code)
+`MyEnum.Haxe` | `T` | 無引數的[枚舉建構式](types-enum-constructor)
 
-Furthermore, the internal syntax(語法|) structure(結構|) treats [identifier(識別符|)s](define-identifier) as constant(常數|)s, which may be relevant when working with [macro(巨集|)s](macro).
+此外，內部語法結構視[識別符](define-identifier)為常數，在使用[巨集](macro)時可能需要注意到這一點。
 
 <!--label:expression-operators-->
-### operator(運算子|)s
+## 運算子
 
 <!--subtoc-->
 
 <!--label:expression-operators-unops-->
-#### Unary operator(運算子|)s
+### 一元運算子
 
 運算子 | 運算 | 運算元型式 | 位置 | 結果型式
 --- | --- | --- | --- | ---
-`~` | bitwise negation | `Int` | prefix | `Int`
-`!` | logical negation | `Bool` | prefix | `Bool`
-`-`| arithmetic negation | `Float/Int` | prefix | same as operand
-`++` | increment | `Float/Int` | prefix and postfix | same as operand
-`--` | decrement | `Float/Int` | prefix and postfix | same as operand
+`~` | 位元否定 | `Int` | 前綴 | `Int`
+`!` | 邏輯否定 | `Bool` | 前綴 | `Bool`
+`-`| 算術否定 | `Float/Int` | 前綴 | 與運算元相同
+`++` | 遞增 | `Float/Int` | 前綴和後綴 | 與運算元相同
+`--` | 遞減 | `Float/Int` | 前綴和後綴 | 與運算元相同
 
-##### Increment and decrement
+#### 遞增和遞減
 
-The increment and decrement operator(運算子|)s change the given value(值|), so they cannot be applied to a read(讀出|)-only value(值|). They also produce different results based on whether they are used as a prefix operator(運算子|), which evaluate(評估|)s to the modified value(值|), or as a postfix operator(運算子|), which evaluate(評估|)s to the original value(值|):
+遞增和遞減運算子會改變給定的值，因此其不可用於唯讀值。這些運算子還會因是前綴或後綴而產生不同結果，前綴運算子會評估為修改的值，而後綴運算子會評估為原始的值。
 
 ```haxe
 var a = 10;
@@ -261,17 +261,17 @@ trace(a); // 11
 ```
 
 <!--label:expression-operators-binops-->
-#### Binary Operators
+### 二元運算子
 
-##### Arithmetic operators
+#### 算術運算子
 
-Operator | Operation | Operand 1 | Operand 2 | 結果型式
+運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
 --- | --- | --- | --- | ---
-`%` | modulo | `Float/Int` | `Float/Int` | `Float/Int`
-`*` | multiplication | `Float/Int` | `Float/Int` | `Float/Int`
-`/` | division | `Float/Int` | `Float/Int` | `Float`
-`+` | addition | `Float/Int` | `Float/Int` | `Float/Int`
-`-` | subtraction | `Float/Int` | `Float/Int` | `Float/Int`
+`%` | 模數 | `Float/Int` | `Float/Int` | `Float/Int`
+`*` | 乘法 | `Float/Int` | `Float/Int` | `Float/Int`
+`/` | 除法 | `Float/Int` | `Float/Int` | `Float`
+`+` | 加法 | `Float/Int` | `Float/Int` | `Float/Int`
+`-` | 減法 | `Float/Int` | `Float/Int` | `Float/Int`
 
 About the `Float/Int` return(回傳|) type(型式|n. 又：型別): If one of the operands is of type(型式|n. 又：型別) `Float`, the resulting expression will also be of type `Float`, otherwise the type will be `Int`. The result of a division is always a `Float`; use `Std.int(a / b)` for integer division (discarding any fractional part).
 
@@ -279,31 +279,31 @@ In Haxe, the result of a modulo operation(運算|) always keeps the sign of the 
 
 ##### string(字串|) concatenation operator(運算子|)
 
-operator(運算子|) | operation(運算|) | Operand 1 | Operand 2 | 結果型式
+運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
 --- | --- | --- | --- | ---
-`+`| concatenation | any | `String` | `String`
-`+`| concatenation | `String` | any | `String`
-`+=` | concatenation | `String` | any | `String`
+`+`| 序連 | 任意 | `String` | `String`
+`+`| 序連 | `String` | 任意 | `String`
+`+=` | 序連 | `String` | 任意 | `String`
 
 Note that the "any" operand will be stringified. For classes and abstracts stringification can be controlled with user-defined `toString` function(函式|).
 
 ##### Bitwise operator(運算子|)s
 
-運算子 | 運算 | Operand 1 | Operand 2 | 結果型式
+運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
 --- | --- | --- | --- | ---
-`<<` | shift left | `Int` | `Int` | `Int`
-`>>` | shift right | `Int` | `Int` | `Int`
-`>>>` | unsigned shift right | `Int` | `Int` | `Int`
-`&` | bitwise and | `Int` | `Int` | `Int`
-`\|` | bitwise or | `Int` | `Int` | `Int`
-`^` | bitwise xor | `Int` | `Int` | `Int`
+`<<` | 左移 | `Int` | `Int` | `Int`
+`>>` | 右移 | `Int` | `Int` | `Int`
+`>>>` | 無符號右移 | `Int` | `Int` | `Int`
+`&` | 位元及 | `Int` | `Int` | `Int`
+`\|` | 位元或 | `Int` | `Int` | `Int`
+`^` | 位元互斥或 | `Int` | `Int` | `Int`
 
 ##### Logical operators
 
-Operator | Operation | Operand 1 | Operand 2 | 結果型式
+運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
 --- | --- | --- | --- | ---
-`&&` | logical and | `Bool` | `Bool` | `Bool`
-`\|\|` | logical or | `Bool` | `Bool` | `Bool`
+`&&` | 邏輯及 | `Bool` | `Bool` | `Bool`
+`\|\|` | 邏輯或 | `Bool` | `Bool` | `Bool`
 
 **Short-circuiting:**
 
@@ -317,19 +317,19 @@ Accessing `object.field` if `object` is `null` would lead to a run-time(執行�
 
 ##### Compound assign(指派|又：賦值、指定、分配)ment operator(運算子|)s
 
-運算子 | 運算 | Operand 1 | Operand 2 | 結果型式
+運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
 --- | --- | --- | --- | ---
-`%=` | modulo | `Float/Int` | `Float/Int` | `Float/Int`
-`*=` | multiplication | `Float/Int` | `Float/Int` | `Float/Int`
-`/=` | division | `Float` | `Float/Int` | `Float`
-`+=` | addition | `Float/Int` | `Float/Int` | `Float/Int`
-`-=` | subtraction | `Float/Int` | `Float/Int` | `Float/Int`
-`<<=` | shift left | `Int` | `Int` | `Int`
-`>>=` | shift right | `Int` | `Int` | `Int`
-`>>>=` | unsigned shift right | `Int` | `Int` | `Int`
-`&=` | bitwise and | `Int` | `Int` | `Int`
-`\|=` | bitwise or | `Int` | `Int` | `Int`
-`^=` | bitwise xor | `Int` | `Int` | `Int`
+`%=` | 模數 | `Float/Int` | `Float/Int` | `Float/Int`
+`*=` | 乘法 | `Float/Int` | `Float/Int` | `Float/Int`
+`/=` | 除法 | `Float` | `Float/Int` | `Float`
+`+=` | 加法 | `Float/Int` | `Float/Int` | `Float/Int`
+`-=` | 減法 | `Float/Int` | `Float/Int` | `Float/Int`
+`<<=` | 左移 | `Int` | `Int` | `Int`
+`>>=` | 右移 | `Int` | `Int` | `Int`
+`>>>=` | 無符號右移 | `Int` | `Int` | `Int`
+`&=` | 位元及 | `Int` | `Int` | `Int`
+`\|=` | 位元或 | `Int` | `Int` | `Int`
+`^=` | 位元互斥或 | `Int` | `Int` | `Int`
 
 In all cases, a compound assignment modifies the given variable, field, structure member, etc., so it will not work on a read-only value. The compound assignment evaluates to the modified value when used as a sub-expression:
 
@@ -343,25 +343,25 @@ Note that the first operand of `/=` must always be a `Float`, since the result o
 
 ##### Numeric comparison operators
 
-Operator | Operation | Operand 1 | Operand 2 | 結果型式
+運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
 --- | --- | --- | --- | ---
-`==` | equal | `Float/Int` | `Float/Int` | `Bool`
-`!=` | not equal | `Float/Int` | `Float/Int` | `Bool`
-`<` | less than | `Float/Int` | `Float/Int` | `Bool`
-`<=` | less than or equal | `Float/Int` | `Float/Int` | `Bool`
-`>` | greater than | `Float/Int` | `Float/Int` | `Bool`
-`>=` | greater than or equal | `Float/Int` | `Float/Int` | `Bool`
+`==` | 等於 | `Float/Int` | `Float/Int` | `Bool`
+`!=` | 不等於 | `Float/Int` | `Float/Int` | `Bool`
+`<` | 小於 | `Float/Int` | `Float/Int` | `Bool`
+`<=` | 小於或等於 | `Float/Int` | `Float/Int` | `Bool`
+`>` | 大於 | `Float/Int` | `Float/Int` | `Bool`
+`>=` | 大於或等於 | `Float/Int` | `Float/Int` | `Bool`
 
 ##### String comparison operators
 
-Operator | Operation | Operand 1 | Operand 2 | 結果型式
- --- | --- | --- | --- | ---
-`==` | equal | `String` | `String` | `Bool`
-`!=` | not equal | `String` | `String` | `Bool`
-`<` | lexicographically before | `String` | `String` | `Bool`
-`<=` | lexicographically before or equal | `String` | `String` | `Bool`
-`>` | lexicographically after | `String` | `String` | `Bool`
-`>=` | lexicographically after or equal | `String` | `String` | `Bool`
+運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
+--- | --- | --- | --- | ---
+`==` | 等於 | `String` | `String` | `Bool`
+`!=` | 不等於 | `String` | `String` | `Bool`
+`<` | 字典序前於 | `String` | `String` | `Bool`
+`<=` | 字典序前於或等於 | `String` | `String` | `Bool`
+`>` | 字典序後於 | `String` | `String` | `Bool`
+`>=` | 字典序後於或等於 | `String` | `String` | `Bool`
 
 Two values of type `String` are considered equal in Haxe when they have the same length and the same contents:
 
@@ -376,10 +376,10 @@ trace(a == "foo"); // true
 
 ##### Equality operators
 
-Operator | Operation | Operand 1 | Operand 2 | Result type
- --- | --- | --- | --- | ---
-`==` | equal | any | any | `Bool`
-`!=` | not equal | any | any | `Bool`
+運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
+--- | --- | --- | --- | ---
+`==` | 等於 | 任意 | 任意 | `Bool`
+`!=` | 不等於 | 任意 | 任意 | `Bool`
 
 The types of operand 1 and operand 2 must [unify](type-system-unification).
 
@@ -394,17 +394,17 @@ Comparison involving at least one operand of type `Dynamic` is unspecified and p
 
 ##### Miscellaneous operator(運算子|)s
 
-運算子 | 運算 | Operand 1 | Operand 2 | Result type(型式n. 又：型別)
+運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
 --- | --- | --- | --- | ---
-`...` | interval (see [range iteration](expression-for)) | `Int` | `Int` | `IntIterator`
-`=>` | arrow (see [map](expression-map-declaration), [key-value iteration](expression-for#key-value-iteration), [map comprehension](lf-map-comprehension)) | any | any | -
+`...` | 區間（參看[範圍疊代](expression-for)） | `Int` | `Int` | `IntIterator`
+`=>` | 箭頭（參看[映射](expression-map-declaration), [key-value iteration](expression-for#key-value-iteration)、[映射理解](lf-map-comprehension)） | 任意 | 任意 | -
 
 <!--label:expression-operators-ternary-->
 #### Ternary Operator
 
-Operator | Operation | Operand 1 | Operand 2 | Operand 3 | Result type
+運算子 | 運算 | 運算元 1 | 運算元 2 | 運算元 3 | 結果型式
  --- | --- | --- | --- | --- | ---
-`?:` | condition | `Bool` | any | any | any
+`?:` | 條件 | `Bool` | 任意 | 任意 | 任意
 
 The type(型式|n. 又：型別) of operand 2 and operand 3 must [unify](type-system-unification). The unified type(型式|n. 又：型別) is used as the result type(型式|n. 又：型別) of the expression(表達式|).
 
@@ -425,23 +425,23 @@ trace(if (1 == 2) 3 else 4); // 4
 
 In order of descending precedence (i.e. operators higher in the table are evaluated first):
 
-Operators | Note | Associativity
+運算子 | 備註 | 結合性
  --- | --- | ---
-`!`, `++`, `--` | postfix unary operators | right
-`~`, `!`, `-`, `++`, `--` | prefix unary operators | right
-`%` | modulo | left
-`*`, `/` | multiplication, division | left
-`+`, `-` | addition, subtraction | left
-`<<`, `>>`, `>>>` | bitwise shifts | left
-`&`, `\|`, `^` | bitwise operators | left
-`==`, `!=`, `<`, `<=`, `>`, `>=` | comparison | left
-`...` | interval | left
-`&&` | logical and | left
-`\|\|` | logical or | left
-`@`| metadata | right
-`?:` | ternary | right
-`%=`, `*=`, `/=`, `+=`, `-=`, `<<=`, `>>=`, `>>>=`, `&=`, `\|=`, `^=` | compound assignment | right
-`=>` | arrow | right
+`!`, `++`, `--` | 後綴一元運算子 | 右
+`~`, `!`, `-`, `++`, `--` | 前綴一元運算子 | 右
+`%` | 模數 | 左
+`*`, `/` | 乘法、除法 | 左
+`+`, `-` | 加法、減法 | 左
+`<<`, `>>`, `>>>` | 位元移位 | 左
+`&`, `\|`, `^` | 位元運算子 | 左
+`==`, `!=`, `<`, `<=`, `>`, `>=` | 比較 | 左
+`...` | interval | 左
+`&&` | 邏輯及 | 左
+`\|\|` | 邏輯或 | 左
+`@`| metadata | 右
+`?:` | 條件 | 右
+`%=`, `*=`, `/=`, `+=`, `-=`, `<<=`, `>>=`, `>>>=`, `&=`, `\|=`, `^=` | 複合指派 | 右
+`=>` | 箭頭 | 右
 
 ##### Differences from C-like precedence
 
@@ -658,7 +658,7 @@ Haxe does not support traditional for-loops known from C. Its `for` keyword(關�
 for (v in e1) e2;
 ```
 
-The typer ensures that the type of `e1` can be iterate(迭代|)d over, which is typically the case if it has an  [`iterator`](lf-iterators) method returning an `Iterator<T>`, or if it is an `Iterator<T>` itself.
+The typer ensures that the type of `e1` can be iterate(疊代|)d over, which is typically the case if it has an  [`iterator`](lf-iterators) method returning an `Iterator<T>`, or if it is an `Iterator<T>` itself.
 
 variable(變數|) `v` is then available within loop body(本體|) `e2` and hold(儲存|TODO:又：存儲)s the value(值|) of the individual elements of collection `e1`.
 
@@ -674,7 +674,7 @@ for (v in list) {
 
 ##### Range iteration
 
-Haxe has a special range operator to iterate over intervals. It is a binary operator taking two `Int` operands: `min...max` return(回傳|)s an [IntIterator](http://api.haxe.org/IntIterator.html) instance(實例|) that iterate(迭代|)s from `min` (inclusive) to `max` (exclusive). Note that `max` may not be smaller than `min`.
+Haxe has a special range operator to iterate over intervals. It is a binary operator taking two `Int` operands: `min...max` return(回傳|)s an [IntIterator](http://api.haxe.org/IntIterator.html) instance(實例|) that iterate(疊代|)s from `min` (inclusive) to `max` (exclusive). Note that `max` may not be smaller than `min`.
 
 ```haxe
 for (i in 0...10) trace(i); // 0 to 9
