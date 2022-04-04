@@ -273,11 +273,11 @@ trace(a); // 11
 `+` | 加法 | `Float/Int` | `Float/Int` | `Float/Int`
 `-` | 減法 | `Float/Int` | `Float/Int` | `Float/Int`
 
-About the `Float/Int` return(回傳|) type(型式|n. 又：型別): If one of the operands is of type(型式|n. 又：型別) `Float`, the resulting expression will also be of type `Float`, otherwise the type will be `Int`. The result of a division is always a `Float`; use `Std.int(a / b)` for integer division (discarding any fractional part).
+對於 `Float/Int` 回傳型式：若其中的一個運算元為 `Float`，運算式結果也會是 `Float`，此外的型式將為 `Int`。除法的結果始終為浮點數，不過可以以 `Std.int(a / b)` 的方式以整數除（將丟棄任何小數部分）。
 
-In Haxe, the result of a modulo operation(運算|) always keeps the sign of the dividend (the left operand) if the divisor is non-negative. The result is target(目標|)-specific(特定|) with a negative divisor.
+在 Haxe 中，若除數為非負數，則模數運算結果的符號將始終為被除數（左運算元）的符號。有負除數的解果將是特定於目標的。
 
-##### string(字串|) concatenation operator(運算子|)
+#### 字串序連運算子
 
 運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
 --- | --- | --- | --- | ---
@@ -285,9 +285,9 @@ In Haxe, the result of a modulo operation(運算|) always keeps the sign of the 
 `+`| 序連 | `String` | 任意 | `String`
 `+=` | 序連 | `String` | 任意 | `String`
 
-Note that the "any" operand will be stringified. For classes and abstracts stringification can be controlled with user-defined `toString` function(函式|).
+注意「任意」的運算元將字串化。類別和抽象可以以使用者自訂的 `toString` 函式來控制字串化。
 
-##### Bitwise operator(運算子|)s
+#### 位元運算子
 
 運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
 --- | --- | --- | --- | ---
@@ -298,24 +298,24 @@ Note that the "any" operand will be stringified. For classes and abstracts strin
 `\|` | 位元或 | `Int` | `Int` | `Int`
 `^` | 位元互斥或 | `Int` | `Int` | `Int`
 
-##### Logical operators
+#### 邏輯運算子
 
 運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
 --- | --- | --- | --- | ---
 `&&` | 邏輯及 | `Bool` | `Bool` | `Bool`
 `\|\|` | 邏輯或 | `Bool` | `Bool` | `Bool`
 
-**Short-circuiting:**
+**短路：**
 
-Haxe guarantees that compound boolean expressions with the same operator are evaluated from left to right but only as far as necessary at run-time. For instance, an expression like `A && B` will evaluate(評估|) `A` first and evaluate(評估|) `B` only if the evaluation of `A` yielded `true`. Likewise, the expression `A && B` will not evaluate `B` if the evaluation of `A` yielded `true`, because the value of `B` is irrelevant in that case. This is import(匯入|)ant in cases such as this:
+Haxe 保證具有相同運算子的複合布林運算式會從左到右計算，但在執行期將根據具體所需計算。例如，類似 `A && B` 這樣的運算式將首先評估 `A`，並在僅當 `A` 的評估結果為 `true` 時，才會評估 `B`。同理，運算式 `A || B` 若 `A` 的評估結果為 `true`，則不會再評估 `B`，因為在這種情況下，`B` 的值並不重要。這對於以下的情況來說很重要：
 
 ```haxe
 if (object != null && object.field == 1) { }
 ```
 
-Accessing `object.field` if `object` is `null` would lead to a run-time(執行期|又：執行時) error(錯誤|), but the check for `object != null` guards against it.
+若在 `object` 為 `null` 時存取 `object.field` 會導致執行期錯誤，但檢查 `object != null` 會防範這個錯誤。
 
-##### Compound assign(指派|又：賦值、指定、分配)ment operator(運算子|)s
+##### 複合指派運算子
 
 運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
 --- | --- | --- | --- | ---
@@ -331,7 +331,7 @@ Accessing `object.field` if `object` is `null` would lead to a run-time(執行�
 `\|=` | 位元或 | `Int` | `Int` | `Int`
 `^=` | 位元互斥或 | `Int` | `Int` | `Int`
 
-In all cases, a compound assignment modifies the given variable, field, structure member, etc., so it will not work on a read-only value. The compound assignment evaluates to the modified value when used as a sub-expression:
+在所有情況下複合指派都會修改給定的變數、欄位、結構成員等，因此其不可用於唯讀值。在以子運算式使用時，複合指派會計算為修改後的值：
 
 ```haxe
 var a = 3;
@@ -339,9 +339,9 @@ trace(a += 3); // 6
 trace(a); // 6
 ```
 
-Note that the first operand of `/=` must always be a `Float`, since the result of a division is always a `Float` in Haxe. Similarly, `+=` and `-=` cannot accept `Int` as the first operand if `Float` is given as the second operand, since the result would be a `Float`.
+注意， `/=` 的第一個運算元必須始終是 `Float`，因為除法的結果在 Haxe 中始終為 `Float`。同樣，若 `+=` 和 `-=` 的第二個運算元是 `Float`，那就不可以 `Int` 為第一個運算元，因為其結果會是 `Float`。
 
-##### Numeric comparison operators
+#### 數值比較運算子
 
 運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
 --- | --- | --- | --- | ---
@@ -352,7 +352,7 @@ Note that the first operand of `/=` must always be a `Float`, since the result o
 `>` | 大於 | `Float/Int` | `Float/Int` | `Bool`
 `>=` | 大於或等於 | `Float/Int` | `Float/Int` | `Bool`
 
-##### String comparison operators
+#### 字串比較運算子
 
 運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
 --- | --- | --- | --- | ---
@@ -363,7 +363,7 @@ Note that the first operand of `/=` must always be a `Float`, since the result o
 `>` | 字典序後於 | `String` | `String` | `Bool`
 `>=` | 字典序後於或等於 | `String` | `String` | `Bool`
 
-Two values of type `String` are considered equal in Haxe when they have the same length and the same contents:
+在 Haxe 中若兩個 `String` 的長度與內容都相同，則認為它們相等。
 
 ```haxe
 var a = "foo";
@@ -374,25 +374,36 @@ trace(a == c); // true
 trace(a == "foo"); // true
 ```
 
-##### Equality operators
+#### 等號比較運算子
 
 運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
 --- | --- | --- | --- | ---
 `==` | 等於 | 任意 | 任意 | `Bool`
 `!=` | 不等於 | 任意 | 任意 | `Bool`
 
-The types of operand 1 and operand 2 must [unify](type-system-unification).
+運算元 1 和運算元 2 的型式必須[統一](type-system-unification)。
 
-**Enums:**
+**枚舉：**
 
 - Enums without parameters always represent the same value, so `MyEnum.A == MyEnum.A`.
 - Enums with parameters can be compared with `a.equals(b)` (which is short for `Type.enumEq()`).
 
-**Dynamic:**
+**動態：:**
 
 Comparison involving at least one operand of type `Dynamic` is unspecified and platform-specific(特定|).
 
-##### Miscellaneous operator(運算子|)s
+操作數 1 和操作數 2 的類型必須[統一]（類型-系統-統一）。
+
+**枚舉：**
+
+- 沒有參數的枚舉總是代表相同的值，所以 `MyEnum.A == MyEnum.A`。
+- 帶參數的枚舉可以與 `a.equals(b)`（`Type.enumEq()` 的縮寫）進行比較。
+
+**動態的：**
+
+涉及至少一個“動態”類型的操作數的比較未指定且特定於平台。
+
+#### 雜項運算子
 
 運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
 --- | --- | --- | --- | ---
@@ -400,10 +411,10 @@ Comparison involving at least one operand of type `Dynamic` is unspecified and p
 `=>` | 箭頭（參看[映射](expression-map-declaration), [key-value iteration](expression-for#key-value-iteration)、[映射理解](lf-map-comprehension)） | 任意 | 任意 | -
 
 <!--label:expression-operators-ternary-->
-#### Ternary Operator
+#### 三元運算子
 
 運算子 | 運算 | 運算元 1 | 運算元 2 | 運算元 3 | 結果型式
- --- | --- | --- | --- | --- | ---
+--- | --- | --- | --- | --- | ---
 `?:` | 條件 | `Bool` | 任意 | 任意 | 任意
 
 The type(型式|n. 又：型別) of operand 2 and operand 3 must [unify](type-system-unification). The unified type(型式|n. 又：型別) is used as the result type(型式|n. 又：型別) of the expression(表達式|).
