@@ -56,8 +56,9 @@ compatible | 相容 |
 compilation | 編譯 | 名詞
 compile-time | 編譯期 | 又：編譯時
 compiler | 編譯器 |
-complex | 複合 |
+complex | 複雜 |
 component | 組件 |
+compound | 複合 |
 compound type | 複合型式 |
 comprehension | 理解 |
 concatenation | 序連 |
@@ -105,6 +106,7 @@ enum case | 枚舉成員 | 又：枚舉案例 TODO:
 enum instance | 枚舉實例 |
 enumeration | 枚舉 |
 equal | 等於 | 又：相等
+equality operator | 等號比較運算子 |
 error | 錯誤 |
 error message | 錯誤訊息 |
 evaluate | 評估 |
@@ -180,6 +182,7 @@ match | 匹配 |
 member | 成員 |
 metadata | 元資料 |
 method | 方法 |
+miscellaneous | 雜項 |
 modifier | 修飾符 |
 module | 模組 |
 modulo | 模數 |
@@ -197,6 +200,7 @@ notation | 表示法 |
 nullability | 可空性 |
 nullable | 可空 |
 null | 空 |
+numeric | 數值 |
 offset | 偏移 |
 object-oriented | 物件導向 |
 opaque | 不透明 |
@@ -258,6 +262,7 @@ shadow | 遮蔽 |
 shift | 移位 |
 shift left | 左移 |
 shift right | 右移 |
+short-circuit | 短路 |
 signature | 簽章 |
 sourcecode | 原始碼 |
 specific | 特定 |
@@ -269,6 +274,7 @@ storage | 儲存 |
 string | 字串 |
 string interpolation | 字串插值 |
 string literal | 字串常值 | 又：字串文字
+stringify | 字串化 |
 strongly typed | 強型別 | 強型
 struct | 結構體 |
 structural sub-typing | 結構子型態 | TODO:
