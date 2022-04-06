@@ -417,9 +417,9 @@ Comparison involving at least one operand of type `Dynamic` is unspecified and p
 --- | --- | --- | --- | --- | ---
 `?:` | 條件 | `Bool` | 任意 | 任意 | 任意
 
-The type(型式|n. 又：型別) of operand 2 and operand 3 must [unify](type-system-unification). The unified type(型式|n. 又：型別) is used as the result type(型式|n. 又：型別) of the expression(表達式|).
+運算元 1 和運算元 2 的型式必須[統一](type-system-unification)。所統一的型式將是運算式的結果型式。
 
-The ternary conditional operator(運算子|) is a shorter form of [`if`](expression-if):
+三元運算子是 [`if`](expression-if) 的較簡短形式。
 
 ```haxe
 trace(true ? "Haxe" : "Neko"); // Haxe
@@ -432,9 +432,9 @@ trace(if (1 == 2) 3 else 4); // 4
 ```
 
 <!--label:expression-operators-precedence-->
-#### Precedence
+### 優先順序
 
-In order of descending precedence (i.e. operators higher in the table are evaluated first):
+以優先順序排列（即表中越前的運算子越優先評估）：
 
 運算子 | 備註 | 結合性
  --- | --- | ---
@@ -454,40 +454,40 @@ In order of descending precedence (i.e. operators higher in the table are evalua
 `%=`, `*=`, `/=`, `+=`, `-=`, `<<=`, `>>=`, `>>>=`, `&=`, `\|=`, `^=` | 複合指派 | 右
 `=>` | 箭頭 | 右
 
-##### Differences from C-like precedence
+#### 與類 C 優先順序的差異
 
-Many languages (C++, Java, PHP, JavaScript, etc) use the same operator precedence rules as C. In Haxe, there are a couple of differences from these rules:
+許多語言（C++、Java、PHP、JavaScript等）的優先順序與 C 相同，在 Haxe 中這些規則有一些不同之處：
 
-- `%` (modulo) has a higher precedence than `*` and `/`; in C they have the same precedence
-- `|`, `&`, `^` (bitwise operator(運算子|)s) have the same precedence; in C the three operator(運算子|)s all have a different precedence
-- `|`, `&`, `^` (bitwise operator(運算子|)s) also have a lower precedence than `==`, `!=`, etc (comparison operators)
+- `%`（模數）的優先順序高過 `*` 和 `/`，在 C 中這些的優先順序相同。
+- `|`、`&`、`^`（位元運算子）的優先順序相同，在 C 中這三個運算子的優先順序都不相同。
+- `|`、`&`、`^`（位元運算子）的優先順序較 `==`、`!=` 等（比較運算子）低。
 
 <!--label:expression-operators-overloading-->
-#### Overloading and macros
+### 多載和巨集
 
-The operators specified in the previous sections specify the types and meanings for operations on basic types. Additional functionality can be implemented using [abstract operator overloading](types-abstract-operator-overloading) or [macro processing](macro).
+先前的部分指定的運算子指定了基本型式和含意。而附加功能可以用[抽象運算子多載](types-abstract-operator-overloading)或[巨集處理](macro)實作。
 
-Operator precedence cannot be changed with abstract operator overloading.
+運算子的優先順序並不能以抽象運算子多載來改變。
 
-For macro processing in particular, there is an additional operator available: the postfix `!` operator(運算子|).
+特別對巨集處理還有一個額外的運算子，後綴 `!` 運算子，可用。
 
 <!--label:expression-field-access-->
-### field(欄位|) access(存取|)
+## 欄位存取
 
-field(欄位|) access(存取|) is expressed by using the dot `.` followed by the name of the field(欄位|).
+欄位存取以點 `.` 表示，其後接欄位的名稱。
 
 ```haxe
 object.fieldName
 ```
 
-This syntax is also used to access types within packages in the form of `pack.Type`.
+此語法還用於以 `pack.Type` 的型式存取套件中的型式。
 
-The typer ensures that an accessed field actually exist and may apply transformations depending on the nature of the field. If a field access is ambiguous, understanding the [resolution order](type-system-resolution-order) may help.
+型式系統會確保存取的欄位確實存在，並可以由欄位的性質應用轉換。若欄位存取模稜兩可，了解[解析順序](type-system-resolution-order)或許會有助益。
 
 <!--label:expression-array-access-->
-### Array Access
+## 陣列存取
 
-Array access is expressed by using an opening bracket `[` followed by the index expression(表達式|) and a closing bracket `]`.
+陣列存取以左括號 `[` 後跟索引運算式和右括號 `]` 表示。
 
 ```haxe
 expr[indexExpr]
@@ -501,7 +501,7 @@ This notation is allowed with arbitrary expressions, but at typing level only ce
 <!--label:expression-function-call-->
 ### function(函式|) Call
 
-function(函式|)s calls consist of an arbitrary subject expression(表達式|) followed by an opening parenthesis `(`, a comma `,` separated(分隔|) list(列表|) of expression(表達式|)s as argument(引數|)s and a closing parenthesis `)`.
+function(函式|)s calls consist of an arbitrary subject expression(運算式|) followed by an opening parenthesis `(`, a comma `,` separated(分隔|) list(列表|) of expression(運算式|)s as argument(引數|)s and a closing parenthesis `)`.
 
 ```haxe
 subject(); // call with no arguments
@@ -535,7 +535,7 @@ The scoping behavior of local variables, as well as variable shadowing is descri
 
 ##### since Haxe 4.0.0
 
-In Haxe 4, the alternative keyword `final` was introduced at the expression(表達式|) level. variable(變數|)s declare(宣告|)d with `final` instead of `var` can only be assign(指派|又：賦值、指定、分配)ed a value(值|) once.
+In Haxe 4, the alternative keyword `final` was introduced at the expression(運算式|) level. variable(變數|)s declare(宣告|)d with `final` instead of `var` can only be assign(指派|又：賦值、指定、分配)ed a value(值|) once.
 
 <!-- [code asset](assets/Final.hx) -->
 ```haxe
@@ -577,7 +577,7 @@ class Main {
 <!--label:expression-arrow-function-->
 ### Local function(函式|)s
 
-Haxe supports first-class(類別|) function(函式|)s and allow(容許|又：允許)s declaring local function(函式|)s in expression(表達式|)s. The syntax(語法|) follows [class(類別|) field(欄位|) method(方法|)s](class-field-method):
+Haxe supports first-class(類別|) function(函式|)s and allow(容許|又：允許)s declaring local function(函式|)s in expression(運算式|)s. The syntax(語法|) follows [class(類別|) field(欄位|) method(方法|)s](class-field-method):
 
 <!-- [code asset](assets/LocalFunction.hx) -->
 ```haxe
@@ -593,7 +593,7 @@ class Main {
 
 ```
 
-We declare(宣告|) `myLocalFunction` inside the [block expression(表達式|)](expression-block) of the `main` class(類別|) field(欄位|). It takes one argument(引數|) `i` and adds it to `value`, which is defined in the outside scope.
+We declare(宣告|) `myLocalFunction` inside the [block expression(運算式|)](expression-block) of the `main` class(類別|) field(欄位|). It takes one argument(引數|) `i` and adds it to `value`, which is defined in the outside scope.
 
 The scoping is equivalent to that of [variables](expression-var) and for the most part writing a named local function can be considered equal to assigning an unnamed local function to a local variable:
 
@@ -637,8 +637,8 @@ class Main {
 
 Arrow functions are very similar to normal local functions, with a couple of differences:
 
-- The expression after the arrow is implicitly treated as the return value of the function. For simple functions like `myConcat` above, this can be a convenient way to shorten the code. Normal `return` expression(表達式|)s can still be used, as shown in `myContains` above.
-- There is no way to declare(宣告|) the return(回傳|) type(型式|n. 又：型別), although you can use a [type(型式|n. 又：型別) check](expression-type-check) to unify the function(函式|) expression(表達式|) with the desired return(回傳|) type(型式|n. 又：型別).
+- The expression after the arrow is implicitly treated as the return value of the function. For simple functions like `myConcat` above, this can be a convenient way to shorten the code. Normal `return` expression(運算式|)s can still be used, as shown in `myContains` above.
+- There is no way to declare(宣告|) the return(回傳|) type(型式|n. 又：型別), although you can use a [type(型式|n. 又：型別) check](expression-type-check) to unify the function(函式|) expression(運算式|) with the desired return(回傳|) type(型式|n. 又：型別).
 - [metadata(元資料|)](lf-metadata) cannot be applied to the argument(引數|)s of an arrow function(箭頭函式|).
 
 <!--label:expression-new-->
@@ -663,7 +663,7 @@ Within the `main` method(方法|) we instantiate(實例化|) an instance(實例|
 <!--label:expression-for-->
 ### for
 
-Haxe does not support traditional for-loops known from C. Its `for` keyword(關鍵字|) expects an opening parenthesis `(`, then a variable identifier followed by the keyword `in` and an arbitrary expression(表達式|) used as iterating collection. After the closing parenthesis `)` follows an arbitrary loop body(本體|) expression(表達式|).
+Haxe does not support traditional for-loops known from C. Its `for` keyword(關鍵字|) expects an opening parenthesis `(`, then a variable identifier followed by the keyword `in` and an arbitrary expression(運算式|) used as iterating collection. After the closing parenthesis `)` follows an arbitrary loop body(本體|) expression(運算式|).
 
 ```haxe
 for (v in e1) e2;
@@ -691,7 +691,7 @@ Haxe has a special range operator to iterate over intervals. It is a binary oper
 for (i in 0...10) trace(i); // 0 to 9
 ```
 
-The type of a `for` expression(表達式|) is always `Void`, meaning it has no value and cannot be used as right-side expression. However, we'll later introduce [array comprehension](lf-array-comprehension), which lets you construct arrays using `for` expression(表達式|)s.
+The type of a `for` expression(運算式|) is always `Void`, meaning it has no value and cannot be used as right-side expression. However, we'll later introduce [array comprehension](lf-array-comprehension), which lets you construct arrays using `for` expression(運算式|)s.
 
 The control flow of loops can be affected by [`break`](expression-break) and [`continue`](expression-continue) expressions.
 
@@ -766,7 +766,7 @@ This kind of while-loop is not guaranteed to evaluate the loop body expression a
 <!--label:expression-do-while-->
 ### do-while
 
-A do-while loop starts with the `do` keyword(關鍵字|) followed by the loop body(本體|) expression(表達式|). After that follows the `while` keyword(關鍵字|), an opening parenthesis `(`, the condition expression and a closing parenthesis `)`:
+A do-while loop starts with the `do` keyword(關鍵字|) followed by the loop body(本體|) expression(運算式|). After that follows the `while` keyword(關鍵字|), an opening parenthesis `(`, the condition expression and a closing parenthesis `)`:
 
 ```haxe
 do expression while (condition);
@@ -779,7 +779,7 @@ As the syntax suggests, the loop body expression is always evaluated at least on
 <!--label:expression-if-->
 ### if
 
-Conditional expressions come in the form of a leading `if` keyword(關鍵字|), a condition expression(表達式|) enclosed(括住|) in parentheses `()` and a expression(表達式|) to be evaluate(評估|)d in case the condition hold(儲存|TODO:又：存儲)s:
+Conditional expressions come in the form of a leading `if` keyword(關鍵字|), a condition expression(運算式|) enclosed(括住|) in parentheses `()` and a expression(運算式|) to be evaluate(評估|)d in case the condition hold(儲存|TODO:又：存儲)s:
 
 ```haxe
 if (condition) expression;
@@ -787,13 +787,13 @@ if (condition) expression;
 
 The condition expression has to be of type `Bool`.
 
-Optionally, `expression` may be followed by the `else` keyword(關鍵字|) as well as another expression(表達式|) to be evaluate(評估|)d if the condition does not hold(儲存|TODO:又：存儲):
+Optionally, `expression` may be followed by the `else` keyword(關鍵字|) as well as another expression(運算式|) to be evaluate(評估|)d if the condition does not hold(儲存|TODO:又：存儲):
 
 ```haxe
 if (condition) expression1 else expression2;
 ```
 
-Here, `expression2` may consist of another `if` expression(表達式|):
+Here, `expression2` may consist of another `if` expression(運算式|):
 
 ```haxe
 if (condition1) expression1
@@ -801,12 +801,12 @@ else if (condition2) expression2
 else expression3
 ```
 
-If the value of an `if` expression(表達式|) is required, e.g. for `var x = if(condition) expression1 else expression2`, the typer ensures that the types of `expression1` and `expression2` [unify](type-system-unification). If no `else` expression(表達式|) is given, the type(型式|n. 又：型別) is inferred to be `Void`.
+If the value of an `if` expression(運算式|) is required, e.g. for `var x = if(condition) expression1 else expression2`, the typer ensures that the types of `expression1` and `expression2` [unify](type-system-unification). If no `else` expression(運算式|) is given, the type(型式|n. 又：型別) is inferred to be `Void`.
 
 <!--label:expression-switch-->
 ### switch
 
-A basic switch expression starts with the `switch` keyword(關鍵字|) and the switch subject expression(表達式|), as well as the case expression(表達式|)s between curly braces(大括號|) `{}`. Case expressions either start with the `case` keyword(關鍵字|) and are followed by a pattern expression(表達式|), or consist of the `default` keyword(關鍵字|). In both cases a colon `:` and an optional(任選|) case body(本體|) expression(表達式|) follows:
+A basic switch expression starts with the `switch` keyword(關鍵字|) and the switch subject expression(運算式|), as well as the case expression(運算式|)s between curly braces(大括號|) `{}`. Case expressions either start with the `case` keyword(關鍵字|) and are followed by a pattern expression(運算式|), or consist of the `default` keyword(關鍵字|). In both cases a colon `:` and an optional(任選|) case body(本體|) expression(運算式|) follows:
 
 ```haxe
 switch subject {
@@ -847,7 +847,7 @@ Haxe allows throwing any kind of value using its `throw` syntax(語法|):
 throw expr
 ```
 
-A value which is thrown like this can be caught by [`catch` blocks](expression(表達式|)-try-catch). If no such block catches it, the behavior(行為|) is target(目標|)-dependent.
+A value which is thrown like this can be caught by [`catch` blocks](expression(運算式|)-try-catch). If no such block catches it, the behavior(行為|) is target(目標|)-dependent.
 
 ##### since Haxe 4.1.0
 
@@ -871,7 +871,7 @@ If during runtime the evaluation of `try-expression` causes a [`throw`](expressi
 
 - a variable(變數|) name which hold(儲存|TODO:又：存儲)s the throw(擲回|)n value(值|),
 - an explicit type(型式|n. 又：型別) annotation(表示法|) which determines which type(型式|n. 又：型別)s of value(值|)s to catch, and
-- the expression(表達式|) to execute in that case.
+- the expression(運算式|) to execute in that case.
 
 Haxe allow(容許|又：允許)s throw(擲回|)ing and catching any kind of value(值|), it is not limited to type(型式|n. 又：型別)s inherit(繼承|)ing from a specific(特定|) exception or error(錯誤|) class(類別|). However since Haxe 4.1.0 it's highly recommended to throw(擲回|) and catch only instance(實例|)s of `haxe.Exception` and its descendants.
 
@@ -1075,7 +1075,7 @@ Now library users don't have to worry about specific arithmetic exceptions. All 
 <!--label:expression-return-->
 ### return
 
-A `return` expression(表達式|) can come with or without a value(值|) expression(表達式|):
+A `return` expression(運算式|) can come with or without a value(值|) expression(運算式|):
 
 ```haxe
 return;
@@ -1096,7 +1096,7 @@ function f1() {
 
 The `return` leaves local function(函式|) `f2`, but not `f1`, meaning `expression` is still evaluate(評估|)d.
 
-If `return` is used without a value(值|) expression(表達式|), the typer(型式系統|TODO:) ensures that the return(回傳|) type(型式|n. 又：型別) of the function(函式|) it return(回傳|)s from is of `Void`. If it has a value expression, the typer [unifies](type-system-unification) its type with the return type (explicitly given or inferred by previous `return` expression(表達式|)s) of the function(函式|) it return(回傳|)s from.
+If `return` is used without a value(值|) expression(運算式|), the typer(型式系統|TODO:) ensures that the return(回傳|) type(型式|n. 又：型別) of the function(函式|) it return(回傳|)s from is of `Void`. If it has a value expression, the typer [unifies](type-system-unification) its type with the return type (explicitly given or inferred by previous `return` expression(運算式|)s) of the function(函式|) it return(回傳|)s from.
 
 <!--label:expression-break-->
 ### break
@@ -1113,7 +1113,7 @@ while (true) {
 
 Here, `expression1` is evaluate(評估|)d for each iteration, but as soon as `condition` hold(儲存|TODO:又：存儲)s, the current iteration is terminated without evaluating `expression2`, and no more iteration is done.
 
-The typer ensures that it appears only within a loop. The `break` keyword(關鍵字|) in [`switch` cases](expression(表達式|)-switch) is not supported in Haxe.
+The typer ensures that it appears only within a loop. The `break` keyword(關鍵字|) in [`switch` cases](expression(運算式|)-switch) is not supported in Haxe.
 
 <!--label:expression-continue-->
 ### continue
@@ -1145,7 +1145,7 @@ cast (expr, Type); // safe cast
 <!--label:expression-cast-unsafe-->
 #### unsafe cast
 
-Unsafe casts are useful to subvert the type system. The compiler types `expr` as usual and then wraps it in a [monomorph(單型|)](types-monomorph). This allow(容許|又：允許)s the expression(表達式|) to be assign(指派|又：賦值、指定、分配)ed to anything.
+Unsafe casts are useful to subvert the type system. The compiler types `expr` as usual and then wraps it in a [monomorph(單型|)](types-monomorph). This allow(容許|又：允許)s the expression(運算式|) to be assign(指派|又：賦值、指定、分配)ed to anything.
 
 Unsafe cast(轉換|又：轉型 TODO:)s do not introduce any [dynamic(動態|)](types-dynamic) type(型式|n. 又：型別)s, as the following example shows:
 
@@ -1197,7 +1197,7 @@ class Main {
 
 In this example we first cast(轉換|又：轉型 TODO:) a class instance(類別實例|) of type(型式|n. 又：型別) `Child1` to `Base`, which succeeds because `Child1` is a [child class(子類別|)](types-class-inheritance) of `Base`. We then try to cast the same class instance to `Child2`, which is not allowed because instances of `Child2` are not instance(實例|)s of `Child1`.
 
-The Haxe compiler guarantees that an exception of type `String` is [throw(擲回|)n](expression-throw) in this case. This exception can be caught using a [`try/catch` block](expression(表達式|)-try-catch).
+The Haxe compiler guarantees that an exception of type `String` is [throw(擲回|)n](expression-throw) in this case. This exception can be caught using a [`try/catch` block](expression(運算式|)-try-catch).
 
 Safe cast(轉換|又：轉型 TODO:)s have a runtime overhead. It is import(匯入|)ant to understand that the compiler(編譯器|) alread(讀出|)y generate(產生|)s type(型式|n. 又：型別) checks, so it is redundant(冗餘|) to add manual(手冊/手動|n./adj.) checks, e.g. using `Std.is`. The intended usage is to try the safe cast and catch the `String` exception.
 
