@@ -10,12 +10,14 @@ accessor | 存取器 |
 accessibility | 可存取性 |
 achieve | 達成 |
 addition | 加法 |
+additional | 附加 |
 addressing | 定址 |
 advanced | 進階 |
 after | 後於 |
 alias | 別名 |
 allow | 容許 | 又：允許
 alternative | 替代 |
+ambiguous | 模稜兩可 | 又：不明確、歧義
 and | 及 | gate
 anonymous | 匿名 |
 annotate | 標記 |
@@ -142,6 +144,7 @@ implementation | 實作 |
 implicit | 隱含 |
 import | 匯入 |
 increment | 遞增 |
+index | 索引 |
 inference | 推斷 | 又：推定、推理
 inherit | 繼承 |
 inheritance | 繼承 |
@@ -227,9 +230,11 @@ physical field | 實體欄位 |
 position | 位置 |
 postfix | 後綴 | 又：後置
 pop | 爆出 |
+precedence | 優先順序 |
 prefix | 前綴 | 又：前置
 priority | 優先權 |
 private | 私用 |
+process | 處理 |
 programming language | 程式語言 |
 promotion | 提升 | TODO:
 property | 屬性 |
