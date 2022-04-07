@@ -77,7 +77,7 @@ Haxe 會保留識別符前綴 `_hx_` 以供內部使用，這並非由剖析器�
 
 #### 相關內容
 
-- Haxe Code Cookbook文章：[一切都是運算式](http://code.haxe.org/category/principles/everything-is-an-expression.html)。
+- Haxe Code Cookbook 文章：[一切都是運算式](http://code.haxe.org/category/principles/everything-is-an-expression.html)。
 
 <!--label:expression-block-->
 ## 塊段
@@ -493,41 +493,41 @@ object.fieldName
 expr[indexExpr]
 ```
 
-This notation is allowed with arbitrary expressions, but at typing level only certain combinations are admitted:
+這種表示法可用於任意運算式，但在型態層次只可用於某些組合：
 
-- `expr` is of `Array` or `Dynamic` and `indexExpr` is of `Int`
-- `expr` is an [abstract(抽象|) type(型式|n. 又：型別)](types-abstract) which define(定義|)s a match(匹配|)ing [array(陣列|) access(存取|)](types-abstract-array-access)
+- `expr` 是 `Array` 或 `Dynamic` 而 `indexExpr` 是 `Int`。
+- `expr` 是[抽象型式](types-abstract)並定義有匹配[陣列存取](types-abstract-array-access)。
 
 <!--label:expression-function-call-->
-### function(函式|) Call
+## 函式呼叫
 
-function(函式|)s calls consist of an arbitrary subject expression(運算式|) followed by an opening parenthesis `(`, a comma `,` separated(分隔|) list(列表|) of expression(運算式|)s as argument(引數|)s and a closing parenthesis `)`.
+函式呼叫由任意主體表達式後跟左括號 `(` 、作為引數的由逗號 `,` 分隔的運算式列表、右括號 `)` 組成。
 
 ```haxe
-subject(); // call with no arguments
-subject(e1); // call with one argument
-subject(e1, e2); // call with two arguments
-// call with multiple arguments
+subject(); // 無引數呼叫
+subject(e1); // 以一個引數呼叫
+subject(e1, e2); // 以兩個引數呼叫
+// 以多個引數呼叫
 subject(e1, e2, /*...*/ eN);
 ```
 
-##### Related content
+#### 相關內容
 
-- Haxe Code Cookbook article: [How to declare functions](http://code.haxe.org/category/beginner/declare-functions.html)
-- Class Methods: [Method](class-field-method)
+- Haxe Code Cookbook 文章：[如何宣告函式](http://code.haxe.org/category/beginner/declare-functions.html)
+- 類別方法：[方法](class-field-method)
 
 <!--label:expression-var-->
-### var and final
+## var 與 final
 
-The `var` keyword(關鍵字|) allow(容許|又：允許)s declaring multiple variable(變數|)s, separated(分隔|) by comma `,`. Each variable has a valid [identifier](define-identifier) and optionally a value assignment following the assignment operator `=`. Variables can also have an explicit type-hint.
+`var` 關鍵字容許宣告以逗號分隔 `,` 的多個變數。每個變數都有有效[識別符](define-identifier)，以及可選的由指派運算子 `=` 引導的指派。變數也可以有明確的型式提示。
 
 ```haxe
-var a; // declare local `a`
-var b:Int; // declare variable `b` of type(型式|n. 又：型別) Int
-// declare(宣告|) variable(變數|) `c`, initialized to value 1
+var a; // 宣告局部的 `a`
+var b:Int; // 以型式 Int 宣告 `b`
+// 宣告變數 `c`, 初始化值為 1
 var c = 1;
-// declare an uninitialized variable `d`
-// and variable `e` initialize(初始化|)d to value(值|) 2
+// 宣告未初始化的變數 `d`
+// 以及以值 2 初始化的變數 `e`
 var d,e = 2;
 ```
 
