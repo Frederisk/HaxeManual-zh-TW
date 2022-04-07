@@ -23,6 +23,7 @@ anonymous | 匿名 |
 annotate | 標記 |
 any | 任意 |
 apply | 套用 |
+arbitrary | 任意 |
 argument | 引數 |
 arithmetic negation | 算術否定 |
 array | 陣列 |
@@ -285,6 +286,7 @@ struct | 結構體 |
 structural sub-typing | 結構子型態 | TODO:
 structure | 結構 |
 sub-type | 子型式 |
+subject expression | 主體表達式 |
 subtraction | 減法 |
 subvert | 顛覆 | TODO:
 syntax | 語法 |
