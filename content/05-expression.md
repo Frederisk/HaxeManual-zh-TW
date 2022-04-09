@@ -531,11 +531,11 @@ var c = 1;
 var d,e = 2;
 ```
 
-The scoping behavior of local variables, as well as variable shadowing is described in [Blocks](expression-block).
+局部變數的作用域行為以及變數遮蔽在[塊段](expression-block)中有描述。
 
-##### since Haxe 4.0.0
+#### 自 Haxe 4.0.0
 
-In Haxe 4, the alternative keyword `final` was introduced at the expression(運算式|) level. variable(變數|)s declare(宣告|)d with `final` instead of `var` can only be assign(指派|又：賦值、指定、分配)ed a value(值|) once.
+在 Haxe 4 中，在運算式階層引入了替代關鍵字 `final`，以 `final` 取代 `var` 宣告的變數只能指派一次。
 
 <!-- [code asset](assets/Final.hx) -->
 ```haxe
@@ -547,14 +547,13 @@ class Main {
     b = "Haxe";
     trace(a, b); // hello, Haxe
 
-    // the following line would cause a compilation error:
+    // 下一列將導致編譯錯誤：
     // a = "bye";
   }
 }
-
 ```
 
-It is import(匯入|)ant to note that `final` may not have the intended effect with type(型式|n. 又：型別)s that are not immutable, such as array(陣列|)s or objects. Even though the variable(變數|) cannot have a different object assign(指派|又：賦值、指定、分配)ed to it, the object itself can still be modified using its method(方法|)s:
+重要的是要注意對於非不可變型式，例如陣列或物件，`final` 可能會不會產生預期的結果。即使變數不能以其他物件指派給它，物件自身仍可以以自己的方法修改：
 
 <!-- [code asset](assets/FinalMutable.hx) -->
 ```haxe
@@ -571,13 +570,12 @@ class Main {
     trace(a); // [1, 2, 3, 4]
   }
 }
-
 ```
 
 <!--label:expression-arrow-function-->
-### Local function(函式|)s
+## 局部函式
 
-Haxe supports first-class(類別|) function(函式|)s and allow(容許|又：允許)s declaring local function(函式|)s in expression(運算式|)s. The syntax(語法|) follows [class(類別|) field(欄位|) method(方法|)s](class-field-method):
+Haxe 支援第一級函式並容許在運算式中宣告局部函式。語法遵循[類別欄位方法](class-field-method)：
 
 <!-- [code asset](assets/LocalFunction.hx) -->
 ```haxe
@@ -590,25 +588,24 @@ class Main {
     trace(myLocalFunction(2)); // 3
   }
 }
-
 ```
 
-We declare(宣告|) `myLocalFunction` inside the [block expression(運算式|)](expression-block) of the `main` class(類別|) field(欄位|). It takes one argument(引數|) `i` and adds it to `value`, which is defined in the outside scope.
+我們在 `main` 類別欄位的[塊段運算式](expression-block)中宣告了 `myLocalFunction`。它接受一個引數 `i` 並將其加入至範圍外定義的 `value` 中。
 
-The scoping is equivalent to that of [variables](expression-var) and for the most part writing a named local function can be considered equal to assigning an unnamed local function to a local variable:
+局部函式的範圍和[變數](expression-var)的等同，而且在多數情況下，編寫命名的局部函式可視為等於將未命名的局部函式指派至局部變數：
 
 ```haxe
 var myLocalFunction = function(a) { }
 ```
 
-However, there are some differences related to type parameters and the position of the function. We speak of a "lvalue" function if it is not assigned to anything upon its declaration, and an "rvalue" function otherwise.
+不過，在型式參數和函式的位置上會有一些差異。若在聲明時沒有指派至任何東西，則我們稱之為「左值」函式，否則稱為「右值」函式。
 
-- Lvalue functions require a name and can have [type parameters](type-system-type-parameters).
-- Rvalue functions may have a name, but cannot have type parameters.
+- 左值函式需要有名稱並可以有[型式參數](type-system-type-parameters)。
+- 右值函式可以有名稱，但不可以有型式參數。
 
-##### since Haxe 4.0.0
+#### 自 Haxe 4.0.0
 
-##### Arrow functions
+#### 箭頭函式
 
 Haxe 4 introduced a shorter syntax for defining local functions without a name, very similar to the function type syntax. The argument list is defined between two parentheses, followed by an arrow `->`, followed directly by the expression. An arrow function with a single argument does not require parentheses around the argument, and an arrow function with zero arguments should be declared with `() -> ...`:
 
