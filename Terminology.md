@@ -127,6 +127,7 @@ false | 假 |
 feature | 特徵 |
 field | 欄位 |
 final | 最終 |
+first-class function | 第一級函式 |
 floating-point | 浮點 |
 forward | 轉送 |
 from bottom to top | 自底向頂 |
@@ -179,6 +180,7 @@ local value | 局部值 |
 local variable | 局部變數 |
 logical negation | 邏輯否定 |
 lookup | 查找 |
+lvalue | 左值 |
 macro | 巨集 |
 manual | 手冊/手動 | n./adj.
 map | 映射 |
@@ -261,6 +263,8 @@ resolution | 解析 |
 return | 回傳 |
 robust | 強健 |
 run-time | 執行期 | 又：執行時
+rvalue | 右值 |
+scope | 範圍 |
 semantic | 語意 |
 separated | 分隔 |
 setter | 設定器 | 又：寫入器 TODO:
