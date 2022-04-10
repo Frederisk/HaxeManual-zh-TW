@@ -25,6 +25,7 @@ any | 任意 |
 apply | 套用 |
 arbitrary | 任意 |
 argument | 引數 |
+argument list | 引數清單 |
 arithmetic negation | 算術否定 |
 array | 陣列 |
 arrow function | 箭頭函式 |
