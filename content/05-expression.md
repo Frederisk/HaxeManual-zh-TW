@@ -607,7 +607,7 @@ var myLocalFunction = function(a) { }
 
 #### 箭頭函式
 
-Haxe 4 introduced a shorter syntax for defining local functions without a name, very similar to the function type syntax. The argument list is defined between two parentheses, followed by an arrow `->`, followed directly by the expression. An arrow function with a single argument does not require parentheses around the argument, and an arrow function with zero arguments should be declared with `() -> ...`:
+Haxe 4 引入了更短的語法去定義沒有名稱的局部函式，該語法與函式型式語法十分相似。以括號包裹引數清單，之後跟一個箭頭 `->`，緊接著的是運算式。有單個引數的箭頭函式並不必要在引數周圍加上括號，零引數的箭頭函式應以 `() -> ...` 的方式宣告：
 
 <!-- [code asset](assets/ArrowFunction.hx) -->
 ```haxe
@@ -629,19 +629,18 @@ class Main {
     };
   }
 }
-
 ```
 
-Arrow functions are very similar to normal local functions, with a couple of differences:
+箭頭函式與普通的局部變數十分相似，但有一些區別：
 
-- The expression after the arrow is implicitly treated as the return value of the function. For simple functions like `myConcat` above, this can be a convenient way to shorten the code. Normal `return` expression(運算式|)s can still be used, as shown in `myContains` above.
-- There is no way to declare(宣告|) the return(回傳|) type(型式|n. 又：型別), although you can use a [type(型式|n. 又：型別) check](expression-type-check) to unify the function(函式|) expression(運算式|) with the desired return(回傳|) type(型式|n. 又：型別).
-- [metadata(元資料|)](lf-metadata) cannot be applied to the argument(引數|)s of an arrow function(箭頭函式|).
+- 箭頭後的運算式在隱含上視作函式的回傳值。對於上面如 `myConcat` 這種簡單的函式來說這是種方便的縮減程式碼的方法。通常的 `return` 運算式依然可用，如上面的 `myContains` 所示。
+- 儘管你可以以[型式檢查](expression-type-check)統一函式運算式與所需的回傳型式，但回傳型式是不可宣告的。]
+- [元資料](lf-metadata)不可用於箭頭函式的引數。
 
 <!--label:expression-new-->
-### new
+## new
 
-The `new` keyword(關鍵字|) signals that a [class(類別|)](types-class-instance) or an [abstract(抽象|)](types-abstract) is being instantiate(實例化|)d. It is followed by the [type(型式|n. 又：型別) path(路徑|)](define-type-path(路徑|)) of the type(型式|n. 又：型別) which is to be instantiate(實例化|)d. It may also list(列表|) explicit [type parameter(型式參數|)s](type-system-type-parameters) enclosed(括住|) in `<>` and separated(分隔|) by comma `,`. After an opening parenthesis `(` follow the constructor(建構式|) argument(引數|)s, again separated(分隔|) by comma `,`, with a closing parenthesis `)` at the end.
+`new` 關鍵字表示去實例化[類別](types-class-instance)或[抽象](types-abstract)。在這後面的是要實例化的型式的[型式路徑](define-type-path)。在左括號 `(` 後跟的以逗號 `,` 分隔的建構式引數後的右括號 `)` 之後，可以用 `<>` 括起來用逗號 `,` 分隔的明確[型式參數](type-system-type-parameters)。
 
 <!-- [code asset](assets/New.hx) -->
 ```haxe
@@ -655,7 +654,7 @@ class Main<T> {
 
 ```
 
-Within the `main` method(方法|) we instantiate(實例化|) an instance(實例|) of `Main` itself, with an explicit type parameter(型式參數|) `Int` and the argument(引數|)s `12` and `"foo"`. As we can see, the syntax is very similar to the [function call syntax](expression-function-call) and it is common to speak of "constructor calls".
+在 main 方法中，我們以明確型式參數 `Int` 以及引數 `12` 和 `"foo"` 實例化了 `Main` 本身的實例。正如我們所看到的，其語法與[函式呼叫語法](expression-function-call)十分相似，所以這也常稱為「建構式呼叫」。
 
 <!--label:expression-for-->
 ### for
