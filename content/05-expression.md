@@ -657,17 +657,17 @@ class Main<T> {
 在 main 方法中，我們以明確型式參數 `Int` 以及引數 `12` 和 `"foo"` 實例化了 `Main` 本身的實例。正如我們所看到的，其語法與[函式呼叫語法](expression-function-call)十分相似，所以這也常稱為「建構式呼叫」。
 
 <!--label:expression-for-->
-### for
+## for
 
-Haxe does not support traditional for-loops known from C. Its `for` keyword(關鍵字|) expects an opening parenthesis `(`, then a variable identifier followed by the keyword `in` and an arbitrary expression(運算式|) used as iterating collection. After the closing parenthesis `)` follows an arbitrary loop body(本體|) expression(運算式|).
+Haxe 不支援我們在 C 中的所知的傳統 for 迴圈。Haxe 的 `for` 關鍵字需要左括號 `(`，然後是變數識別符，之後跟關鍵字 `in` 和用作疊代集合的任意運算式，最後在右括號 `)` 之後跟上任意迴圈本體運算式。
 
 ```haxe
 for (v in e1) e2;
 ```
 
-The typer ensures that the type of `e1` can be iterate(疊代|)d over, which is typically the case if it has an  [`iterator`](lf-iterators) method returning an `Iterator<T>`, or if it is an `Iterator<T>` itself.
+型式系統會確保 `e1` 的型式是可疊代的，通常來說就是它有回傳 `Iterator<T>` 的 [`iterator`](lf-iterators) 方法，或者其本身就是 `Iterator<T>`。
 
-variable(變數|) `v` is then available within loop body(本體|) `e2` and hold(儲存|TODO:又：存儲)s the value(值|) of the individual elements of collection `e1`.
+之後變數 `v` 在迴圈本體 `e2` 中就可用，並會儲存 `e1` 各個元素的值。
 
 ```haxe
 var list = ["apple", "pear", "banana"];
@@ -679,17 +679,17 @@ for (v in list) {
 // banana
 ```
 
-##### Range iteration
+#### 範圍疊代
 
-Haxe has a special range operator to iterate over intervals. It is a binary operator taking two `Int` operands: `min...max` return(回傳|)s an [IntIterator](http://api.haxe.org/IntIterator.html) instance(實例|) that iterate(疊代|)s from `min` (inclusive) to `max` (exclusive). Note that `max` may not be smaller than `min`.
+Haxe 有特殊的範圍運算子來疊代區間，這是需要兩個 `Int` 運算元的二元運算子： `min...max` 會回傳 [`IntIterator`](http://api.haxe.org/IntIterator.html)，該實例會從 `min`（包含）疊代到 `max`（不包含）。須注意 `max` 不得小於 `min`。
 
 ```haxe
-for (i in 0...10) trace(i); // 0 to 9
+for (i in 0...10) trace(i); // 0 至 9
 ```
 
-The type of a `for` expression(運算式|) is always `Void`, meaning it has no value and cannot be used as right-side expression. However, we'll later introduce [array comprehension](lf-array-comprehension), which lets you construct arrays using `for` expression(運算式|)s.
+`for` 運算式的型式始終為 `Void`，這意味著它沒有值所以不可用作右側運算式。不過我們稍後會介紹[陣列理解](lf-array-comprehension)，這可以讓你用 `for` 運算式建構陣列。
 
-The control flow of loops can be affected by [`break`](expression-break) and [`continue`](expression-continue) expressions.
+迴圈的控制流程會受到 [`break`](expression-break) 和 [`continue`](expression-continue) 的影響。
 
 ```haxe
 for (i in 0...10) {
@@ -703,17 +703,17 @@ for (i in 0...10) {
 // 4
 ```
 
-##### since Haxe 4.0.0
+#### 自 Haxe 4.0.0
 
-##### Key-value iteration
+#### 鍵值疊代
 
-In Haxe 4 it is possible to iterate over collections of key-value pairs. The syntax is the same as regular `for` loops, but the single variable(變數|) identifier(識別符|) is replaced with the key variable(變數|) identifier(識別符|), followed by `=>`, followed by the value variable identifier:
+在 Haxe 4 中也可以疊代鍵值對的集合。語法與常規的 `for` 迴圈相同，但是是將單個的變數識別符替換為鍵的變數識別符，然後是 `=>`，接著是值的變數識別符：
 
 ```haxe
 for (k => v in e1) e2;
 ```
 
-Type safety is ensured for key-value iteration as well. The typer checks that `e1` either has a `keyValueIterator` method(方法|) return(回傳|)ing return(回傳|)ing a `KeyValueIterator<K, V>`, or if it is a `KeyValueIterator<K, V>` itself. Here `K` and `V` refer to the type(型式|n. 又：型別) of the keys and the value(值|)s, respectively.
+鍵值疊代也會保障型式安全。型式系統會檢查 `e1` 是否具有回傳 `KeyValueIterator<K, V>` 的 `keyValueIterator` 方法，或者其本身是否就是 `KeyValueIterator<K, V>`。此處的 `K` 與 `V` 分別指的是鍵和值的型式。
 
 ```haxe
 var map = [1 => 101, 2 => 102, 3 => 103];
@@ -725,13 +725,13 @@ for (key => value in map) {
 // 3, 103
 ```
 
-##### Related content
+#### 相關內容
 
-- Manual: [Haxe iterators documentation](lf-iterators), [Haxe Data Structures documentation](std-ds)
-- Cookbook: [Haxe iterators examples](http://code.haxe.org/tag/iterator.html), [Haxe data structures examples](http://code.haxe.org/tag/data-structures.html)
+- 手冊：[Haxe 疊代器文件]](lf-iterators)、[Haxe 資料結構文件](std-ds)
+- Cookbook：[Haxe 疊代器示例](http://code.haxe.org/tag/iterator.html), [Haxe 示例](http://code.haxe.org/tag/data-structures.html)
 
 <!--label:expression-while-->
-### while
+## while
 
 A normal while loop starts with the `while` keyword(關鍵字|), followed by an opening parenthesis `(`, the condition expression and a closing parenthesis `)`. After that follows the loop body expression:
 
