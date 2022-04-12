@@ -53,6 +53,7 @@ class | 類別 |
 class instance | 類別實例 |
 closure | 閉包 |
 codepoint | 字碼指標 |
+collection | 集合 |
 common base type | 共同基底型式 |
 commutative | 可交換 |
 comparison | 比較 |
@@ -75,6 +76,7 @@ construct | 建構/構造 | v./n.
 constructor | 建構式 |
 contravariance | 反變數 |
 contravariant | 反變 | adj.  TODO:
+control flow | 控制流程 |
 core-type | 核心型式 |
 correspond | 對應 |
 covariance | 共變數 |
@@ -100,6 +102,7 @@ describe | 描述 |
 directional | 定向 |
 division | 除法 |
 document | 文件 |
+documentation | 文件 |
 dollar sign | 貨幣符號 |
 dynamic | 動態 |
 dynamic target | 動態目標 |
@@ -169,6 +172,7 @@ invoke | 引動 |
 invocation | 引動 |
 iterate | 疊代 |
 iteration | 疊代 |
+iterator | 疊代器 |
 key-value pair | 鍵值對 |
 keyword | 關鍵字 |
 legibility | 可讀性 |
@@ -181,6 +185,7 @@ local value | 局部值 |
 local variable | 局部變數 |
 logical negation | 邏輯否定 |
 lookup | 查找 |
+loop | 迴圈 | 又：循環
 lvalue | 左值 |
 macro | 巨集 |
 manual | 手冊/手動 | n./adj.
