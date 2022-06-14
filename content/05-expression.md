@@ -385,30 +385,19 @@ trace(a == "foo"); // true
 
 **枚舉：**
 
-- Enums without parameters always represent the same value, so `MyEnum.A == MyEnum.A`.
-- Enums with parameters can be compared with `a.equals(b)` (which is short for `Type.enumEq()`).
+- 沒有參數的枚舉總是表述相同的值，因此 `MyEnum.A == MyEnum.A`。
+- 有參數的枚舉可以透過 `a.equals(b)` 比較（這是 `Type.enumEq()` 的較短寫法）。
 
-**動態：:**
+**動態：**
 
-Comparison involving at least one operand of type `Dynamic` is unspecified and platform-specific(特定|).
-
-操作數 1 和操作數 2 的類型必須[統一]（類型-系統-統一）。
-
-**枚舉：**
-
-- 沒有參數的枚舉總是代表相同的值，所以 `MyEnum.A == MyEnum.A`。
-- 帶參數的枚舉可以與 `a.equals(b)`（`Type.enumEq()` 的縮寫）進行比較。
-
-**動態的：**
-
-涉及至少一個“動態”類型的操作數的比較未指定且特定於平台。
+包含一個以上 `Dynamic` 型式的比較並未規定而且特定於平台。
 
 #### 雜項運算子
 
 運算子 | 運算 | 運算元 1 | 運算元 2 | 結果型式
 --- | --- | --- | --- | ---
 `...` | 區間（參看[範圍疊代](expression-for)） | `Int` | `Int` | `IntIterator`
-`=>` | 箭頭（參看[映射](expression-map-declaration), [key-value iteration](expression-for#key-value-iteration)、[映射理解](lf-map-comprehension)） | 任意 | 任意 | -
+`=>` | 箭頭（參看[映射](expression-map-declaration), [鍵值疊代](expression-for#key-value-iteration)、[映射理解](lf-map-comprehension)） | 任意 | 任意 | -
 
 <!--label:expression-operators-ternary-->
 #### 三元運算子
@@ -562,10 +551,10 @@ class Main {
     final a = [1, 2, 3];
     trace(a); // [1, 2, 3]
 
-    // the following line would cause a compilation error:
+    // 下一列將導致編譯錯誤：
     // a = [1, 2, 3, 4];
 
-    // but the following line works:
+    // 但下一列可以正常工作：
     a.push(4);
     trace(a); // [1, 2, 3, 4]
   }
@@ -651,7 +640,6 @@ class Main<T> {
 
   function new(t:T, s:String) {}
 }
-
 ```
 
 在 main 方法中，我們以明確型式參數 `Int` 以及引數 `12` 和 `"foo"` 實例化了 `Main` 本身的實例。正如我們所看到的，其語法與[函式呼叫語法](expression-function-call)十分相似，所以這也常稱為「建構式呼叫」。
@@ -693,8 +681,8 @@ for (i in 0...10) trace(i); // 0 至 9
 
 ```haxe
 for (i in 0...10) {
-  if (i == 2) continue; // skip 2
-  if (i == 5) break; // stop at 5
+  if (i == 2) continue; // 跳過 2
+  if (i == 5) break; // 在 5 處停止
   trace(i);
 }
 // 0
@@ -733,15 +721,15 @@ for (key => value in map) {
 <!--label:expression-while-->
 ## while
 
-A normal while loop starts with the `while` keyword(關鍵字|), followed by an opening parenthesis `(`, the condition expression and a closing parenthesis `)`. After that follows the loop body expression:
+一般的 while 迴圈由 `while` 關鍵字開始，然後是左括號 `(`、條件運算式以及右括號 `)`。之後是迴圈本體運算式：
 
 ```haxe
 while (condition) expression;
 ```
 
-The condition expression has to be of type `Bool`.
+條件運算式的型式必須是 `Bool`。
 
-Upon each iteration, the condition expression is evaluated. If it evaluates to `false`, the loop stops, otherwise it evaluates the loop body expression.
+在每次疊代時，先評估條件運算式。如果評估為 `false` ，迴圈停止，否則評估迴圈本體表達式。
 
 <!-- [code asset](assets/While.hx) -->
 ```haxe
@@ -754,7 +742,6 @@ class Main {
     }
   }
 }
-
 ```
 
 This kind of while-loop is not guaranteed to evaluate the loop body expression at all: If the condition does not hold from the start, it is never evaluated. This is different for [do-while loops](expression-do-while).
