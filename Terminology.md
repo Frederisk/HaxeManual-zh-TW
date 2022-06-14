@@ -207,6 +207,7 @@ name space | 名稱空間 |
 namespace | 名稱空間 |
 native | 原生 |
 nested | 巢套 |
+normal | 一般 | 又：正常
 not | 非 | gate |
 notation | 表示法 |
 nullability | 可空性 |
@@ -264,6 +265,7 @@ regex | 正規表示式 |
 regular | 正規 |
 regular expression | 正規表示式 |
 reification | 具體化 |
+represent | 表述 |
 resolve | 解析 |
 resolution | 解析 |
 return | 回傳 |
@@ -280,6 +282,7 @@ shift left | 左移 |
 shift right | 右移 |
 short-circuit | 短路 |
 signature | 簽章 |
+skip | 跳過 |
 sourcecode | 原始碼 |
 specific | 特定 |
 specification | 規格 | 另：規範
@@ -323,6 +326,7 @@ unification | 統一 | TODO:
 unqualified | 非限定 | 另：不合格 TODO:
 unsigned | 無符號 |
 unspecific | 非特定 |
+unspecified | 未規定 |
 untyped | 非具型式 |
 use case | 使用案例 |
 user | 使用者 |
