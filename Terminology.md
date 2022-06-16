@@ -69,6 +69,7 @@ comprehension | 理解 |
 concatenation | 序連 |
 concrete | 具體 |
 condition | 條件 |
+conditional | 條件 |
 constant | 常數 |
 constant value | 定值 |
 constraint | 約束 |
@@ -151,6 +152,7 @@ implicit | 隱含 |
 import | 匯入 |
 increment | 遞增 |
 index | 索引 |
+inferred | 推斷 |
 inference | 推斷 | 又：推定、推理
 inherit | 繼承 |
 inheritance | 繼承 |
