@@ -490,7 +490,7 @@ expr[indexExpr]
 <!--label:expression-function-call-->
 ## 函式呼叫
 
-函式呼叫由任意主體表達式後跟左括號 `(` 、作為引數的由逗號 `,` 分隔的運算式列表、右括號 `)` 組成。
+函式呼叫由任意主體運算式後跟左括號 `(` 、作為引數的由逗號 `,` 分隔的運算式列表、右括號 `)` 組成。
 
 ```haxe
 subject(); // 無引數呼叫
@@ -729,7 +729,7 @@ while (condition) expression;
 
 條件運算式的型式必須是 `Bool`。
 
-在每次疊代時，先評估條件運算式。如果評估為 `false` ，迴圈停止，否則評估迴圈本體表達式。
+在每次疊代時，先評估條件運算式。如果評估為 `false` ，迴圈停止，否則評估迴圈本體運算式。
 
 <!-- [code asset](assets/While.hx) -->
 ```haxe
@@ -744,39 +744,39 @@ class Main {
 }
 ```
 
-This kind of while-loop is not guaranteed to evaluate the loop body expression at all: If the condition does not hold from the start, it is never evaluated. This is different for [do-while loops](expression-do-while).
+這種 while 迴圈並不能保證一定會對迴圈本體運算式評估，如果條件在一開始就不成立，則其永遠也不會評估。這與 [do while](expression-do-while) 迴圈不同。
 
 <!--label:expression-do-while-->
-### do-while
+## do while
 
-A do-while loop starts with the `do` keyword(關鍵字|) followed by the loop body(本體|) expression(運算式|). After that follows the `while` keyword(關鍵字|), an opening parenthesis `(`, the condition expression and a closing parenthesis `)`:
+do while 迴圈以關鍵字 `do` 開始，然後是迴圈本體運算式，之後是 `while` 關鍵字、左括號 `(`、條件運算式以及右括號 `)`：
 
 ```haxe
 do expression while (condition);
 ```
 
-The condition expression has to be of type `Bool`.
+條件運算式的型式必須是 `Bool`。
 
-As the syntax suggests, the loop body expression is always evaluated at least once, unlike [while](expression-while) loops.
+正如語法上所暗示，迴圈本體運算式總會評估至少一次，這與 [while](expression-while) 迴圈不同。
 
 <!--label:expression-if-->
-### if
+## if
 
-Conditional expressions come in the form of a leading `if` keyword(關鍵字|), a condition expression(運算式|) enclosed(括住|) in parentheses `()` and a expression(運算式|) to be evaluate(評估|)d in case the condition hold(儲存|TODO:又：存儲)s:
+條件運算式的形式包括前導 `if`　關鍵字、在括號 `()` 中的條件運算式，以及條件成立時需要評估的運算式：
 
 ```haxe
 if (condition) expression;
 ```
 
-The condition expression has to be of type `Bool`.
+條件運算式的型式必須是 `Bool`。
 
-Optionally, `expression` may be followed by the `else` keyword(關鍵字|) as well as another expression(運算式|) to be evaluate(評估|)d if the condition does not hold(儲存|TODO:又：存儲):
+另可選在 `expression` 之後有 `else` 關鍵字，以及條件不成立時需要評估的運算式：
 
 ```haxe
 if (condition) expression1 else expression2;
 ```
 
-Here, `expression2` may consist of another `if` expression(運算式|):
+此處的 `expression2` 也可以由另一個 `if` 運算式組成。
 
 ```haxe
 if (condition1) expression1
@@ -784,10 +784,10 @@ else if (condition2) expression2
 else expression3
 ```
 
-If the value of an `if` expression(運算式|) is required, e.g. for `var x = if(condition) expression1 else expression2`, the typer ensures that the types of `expression1` and `expression2` [unify](type-system-unification). If no `else` expression(運算式|) is given, the type(型式|n. 又：型別) is inferred to be `Void`.
+如果會對 `if` 運算式的值有需求，比如 `var x = if(condition) expression1 else expression2` 型式系統將確保 `expression1` 與 `expression2` 的型式相[統一](type-system-unification)。如果沒有給出 `else` 運算式，則型式將會推斷為 `Void`。
 
 <!--label:expression-switch-->
-### switch
+## switch
 
 A basic switch expression starts with the `switch` keyword(關鍵字|) and the switch subject expression(運算式|), as well as the case expression(運算式|)s between curly braces(大括號|) `{}`. Case expressions either start with the `case` keyword(關鍵字|) and are followed by a pattern expression(運算式|), or consist of the `default` keyword(關鍵字|). In both cases a colon `:` and an optional(任選|) case body(本體|) expression(運算式|) follows:
 
@@ -1144,7 +1144,6 @@ class Main {
     $type(s); // String
   }
 }
-
 ```
 
 variable(變數|) `i` is type(型式|n. 又：型別)d as `Int` and then assign(指派|又：賦值、指定、分配)ed to variable(變數|) `s` using the unsafe cast(轉換|又：轉型 TODO:) `cast i`. This causes `s` to be of an unknown type(型式|n. 又：型別), a monomorph(單型|). Following the usual rules of [unification(統一|TODO:)](type(型式|n. 又：型別)-system-unification), it can then be bound(繫結|) to any type(型式|n. 又：型別), such as `String` in this example.
