@@ -789,7 +789,7 @@ else expression3
 <!--label:expression-switch-->
 ## switch
 
-A basic switch expression starts with the `switch` keyword(關鍵字|) and the switch subject expression(運算式|), as well as the case expression(運算式|)s between curly braces(大括號|) `{}`. Case expressions either start with the `case` keyword(關鍵字|) and are followed by a pattern expression(運算式|), or consist of the `default` keyword(關鍵字|). In both cases a colon `:` and an optional(任選|) case body(本體|) expression(運算式|) follows:
+基本的 switch 運算式以 `switch` 關鍵字與 switch 主體運算式開始，然後是在大括號 `{}` 之間的 case 運算式。case 運算式可以以 `case` 關鍵字開始，後面跟著模式運算式，也可以以 `default` 關鍵字組成。在這兩種情況下，冒號 `:` 和任選的 case 本體運算式會是如下：
 
 ```haxe
 switch subject {
@@ -799,7 +799,7 @@ switch subject {
 }
 ```
 
-Case body expressions never "fall through", so the [`break`](expression-break) keyword is not supported in Haxe.
+case 主體運算式並不會「fall through」<!--TODO: translate it!-->，所以 Haxe 並不支援 [`break`](expression-break) 關鍵字。
 
 Switch expressions can be used as value; in that case the types of all case body expressions and the default expression must [unify](type-system-unification).
 
