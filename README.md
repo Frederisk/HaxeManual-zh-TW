@@ -8,7 +8,7 @@ Haxe 官方手冊的台灣正體翻譯。
 
 1. [簡介](content/01-introduction.md)
     - [Haxe-是啥？](content/01-introduction.md#Haxe-是啥？)
-    - [關於該文檔](content/01-introduction.md#關於該文檔)
+    - [關於該文件](content/01-introduction.md#關於該文件)
         - [作者和貢獻](content/01-introduction.md#作者和貢獻)
         - [許可證](content/01-introduction.md#許可證)
     - [Hello World](content/01-introduction.md#Hello-World)
