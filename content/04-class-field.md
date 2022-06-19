@@ -305,7 +305,7 @@ class Main {
 <!-- [code asset](assets/HelloWorld.hx) -->
 ```haxe
 /**
-    多行文檔註釋。
+    多行文件註釋。
 **/
 class Main {
   static public function main():Void {
