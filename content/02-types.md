@@ -94,7 +94,7 @@ Haxe 型式系統可得知的七個觲別組：
 <!--[code asset](assets/HelloWorld.hx)-->
 ```haxe
 /**
-    多行文檔註釋。
+    多行文件註釋。
 **/
 class Main {
   static public function main():Void {
@@ -984,7 +984,7 @@ class Main {
 var att : Dynamic<String> = xml.attributes;
 // 有效，值為 String
 att.name = "Nicolas";
-// 同上（這文檔有些舊了）
+// 同上（這文件有些舊了）
 att.age = "26";
 // 錯誤，值不是 String
 att.income = 0;
