@@ -5,6 +5,7 @@
 英文 | 中文 | 備註
 --- | --- | ---
 abstract | 抽象 |
+abstract core type | 抽象核心型式 |
 access | 存取 |
 accessor | 存取器 |
 accessibility | 可存取性 |
@@ -47,6 +48,7 @@ build | 構建 |
 build macros | 構建巨集 | TODO:
 bytecode | 位元組碼 | 又：二進位碼
 cast | 轉換 | 又：轉型 TODO:
+catch | 捕捉 |
 checker | 檢查器 |
 child class | 子類別 |
 class | 類別 |
@@ -98,8 +100,9 @@ definition | 定義 |
 denote | 表示 |
 derivation | 衍生 | NO
 derived class | 衍生類別 | NO
-design pattern | 設計型樣 |
+descendants | 子系 |
 describe | 描述 |
+design pattern | 設計型樣 |
 directional | 定向 |
 division | 除法 |
 document | 文件 |
@@ -119,7 +122,9 @@ error | 錯誤 |
 error message | 錯誤訊息 |
 evaluate | 評估 |
 exception | 異常 |
+execute | 執行 |
 exhaustiveness | 完整性 | TODO:
+explicit | 明確 |
 explicitly | 明確 |
 export | 匯出 |
 expose | 公開 |
@@ -144,6 +149,7 @@ generic function | 泛型函式 |
 getter | 取得器 | TODO:
 halt | 停止 |
 high-level | 高階 |
+hint | 提示 |
 hold | 儲存 | TODO:又：存儲
 identifier | 識別符 |
 implement | 實作 |
@@ -177,6 +183,7 @@ iteration | 疊代 |
 iterator | 疊代器 |
 key-value pair | 鍵值對 |
 keyword | 關鍵字 |
+kind | 種類 |
 legibility | 可讀性 |
 lexicographically | 字典序 |
 line | 列 |
@@ -341,6 +348,7 @@ variant | 變體/變異 | n./adj.
 variance | 變異數 |
 visibility | 可見性 |
 wildcard | 萬用(字元) |
+wrap | 包裝 |
 write | 寫入 |
 write-only | 唯寫 |
 writeonly | 唯寫 |
