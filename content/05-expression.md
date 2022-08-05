@@ -801,48 +801,46 @@ switch subject {
 
 case 主體運算式並不會「fall through」<!--TODO: translate it!-->，所以 Haxe 並不支援 [`break`](expression-break) 關鍵字。
 
-Switch expressions can be used as value; in that case the types of all case body expressions and the default expression must [unify](type-system-unification).
+switch 運算式可以如同值一般使用，此時所有 case 主體運算式以及 default 運算式都必須[統一](type-system-unification)。
 
-Each case (including the default one) is also a variable scope, which affects [variable shadowing](expression-block#variable-shadowing).
+每個 case （包括 default）也都是變數範圍並會影響[變數遮蔽](expression-block#variable-shadowing)。
 
 ```haxe
 switch (0) {
   case 0:
     var a = "foo";
   case _:
-    // This would cause a compilation error, since `a` from the previous
-    // case is not access(存取|)ible in this case:
+    // 將導致編譯錯誤，因為上一個 case 中的 `a` 在這個 case 並不可存取：
     // trace(a);
 }
 ```
 
-##### Related content
+#### 相關內容
 
-- Further details on syntax of pattern expressions are detailed in [Pattern Matching](lf-pattern-matching).
-- [Snippets and tutorials about pattern matching](http://code.haxe.org/tag/pattern-matching.html) in the Haxe Code Cookbook.
+- [模式匹配](lf-pattern-matching)中有詳細介紹模式運算式的語法。
+- Haxe Code Cookbook 中的[關於模式匹配的片段和教程](http://code.haxe.org/tag/pattern-matching.html)。
 
 <!--label:expression-throw-->
-### throw
+## throw
 
-Haxe allows throwing any kind of value using its `throw` syntax(語法|):
+Haxe 容許以其 `throw` 語法擲回任意種類的值：
 
 ```haxe
 throw expr
 ```
 
-A value which is thrown like this can be caught by [`catch` blocks](expression(運算式|)-try-catch). If no such block catches it, the behavior(行為|) is target(目標|)-dependent.
+像這樣擲回的值可以由 [`catch` 塊段](expression-try-catch)捕捉。如果沒有這樣的塊段捕捉，則其行為會由目標取決。
 
-##### since Haxe 4.1.0
+#### 自 Haxe 4.1.0
 
-It's highly recommended to not throw(擲回|) arbitrary value(值|)s and instead throw(擲回|) instance(實例|)s of `haxe.Exception`.
-In fact, if `value` is not an instance(實例|) of `haxe.Exception`, then `throw value` is compiled as `throw haxe.Exception.thrown(value)`, which wraps `value` into an instance(實例|) of `haxe.Exception`.
+極度建議不要擲回任意值而是去擲回 `haxe.Exception` 的實例。不過事實上如若 `value` 不是 `haxe.Exception` 的實例，那麼 `throw value` 將會編譯為 `throw haxe.Exception.thrown(value)`，這會將 `value` 包裝為`haxe.Exception` 的實例。
 
-However native target exceptions are thrown as-is. For example an instance of `cs.system.Exception` or `php.Exception` won't get automatically wrapped upon throw(擲回|)ing.
+不過原生目標的異常會以原樣擲回。例如 `cs.system.Exception` 或 `php.Exception` 將不會在擲回時自動包裝。
 
 <!--label:expression-try-catch-->
 ### try/catch
 
-Haxe allow(容許|又：允許)s catching value(值|)s using its `try/catch` syntax(語法|):
+Haxe 容許以 `try/catch` 語法捕捉值：
 
 ```haxe
 try try-expr
@@ -850,39 +848,39 @@ catch (varName1:Type1) catch-expr-1
 catch (varName2:Type2) catch-expr-2
 ```
 
-If during runtime the evaluation of `try-expression` causes a [`throw`](expression-throw), it can be caught by any subsequent `catch` block. These blocks consist of
+如果在執行期 `try-expression` 的評估導致 [`throw`](expression-throw)，則其可以由任意後續的 `catch` 塊段捕捉。這些塊段會包括：
 
-- a variable(變數|) name which hold(儲存|TODO:又：存儲)s the throw(擲回|)n value(值|),
-- an explicit type(型式|n. 又：型別) annotation(表示法|) which determines which type(型式|n. 又：型別)s of value(值|)s to catch, and
-- the expression(運算式|) to execute in that case.
+- 儲存有擲回值的變數名稱，
+- 確定哪些型式需要捕捉的明確型式標記，
+- 在這種情況下要執行的運算式。
 
-Haxe allow(容許|又：允許)s throw(擲回|)ing and catching any kind of value(值|), it is not limited to type(型式|n. 又：型別)s inherit(繼承|)ing from a specific(特定|) exception or error(錯誤|) class(類別|). However since Haxe 4.1.0 it's highly recommended to throw(擲回|) and catch only instance(實例|)s of `haxe.Exception` and its descendants.
+Haxe 容許擲回以及捕捉任意種類的值，該值並不受限於由特定的異常或者錯誤繼承的型式。不過自 Haxe 4.1.0 起，強烈建議僅擲回與捕捉 `haxe.Exception` 及其子系的實例。
 
-Catch blocks are checked from top to bottom with the first one whose type(型式|n. 又：型別) is compatible(相容|) with the throw(擲回|)n value(值|) being picked.
+catch 塊段會自頂向底檢查首個其型式與與選取的擲回值相容的型式的塊段。
 
-This process has many similarities to the compile-time(編譯期|又：編譯時) [unification(統一|TODO:)](type(型式|n. 又：型別)-system-unification) behavior(行為|). However, since the check has to be done at runtime there are several restrictions:
+該處理與編譯期[統一](type-system-unification)有很多相似之處。不過由於檢查必須是在執行期，所以會存在一些限制：
 
-- The type(型式|n. 又：型別) must exist at runtime: [class instance(類別實例|)s](types-class-instance), [enum instance(枚舉實例|)s](types-enum-instance), [abstract(抽象|) core type(型式|n. 又：型別)s](types-abstract-core-type) and [dynamic(動態|)](types-dynamic).
-- type parameter(型式參數|)s can only be [dynamic(動態|)](types-dynamic).
+- 型式必須在執行期存在：[類別實例](types-class-instance)、[枚舉實例](types-enum-instance)、[抽象核心型式](types-abstract-core-type)、[動態](types-dynamic)。
+- 型式參數只能是[動態](types-dynamic)。
 
-#### wildcard(萬用(字元)|) catch
+### 萬用 catch
 
-#### Since Haxe 4.1
+#### 自 Haxe 4.1
 
-Instead of `Dynamic` and `Any` it's possible (and recommended) to omit the type(型式|n. 又：型別) hint for wildcard(萬用(字元)|) catches:
+可以（並且推薦）省略型式提示來使用萬用 catch，這可以取代 `Dynamic` 與 `Any`：
 
 ```haxe
 try {
   doSomething();
 } catch(e) {
-  //All exceptions will be caught here
+  // 所有的異常都會在此處捕捉
   trace(e.message);
 }
 ```
 
-This is equivalent to `catch(e:haxe.Exception)`.
+這相當於 `catch(e:haxe.Exception)`。
 
-##### Haxe 3.* and Haxe 4.0
+#### Haxe 3.* 與 Haxe 4.0
 
 Prior to Haxe 4.1.0 the only way to catch all exceptions is by using `Dynamic` or `Any` as the catch type(型式|n. 又：型別).
 To get a string(字串|) representation of the exception `Std.string(e)` could be used.
@@ -891,7 +889,7 @@ To get a string(字串|) representation of the exception `Std.string(e)` could b
 try {
   doSomething();
 } catch(e:Any) {
-  // All exceptions will be caught here
+  // 所有的異常都會在此處捕捉
   trace(Std.string(e));
 }
 ```
@@ -1174,7 +1172,6 @@ class Main {
     cast(child1, Child2); // Exception: Class cast error
   }
 }
-
 ```
 
 In this example we first cast(轉換|又：轉型 TODO:) a class instance(類別實例|) of type(型式|n. 又：型別) `Child1` to `Base`, which succeeds because `Child1` is a [child class(子類別|)](types-class-inheritance) of `Base`. We then try to cast the same class instance to `Child2`, which is not allowed because instances of `Child2` are not instance(實例|)s of `Child1`.
