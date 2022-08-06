@@ -47,6 +47,7 @@ bug | 錯誤 |
 build | 構建 |
 build macros | 構建巨集 | TODO:
 bytecode | 位元組碼 | 又：二進位碼
+call | 呼叫 |
 cast | 轉換 | 又：轉型 TODO:
 catch | 捕捉 |
 checker | 檢查器 |
@@ -100,7 +101,7 @@ definition | 定義 |
 denote | 表示 |
 derivation | 衍生 | NO
 derived class | 衍生類別 | NO
-descendants | 子系 |
+descendant | 子系 |
 describe | 描述 |
 design pattern | 設計型樣 |
 directional | 定向 |
@@ -121,7 +122,7 @@ equality operator | 等號比較運算子 |
 error | 錯誤 |
 error message | 錯誤訊息 |
 evaluate | 評估 |
-exception | 異常 |
+exception | 例外狀況 |
 execute | 執行 |
 exhaustiveness | 完整性 | TODO:
 explicit | 明確 |
@@ -137,6 +138,7 @@ false | 假 |
 feature | 特徵 |
 field | 欄位 |
 final | 最終 |
+fine-grained | 細緻 |
 first-class function | 第一級函式 |
 floating-point | 浮點 |
 forward | 轉送 |
@@ -152,6 +154,7 @@ high-level | 高階 |
 hint | 提示 |
 hold | 儲存 | TODO:又：存儲
 identifier | 識別符 |
+impact | 影響 |
 implement | 實作 |
 implementation | 實作 |
 implicit | 隱含 |
@@ -173,6 +176,7 @@ integer | 整數 |
 interface | 介面 |
 internal | 內部 |
 interval | 區間 |
+invalid | 無效 |
 invariance | 不變數 |
 invariant | 不變 | adj. TODO:
 inverter |
@@ -184,14 +188,17 @@ iterator | 疊代器 |
 key-value pair | 鍵值對 |
 keyword | 關鍵字 |
 kind | 種類 |
+leave | 脫離 |
 legibility | 可讀性 |
 lexicographically | 字典序 |
+library | 函式庫 |
 line | 列 |
 list | 列表 |
 literal | 常值 |
 local function | 局部函式 |
 local value | 局部值 |
 local variable | 局部變數 |
+log | 記錄 |
 logical negation | 邏輯否定 |
 lookup | 查找 |
 loop | 迴圈 | 又：循環
@@ -234,6 +241,7 @@ optimized | 最佳化 |
 optional | 任選 |
 or | 或 | gate
 overflow | 溢位 |
+overhead | 負荷 |
 overload | 多載 |
 override | 覆寫 |
 package | 套件 |
@@ -277,6 +285,7 @@ reification | 具體化 |
 represent | 表述 |
 resolve | 解析 |
 resolution | 解析 |
+rethrow | 重新擲回 |
 return | 回傳 |
 robust | 強健 |
 run-time | 執行期 | 又：執行時
@@ -295,6 +304,7 @@ skip | 跳過 |
 sourcecode | 原始碼 |
 specific | 特定 |
 specification | 規格 | 另：規範
+stack | 堆疊 |
 standard library | 標準函式庫 |
 static | 靜態 |
 static target | 靜態目標 |
@@ -314,12 +324,13 @@ subvert | 顛覆 | TODO:
 syntax | 語法 |
 target | 目標 |
 target language | 目標語言 |
+terminate | 終止 |
 textual | 文本 |
 throw | 擲回 |
 top-down | 自上而下 |
 transitive | 遞移 |
 true | 真 |
-type | 型式 | n. 又：型別
+type | 型式/型式化 | n./v. 又：型別
 typing | 型態/型式 | n./adj.
 type-check | 型式檢查 |
 type-safe | 型式安全 |
@@ -337,6 +348,7 @@ unsigned | 無符號 |
 unspecific | 非特定 |
 unspecified | 未規定 |
 untyped | 非具型式 |
+use-case | 使用案例 |
 use case | 使用案例 |
 user | 使用者 |
 underscore | 底線 |
