@@ -111,7 +111,7 @@ Haxe 中的塊段以左大括號 `{` 開始，以右大括號 `}` 結束，一�
 a; // 錯誤，`a` 在之外不可用
 ```
 
-在執行期，會自頂向底去評估塊段。控制流（比如[異常](expression-try-catch)或[回傳運算式](expression-return)）可能會在評估完所有運算式之前就離開塊段。
+在執行期，會自頂向底去評估塊段。控制流（比如[例外狀況](expression-try-catch)或[回傳運算式](expression-return)）可能會在評估完所有運算式之前就離開塊段。
 
 #### 變數遮蔽
 
@@ -835,7 +835,7 @@ throw expr
 
 極度建議不要擲回任意值而是去擲回 `haxe.Exception` 的實例。不過事實上如若 `value` 不是 `haxe.Exception` 的實例，那麼 `throw value` 將會編譯為 `throw haxe.Exception.thrown(value)`，這會將 `value` 包裝為`haxe.Exception` 的實例。
 
-不過原生目標的異常會以原樣擲回。例如 `cs.system.Exception` 或 `php.Exception` 將不會在擲回時自動包裝。
+不過原生目標的例外狀況會以原樣擲回。例如 `cs.system.Exception` 或 `php.Exception` 將不會在擲回時自動包裝。
 
 <!--label:expression-try-catch-->
 ### try/catch
@@ -854,7 +854,7 @@ catch (varName2:Type2) catch-expr-2
 - 確定哪些型式需要捕捉的明確型式標記，
 - 在這種情況下要執行的運算式。
 
-Haxe 容許擲回以及捕捉任意種類的值，該值並不受限於由特定的異常或者錯誤繼承的型式。不過自 Haxe 4.1.0 起，強烈建議僅擲回與捕捉 `haxe.Exception` 及其子系的實例。
+Haxe 容許擲回以及捕捉任意種類的值，該值並不受限於由特定的例外狀況或者錯誤繼承的型式。不過自 Haxe 4.1.0 起，強烈建議僅擲回與捕捉 `haxe.Exception` 及其子系的實例。
 
 catch 塊段會自頂向底檢查首個其型式與與選取的擲回值相容的型式的塊段。
 
@@ -873,7 +873,7 @@ catch 塊段會自頂向底檢查首個其型式與與選取的擲回值相容�
 try {
   doSomething();
 } catch(e) {
-  // 所有的異常都會在此處捕捉
+  // 所有的例外狀況都會在此處捕捉
   trace(e.message);
 }
 ```
@@ -882,23 +882,22 @@ try {
 
 #### Haxe 3.* 與 Haxe 4.0
 
-Prior to Haxe 4.1.0 the only way to catch all exceptions is by using `Dynamic` or `Any` as the catch type(型式|n. 又：型別).
-To get a string(字串|) representation of the exception `Std.string(e)` could be used.
+在 Haxe 4.1.0 之前，捕捉所有例外狀況的唯一方式是使用 `Dynamic` 或 `Any` 作為捕捉型式。要獲取例外狀況的字串表示可以使用 `Std.string(e)`。
 
 ```haxe
 try {
   doSomething();
 } catch(e:Any) {
-  // 所有的異常都會在此處捕捉
+  // 所有的例外狀況都會在此處捕捉
   trace(Std.string(e));
 }
 ```
 
-#### Exception stack
+### 例外狀況堆疊
 
-##### Since Haxe 4.1
+#### 自 Haxe 4.1
 
-If the catch type is `haxe.Exception` or one of its descendants, then the exception stack is available in the `stack` property(屬性|) of the exception instance(實例|).
+若捕捉的型式是 `haxe.Exception` 或其子系之一，則可以在例外狀況實例的 `stack` 屬性中取得例外狀況堆疊。
 
 ```haxe
 try {
@@ -908,9 +907,9 @@ try {
 }
 ```
 
-##### Haxe 3.* and Haxe 4.0
+#### Haxe 3.* 與 Haxe 4.0
 
-The exception call stack is available via `haxe.CallStack.exceptionStack()` inside of a `catch` block:
+例外狀況呼叫堆疊可在 `catch` 塊段中以 `haxe.CallStack.exceptionStack()` 取得：
 
 ```haxe
 try {
@@ -921,11 +920,11 @@ try {
 }
 ```
 
-#### Rethrowing exceptions
+### 重新擲回例外狀況
 
-##### Since Haxe 4.1
+#### 自 Haxe 4.1
 
-Even if an instance of `haxe.Exception` is throw(擲回|)n again, it still preserves all the original information, including the stack.
+既便再次擲回 `haxe.Exception` 的實例，其仍會保留所有原始資料，包括堆疊。
 
 ```haxe
 import haxe.Exception;
@@ -937,7 +936,7 @@ class Main {
         doSomething();
       } catch(e:Exception) {
         trace(e.stack);
-        throw e; //rethrow
+        throw e; // 重新擲回
       }
     } catch(e:Exception) {
       trace(e.stack);
@@ -950,7 +949,7 @@ class Main {
 }
 ```
 
-This example being executed with `haxe --main Main --interp` would print something like this:
+以 `haxe --main Main --interp` 執行此範例會印出這樣的結果：
 
 ```plain
 Main.hx:13:
@@ -961,9 +960,9 @@ Called from Main.doSomething (Main.hx line 11 column 15)
 Called from Main.main (Main.hx line 5 column 5)
 ```
 
-The compiler may avoid unnecessary wrapping when throwing native exceptions and handle this at the catch-site instead. This ensures that any exception (native or otherwise) can be caught with `catch (e:haxe.Exception)`. This also applies for rethrowing exceptions.
+編譯器在擲回原生例外狀況時可能會避免不必要的包裝而在捕捉處處理。這可確保任何例外狀況（原生或其他）都可以以 `catch (e:haxe.Exception)` 捕捉。這也同時適用於重新擲回例外狀況。
 
-For example here's a Haxe code, which being compiled to PHP target catches and rethrows all exceptions in the inner `try/catch`. And rethrown exceptions are still catchable using their target native types:
+比如此處有一段樣例 Haxe 程式碼，將其編譯為 PHP 目標並且重新擲回內部 `try/catch` 中的所有例外狀況。並且重新擲回的例外狀況仍可以以其目標原生型式捕捉：
 
 ```haxe
 try {
@@ -971,26 +970,25 @@ try {
     (null:Dynamic).callNonExistentMethod();
   } catch(e:Exception) {
     trace('Haxe exception: ' + e.message);
-    throw e; //rethrow
+    throw e; // 重新擲回
   }
 } catch(e:php.ErrorException) {
   trace('Rethrown native exception: ' + e.getMessage());
 }
 ```
 
-This sample being compiled to PHP target would print:
+這個例子編譯為 PHP 目標將印出：
 
 ```plain
 Main.hx:9: Haxe exception: Trying to get property 'callNonExistentMethod' of non-object
 Main.hx:13: Rethrown native exception: Trying to get property 'callNonExistentMethod' of non-object
 ```
 
-#### Chaining exceptions
+### 鏈式例外狀況
 
-##### Since Haxe 4.1
+#### 自 Haxe 4.1
 
-Sometimes it's convenient to chain exceptions instead of throwing the same exception instance again.
-To do so just pass an exception to a new exception instance:
+有時鏈接異常而不是再次擲回相同的例外狀況實例會很方便。要這樣做只需要將例外狀況傳遞至新的例外狀況實例：
 
 ```haxe
 try {
@@ -1001,7 +999,7 @@ try {
 }
 ```
 
-Being executed with `--interp` this sample would print a message like this:
+以 `--interp` 執行此範例會印出這樣的訊息：
 
 ```plain
 Main.hx:12: characters 7-12 : Uncaught exception Exception: Terrible error
@@ -1013,9 +1011,9 @@ Called from Main.main (Main.hx line 5 column 5)
 Main.hx:5: characters 5-18 : Called from here
 ```
 
-One use-case is to make error logs more readable.
+一個使用案例是使錯誤紀錄更可讀。
 
-Chained exceptions are available through `previous` property(屬性|) of `haxe.Exception` instance(實例|)s:
+鏈接的異常可以透過 `haxe.Exception` 實例的 `previous` 屬性取得：
 
 ```haxe
 try {
@@ -1031,7 +1029,7 @@ try {
 }
 ```
 
-Another use-case is creating a library, which does not expose internal exceptions as public API, but still provides information about exceptions reasons:
+另一個使用案例是創建函式庫，這樣做可以避免將內部例外狀況公開為公共 API 並仍可提供有關異常原因的資訊：
 
 ```haxe
 import haxe.Exception;
@@ -1051,19 +1049,19 @@ class MyLib {
 }
 ```
 
-Now library users don't have to worry about specific arithmetic exceptions. All they need to do is handle `MyLibException`.
+如此以來，函式庫的使用者不必關心特定的算術例外狀況，他們只需要處理 `MyLibException` 就可以了。
 
 <!--label:expression-return-->
-### return
+## return
 
-A `return` expression(運算式|) can come with or without a value(值|) expression(運算式|):
+`return` 運算式可以有也可以沒有值運算式：
 
 ```haxe
 return;
 return expression;
 ```
 
-It leaves the control-flow of the innermost function it is declared in, which has to be distinguished when [local functions](expression-arrow-function) are involved:
+此運算式會使宣告了它的最內層函式控制流程脫離，這在涉及[局部函式](expression-arrow-function)時必須區分：
 
 ```haxe
 function f1() {
@@ -1075,14 +1073,14 @@ function f1() {
 }
 ```
 
-The `return` leaves local function(函式|) `f2`, but not `f1`, meaning `expression` is still evaluate(評估|)d.
+`return` 會脫離局部函式 `f2`，但 `f1` 不會，也就是 `expression` 仍會評估。
 
-If `return` is used without a value(值|) expression(運算式|), the typer(型式系統|TODO:) ensures that the return(回傳|) type(型式|n. 又：型別) of the function(函式|) it return(回傳|)s from is of `Void`. If it has a value expression, the typer [unifies](type-system-unification) its type with the return type (explicitly given or inferred by previous `return` expression(運算式|)s) of the function(函式|) it return(回傳|)s from.
+若在沒有值運算式時使用 `return`，則型式系統會確保回傳其的函式的回傳型式為 `Void`。若有，則型式系統會使其型式與回傳其的函式的回傳型式（明確給定或由先前的回傳運算式推斷）相[統一](type-system-unification)。
 
 <!--label:expression-break-->
-### break
+## break
 
-The `break` keyword(關鍵字|) leaves the control flow of the innermost loop (`for` or `while`) it is declared in, stopping further iterations:
+`break` 關鍵字會使宣告了它的最內層迴圈（`for` 或 `while`）的控制流程脫離以停止進一步的疊代：
 
 ```haxe
 while (true) {
@@ -1092,14 +1090,14 @@ while (true) {
 }
 ```
 
-Here, `expression1` is evaluate(評估|)d for each iteration, but as soon as `condition` hold(儲存|TODO:又：存儲)s, the current iteration is terminated without evaluating `expression2`, and no more iteration is done.
+此處每次疊代都會評估 `expression1`，不過一旦 `condition` 成立，當前的疊代將終止而不評估 `expression2`，並且不再疊代。
 
-The typer ensures that it appears only within a loop. The `break` keyword(關鍵字|) in [`switch` cases](expression(運算式|)-switch) is not supported in Haxe.
+型式系統會確保這只出現在迴圈中。Haxe 並不支援在 [`switch` case](expression-switch)中的 `break` 關鍵字。
 
 <!--label:expression-continue-->
-### continue
+## continue
 
-The `continue` keyword(關鍵字|) ends the current iteration of the innermost loop (`for` or `while`) it is declared in, causing the loop condition to be checked for the next iteration:
+`continue` 關鍵字會使使宣告了它的最內層迴圈（`for` 或 `while`）結束當前疊代，從而檢查迴圈條件以繼續疊代：
 
 ```haxe
 while (true) {
@@ -1109,26 +1107,26 @@ while (true) {
 }
 ```
 
-Here, `expression1` is evaluate(評估|)d for each iteration, but if `condition` hold(儲存|TODO:又：存儲)s, `expression2` is not evaluate(評估|)d for the current iteration. Unlike `break`, iterations continue.
+此處每次疊代都會評估 `expression1`，不過一旦 `condition` 成立，`expression2` 將在該次疊代中不再評估。不同於 `break`，疊代還將繼續。
 
-The typer ensures that it appears only within a loop.
+型式系統會確保這只出現在迴圈中。
 
 <!--label:expression-cast-->
-### cast
+## cast
 
-Haxe allows two kinds of casts:
+Haxe 容許兩種轉換：
 
 ```haxe
-cast expr; // unsafe cast
-cast (expr, Type); // safe cast
+cast expr; // 不安全的轉換
+cast (expr, Type); // 安全的轉換
 ```
 
 <!--label:expression-cast-unsafe-->
-#### unsafe cast
+### 不安全的轉換
 
-Unsafe casts are useful to subvert the type system. The compiler types `expr` as usual and then wraps it in a [monomorph(單型|)](types-monomorph). This allow(容許|又：允許)s the expression(運算式|) to be assign(指派|又：賦值、指定、分配)ed to anything.
+不安全的轉換在顛覆型式系統時十分有用。編譯器會如往常一樣型式化 `expr` 然後將其包裝在[單型](types-monomorph)之中。這可容許將運算式指派至任何東西。
 
-Unsafe cast(轉換|又：轉型 TODO:)s do not introduce any [dynamic(動態|)](types-dynamic) type(型式|n. 又：型別)s, as the following example shows:
+不安全的轉換並不會引入任何[動態](types-dynamic)型式，如下例所示：
 
 <!-- [code asset](assets/UnsafeCast.hx) -->
 ```haxe
@@ -1144,16 +1142,16 @@ class Main {
 }
 ```
 
-variable(變數|) `i` is type(型式|n. 又：型別)d as `Int` and then assign(指派|又：賦值、指定、分配)ed to variable(變數|) `s` using the unsafe cast(轉換|又：轉型 TODO:) `cast i`. This causes `s` to be of an unknown type(型式|n. 又：型別), a monomorph(單型|). Following the usual rules of [unification(統一|TODO:)](type(型式|n. 又：型別)-system-unification), it can then be bound(繫結|) to any type(型式|n. 又：型別), such as `String` in this example.
+變數 `i` 型式化為 `Int` 然後由不安全的轉換 `cast i` 指派至變數 `s`。這會使 `s` 的型式是未知的，也就是單型。按照[統一](type-system-unification)的規則，其可以繫結至任意型式，比如此例中的 `String`。
 
-These cast(轉換|又：轉型 TODO:)s are called "unsafe" because the runtime behavior(行為|) for invalid(有效|) cast(轉換|又：轉型 TODO:)s is not define(定義|)d. While most [dynamic target(動態目標|)s](define-dynamic-target) are likely to work, it might lead to undefined(未定義|) error(錯誤|)s on [static target(靜態目標|)s](define-static-target).
+這些轉換稱為「不安全」是由於沒有定義無效轉換的執行期行為。雖然對於大多數[動態目標](define-dynamic-target)都可能工作，但在[靜態目標](define-static-target)中可能會出現未定義的錯誤。
 
-Unsafe cast(轉換|又：轉型 TODO:)s have little to no runtime overhead.
+不安全的轉換幾乎沒有執行期負荷。
 
 <!--label:expression-cast-safe-->
-#### safe cast(轉換|又：轉型 TODO:)
+### 安全的轉換
 
-Unlike [unsafe cast(轉換|又：轉型 TODO:)s](expression-cast-unsafe), the runtime behavior(行為|) in case of a failing cast(轉換|又：轉型 TODO:) is define(定義|)d for safe cast(轉換|又：轉型 TODO:)s:
+不同於[不安全的轉換](expression-cast-unsafe)，定義有轉換失敗的情況的執行期行為定義為安全的轉換。
 
 <!-- [code asset](assets/SafeCast.hx) -->
 ```haxe
@@ -1174,36 +1172,36 @@ class Main {
 }
 ```
 
-In this example we first cast(轉換|又：轉型 TODO:) a class instance(類別實例|) of type(型式|n. 又：型別) `Child1` to `Base`, which succeeds because `Child1` is a [child class(子類別|)](types-class-inheritance) of `Base`. We then try to cast the same class instance to `Child2`, which is not allowed because instances of `Child2` are not instance(實例|)s of `Child1`.
+在此例中，我們首先將型式 `Child1` 的類別實例轉換為 `Base`，因為 `Child1` 是 `Base` 的[子類別](types-class-inheritance)所以會成功。然後我們嘗試將相同的類別實例轉換為 `Child2`，這是不容許的，因為 `Child2` 的實例不是 `Child1` 的實例。
 
-The Haxe compiler guarantees that an exception of type `String` is [throw(擲回|)n](expression-throw) in this case. This exception can be caught using a [`try/catch` block](expression(運算式|)-try-catch).
+Haxe 編譯器會保障在這種情形下會擲回型式 `String` 的例外狀況。該例外狀況可以使用 [`try/catch` 塊段](expression-try-catch)捕捉。
 
-Safe cast(轉換|又：轉型 TODO:)s have a runtime overhead. It is import(匯入|)ant to understand that the compiler(編譯器|) alread(讀出|)y generate(產生|)s type(型式|n. 又：型別) checks, so it is redundant(冗餘|) to add manual(手冊/手動|n./adj.) checks, e.g. using `Std.is`. The intended usage is to try the safe cast and catch the `String` exception.
+安全的轉換會有執行期負荷。重要的是需要了解到編譯器已經會生成型式檢查，因此添加手動的檢查是冗餘的，比如使用 `Std.is`。其預期用法是嘗試使用安全的轉換並捕捉 `String` 異常。
 
 <!--label:expression-type-check-->
-### type(型式|n. 又：型別) check
+## 型式檢查
 
-##### since Haxe 3.1.0
+#### 自 Haxe 3.1.0
 
-It is possible to employ compile-time(編譯期|又：編譯時) type(型式|n. 又：型別) checks using the following syntax(語法|):
+可以使用下列語法使用編譯期型式檢查：
 
 ```haxe
 (expr : type)
 ```
 
-The parentheses are mandatory. Unlike [safe casts](expression-cast-safe) this construct has no run-time impact. It has two compile-time implications:
+括號是必須的。與[安全的轉換](expression-cast-safe)不同，此構造沒有執行期影響。這有兩種編譯期含意：
 
-1. [Top-down inference](type-system-top-down-inference) is used to type `expr` with type(型式|n. 又：型別) `type`.
-2. The resulting typed expression is [unified](type-system-unification) with type `type`.
+1. [自上而下推斷](type-system-top-down-inference)會用於型式化 `expr` 為型式 `type`。
+2. 結果型式化運算式會與型式 `type` [統一](type-system-unification)。
 
-This has the usual effect of both operations such as the given type being used as expected type when performing [unqualified identifier resolution](type-system-resolution-order) and the unification checking for [abstract casts](types-abstract-implicit-casts).
+這具有兩種運算的通常效果，例如在執行[非限定識別符解析](type-system-resolution-order)時將作為預期型式的給定型式與[抽象轉換](types-abstract-implicit-casts)作統一檢查。
 
 <!--label:expression-inline-->
-### inline
+## inline
 
-##### since Haxe 4.0.0
+#### 自 Haxe 4.0.0
 
-The `inline` keyword(關鍵字|) can be used before a [function(函式|) call](expression-function-call) or a [constructor(建構式|) call](expression-new). This allow(容許|又：允許)s a finer-grained control of inlining, unlike the [inline(內聯|) access(存取|) modifier(修飾符|)](class-field-inline).
+inline 關鍵字可以在[函式呼叫](expression-function-call)或[建構式呼叫](expression-new)之前使用。與[內聯存取修飾符](class-field-inline)不同，該種容許對內聯更細緻的控制。
 
 <!-- [code asset](assets/InlineCallsite.hx) -->
 ```haxe
@@ -1219,12 +1217,11 @@ class Main {
     var d = inline mid(a, b);
   }
 }
-
 ```
 
-The generate(產生|)d JavaScript output is:
+產生的 JavaScript 輸出為：
 
-```haxe
+```js
 (function ($global) { "use strict";
 var Test = function() { };
 Test.mid = function(s1,s2) {
@@ -1240,6 +1237,6 @@ Test.main();
 })({});
 ```
 
-Note that `c` produces a call to the function(函式|), whereas `d` does not. The usual warnings about what makes a good candidate for inlining still hold(儲存|TODO:又：存儲) (see [inline(內聯|)](class-field-inline)).
+注意 `c` 會產生對函式的呼叫但 `d` 不會。對於內聯的良好候選者的常規警告同樣適用（見[內聯](class-field-inline)）。
 
-An `inline new` call can be used to avoid creating a local class instance(類別實例|). See [inline(內聯|) constructor(建構式|)s](lf-inline-constructor) for more details.
+`inline new` 的呼叫可用於避免建立局部類別實例。更多細節可見[內聯建構式](lf-inline-constructor)。
