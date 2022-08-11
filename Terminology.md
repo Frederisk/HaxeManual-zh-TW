@@ -173,6 +173,7 @@ instance | 實例 |
 instantiate | 實例化 |
 instantiation | 實例化 | TODO:
 integer | 整數 |
+interaction | 互動 |
 interface | 介面 |
 internal | 內部 |
 interval | 區間 |
