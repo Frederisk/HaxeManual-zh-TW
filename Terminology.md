@@ -138,8 +138,9 @@ false | 假 |
 feature | 特徵 |
 field | 欄位 |
 final | 最終 |
-fine-grained | 細緻 |
+fine-grained | 更細緻的 |
 first-class function | 第一級函式 |
+flag | 旗標 |
 floating-point | 浮點 |
 forward | 轉送 |
 from bottom to top | 自底向頂 |
