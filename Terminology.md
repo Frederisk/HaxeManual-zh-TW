@@ -330,6 +330,7 @@ target language | 目標語言 |
 terminate | 終止 |
 textual | 文本 |
 throw | 擲回 |
+token | 語彙基元/權杖 |
 top-down | 自上而下 |
 transitive | 遞移 |
 true | 真 |
@@ -345,6 +346,7 @@ typing system | 型式系統 |
 unary | 一元 |
 undefined | 未定義 |
 underlying type | 底層型式 |
+underscore | 底線 |
 unification | 統一 | TODO:
 unqualified | 非限定 | 另：不合格 TODO:
 unsigned | 無符號 |
