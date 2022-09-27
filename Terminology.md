@@ -36,6 +36,7 @@ assume | 假設 |
 basic type | 基底型式 | TODO: basic 基本/base 基底？
 before | 前於 |
 behavior | 行為 |
+binary | 二進位/二進位檔 |
 bind | 繫結 |
 bitwise negation | 位元否定 |
 block | 塊段 |
@@ -46,6 +47,7 @@ breaking change | 重大變更 |
 bug | 錯誤 |
 build | 構建 |
 build macros | 構建巨集 | TODO:
+built-in | 內建 |
 bytecode | 位元組碼 | 又：二進位碼
 call | 呼叫 |
 cast | 轉換 | 又：轉型 TODO:
@@ -55,6 +57,8 @@ child class | 子類別 |
 class | 類別 |
 class instance | 類別實例 |
 closure | 閉包 |
+code | 程式碼 |
+code completion | 程式碼完成 |
 codepoint | 字碼指標 |
 collection | 集合 |
 common base type | 共同基底型式 |
@@ -291,6 +295,7 @@ resolution | 解析 |
 rethrow | 重新擲回 |
 return | 回傳 |
 robust | 強健 |
+run | 執行 |
 run-time | 執行期 | 又：執行時
 rvalue | 右值 |
 scope | 範圍 |
@@ -324,6 +329,7 @@ sub-type | 子型式 |
 subject expression | 主體表達式 |
 subtraction | 減法 |
 subvert | 顛覆 | TODO:
+support | 支援 |
 syntax | 語法 |
 target | 目標 |
 target language | 目標語言 |
