@@ -61,6 +61,7 @@ code | 程式碼 |
 code completion | 程式碼完成 |
 codepoint | 字碼指標 |
 collection | 集合 |
+command line | 命令列 |
 common base type | 共同基底型式 |
 commutative | 可交換 |
 comparison | 比較 |
@@ -109,6 +110,7 @@ descendant | 子系 |
 describe | 描述 |
 design pattern | 設計型樣 |
 directional | 定向 |
+directory | 目錄 |
 division | 除法 |
 document | 文件 |
 documentation | 文件 |
@@ -137,10 +139,11 @@ expression | 運算式 |
 extract | 擷取 | 又：抽取
 extend | 擴充 | 又：延伸
 extern | 外部 |
-extension | 延伸 |
+extension | 延伸/副檔名 |
 false | 假 |
 feature | 特徵 |
 field | 欄位 |
+file | 檔案 |
 final | 最終 |
 fine-grained | 更細緻的 |
 first-class function | 第一級函式 |
@@ -201,6 +204,7 @@ library | 函式庫 |
 line | 列 |
 list | 列表 |
 literal | 常值 |
+load | 載入 |
 local function | 局部函式 |
 local value | 局部值 |
 local variable | 局部變數 |
@@ -290,10 +294,13 @@ regular | 正規 |
 regular expression | 正規表示式 |
 reification | 具體化 |
 represent | 表述 |
+representation | 表述方式 |
 resolve | 解析 |
 resolution | 解析 |
+rest argument | 剩餘引數 | TODO:
 rethrow | 重新擲回 |
 return | 回傳 |
+reuse | 重複使用 |
 robust | 強健 |
 run | 執行 |
 run-time | 執行期 | 又：執行時
@@ -326,6 +333,7 @@ struct | 結構體 |
 structural sub-typing | 結構子型態 | TODO:
 structure | 結構 |
 sub-type | 子型式 |
+subclass | 次類別 | TODO:
 subject expression | 主體表達式 |
 subtraction | 減法 |
 subvert | 顛覆 | TODO:
