@@ -78,6 +78,7 @@ concatenation | 序連 |
 concrete | 具體 |
 condition | 條件 |
 conditional | 條件 |
+conflict | 衝突 |
 constant | 常數 |
 constant value | 定值 |
 constraint | 約束 |
@@ -128,6 +129,7 @@ equality operator | 等號比較運算子 |
 error | 錯誤 |
 error message | 錯誤訊息 |
 evaluate | 評估 |
+expect | 預期 |
 exception | 例外狀況 |
 execute | 執行 |
 exhaustiveness | 完整性 | TODO:
@@ -347,6 +349,7 @@ throw | 擲回 |
 token | 語彙基元/權杖 |
 top-down | 自上而下 |
 transitive | 遞移 |
+trivia | 雜項 | 又：瑣事
 true | 真 |
 type | 型式/型式化 | n./v. 又：型別
 typing | 型態/型式 | n./adj.
