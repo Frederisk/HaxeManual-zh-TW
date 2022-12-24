@@ -33,6 +33,7 @@ arrow function | 箭頭函式 |
 assign | 指派 | 又：賦值、指定、分配
 associativity | 結合性 |
 assume | 假設 |
+augment | 增強 |
 basic type | 基底型式 | TODO: basic 基本/base 基底？
 before | 前於 |
 behavior | 行為 |
@@ -280,6 +281,7 @@ promotion | 提升 | TODO:
 property | 屬性 |
 protect | 保護 |
 pseudo-type | 偽型式 |
+pseudo-extend | 偽擴充 |
 public | 公用 | 又：公開
 push | 推入 |
 range | 範圍 |
@@ -318,6 +320,8 @@ shift right | 右移 |
 short-circuit | 短路 |
 signature | 簽章 |
 skip | 跳過 |
+snippets | 程式碼片段 |
+
 sourcecode | 原始碼 |
 specific | 特定 |
 specification | 規格 | 另：規範
@@ -351,6 +355,7 @@ top-down | 自上而下 |
 transitive | 遞移 |
 trivia | 雜項 | 又：瑣事
 true | 真 |
+tutorial | 教學　｜ 又：教學課程
 type | 型式/型式化 | n./v. 又：型別
 typing | 型態/型式 | n./adj.
 type-check | 型式檢查 |
