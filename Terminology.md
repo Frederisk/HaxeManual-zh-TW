@@ -85,6 +85,7 @@ constant value | 定值 |
 constraint | 約束 |
 construct | 建構/構造 | v./n.
 constructor | 建構式 |
+context | 上下文 |
 contravariance | 反變數 |
 contravariant | 反變 | adj.  TODO:
 control flow | 控制流程 |
@@ -264,7 +265,7 @@ parameter | 參數 |
 parametrization | 參數化 |
 parent class | 父類別 |
 parser | 剖析器 |
-partial function | 部分函式
+partial function | 部分函式 |
 pattern matching | 模式匹配 |
 performance | 效能 |
 physical field | 實體欄位 |
