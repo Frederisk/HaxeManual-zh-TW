@@ -143,7 +143,7 @@ Haxe 容許在同一塊段內對局部變數遮蔽。這表示 `var`、`final` �
 
 #### 自 Haxe 4.0.0
 
-有時可能會在無意中寫出變數遮蔽。此時可以以 `-D warn-var-shadowing` 定義使編譯器設定為為所有變數遮蔽的實例發出警告。
+有時可能會在無意中寫出變數遮蔽。此時可以以 `-D warn-var-shadowing` 定義使編譯器設定為為所有變數遮蔽的執行個體發出警告。
 
 <!--label:expression-literals-->
 ## 常值
@@ -629,7 +629,7 @@ class Main {
 <!--label:expression-new-->
 ## new
 
-`new` 關鍵字表示去實例化[類別](types-class-instance)或[抽象](types-abstract)。在這後面的是要實例化的型式的[型式路徑](define-type-path)。在左括號 `(` 後跟的以逗號 `,` 分隔的建構式引數後的右括號 `)` 之後，可以用 `<>` 括起來用逗號 `,` 分隔的明確[型式參數](type-system-type-parameters)。
+`new` 關鍵字表示去具現化[類別](types-class-instance)或[抽象](types-abstract)。在這後面的是要具現化的型式的[型式路徑](define-type-path)。在左括號 `(` 後跟的以逗號 `,` 分隔的建構式引數後的右括號 `)` 之後，可以用 `<>` 括起來用逗號 `,` 分隔的明確[型式參數](type-system-type-parameters)。
 
 <!-- [code asset](assets/New.hx) -->
 ```haxe
@@ -642,7 +642,7 @@ class Main<T> {
 }
 ```
 
-在 main 方法中，我們以明確型式參數 `Int` 以及引數 `12` 和 `"foo"` 實例化了 `Main` 本身的實例。正如我們所看到的，其語法與[函式呼叫語法](expression-function-call)十分相似，所以這也常稱為「建構式呼叫」。
+在 main 方法中，我們以明確型式參數 `Int` 以及引數 `12` 和 `"foo"` 具現化了 `Main` 本身的執行個體。正如我們所看到的，其語法與[函式呼叫語法](expression-function-call)十分相似，所以這也常稱為「建構式呼叫」。
 
 <!--label:expression-for-->
 ## for
@@ -669,7 +669,7 @@ for (v in list) {
 
 #### 範圍疊代
 
-Haxe 有特殊的範圍運算子來疊代區間，這是需要兩個 `Int` 運算元的二元運算子： `min...max` 會回傳 [`IntIterator`](http://api.haxe.org/IntIterator.html)，該實例會從 `min`（包含）疊代到 `max`（不包含）。須注意 `max` 不得小於 `min`。
+Haxe 有特殊的範圍運算子來疊代區間，這是需要兩個 `Int` 運算元的二元運算子： `min...max` 會回傳 [`IntIterator`](http://api.haxe.org/IntIterator.html)，該執行個體會從 `min`（包含）疊代到 `max`（不包含）。須注意 `max` 不得小於 `min`。
 
 ```haxe
 for (i in 0...10) trace(i); // 0 至 9
@@ -833,7 +833,7 @@ throw expr
 
 #### 自 Haxe 4.1.0
 
-極度建議不要擲回任意值而是去擲回 `haxe.Exception` 的實例。不過事實上如若 `value` 不是 `haxe.Exception` 的實例，那麼 `throw value` 將會編譯為 `throw haxe.Exception.thrown(value)`，這會將 `value` 包裝為`haxe.Exception` 的實例。
+極度建議不要擲回任意值而是去擲回 `haxe.Exception` 的執行個體。不過事實上如若 `value` 不是 `haxe.Exception` 的執行個體，那麼 `throw value` 將會編譯為 `throw haxe.Exception.thrown(value)`，這會將 `value` 包裝為`haxe.Exception` 的執行個體。
 
 不過原生目標的例外狀況會以原樣擲回。例如 `cs.system.Exception` 或 `php.Exception` 將不會在擲回時自動包裝。
 
@@ -854,13 +854,13 @@ catch (varName2:Type2) catch-expr-2
 - 確定哪些型式需要捕捉的明確型式標記，
 - 在這種情況下要執行的運算式。
 
-Haxe 容許擲回以及捕捉任意種類的值，該值並不受限於由特定的例外狀況或者錯誤繼承的型式。不過自 Haxe 4.1.0 起，強烈建議僅擲回與捕捉 `haxe.Exception` 及其子系的實例。
+Haxe 容許擲回以及捕捉任意種類的值，該值並不受限於由特定的例外狀況或者錯誤繼承的型式。不過自 Haxe 4.1.0 起，強烈建議僅擲回與捕捉 `haxe.Exception` 及其子系的執行個體。
 
 catch 塊段會自頂向底檢查首個其型式與與選取的擲回值相容的型式的塊段。
 
 該處理與編譯期[統一](type-system-unification)有很多相似之處。不過由於檢查必須是在執行期，所以會存在一些限制：
 
-- 型式必須在執行期存在：[類別實例](types-class-instance)、[枚舉實例](types-enum-instance)、[抽象核心型式](types-abstract-core-type)、[動態](types-dynamic)。
+- 型式必須在執行期存在：[類別執行個體](types-class-instance)、[枚舉執行個體](types-enum-instance)、[抽象核心型式](types-abstract-core-type)、[動態](types-dynamic)。
 - 型式參數只能是[動態](types-dynamic)。
 
 ### 萬用 catch
@@ -897,7 +897,7 @@ try {
 
 #### 自 Haxe 4.1
 
-若捕捉的型式是 `haxe.Exception` 或其子系之一，則可以在例外狀況實例的 `stack` 屬性中取得例外狀況堆疊。
+若捕捉的型式是 `haxe.Exception` 或其子系之一，則可以在例外狀況執行個體的 `stack` 屬性中取得例外狀況堆疊。
 
 ```haxe
 try {
@@ -924,7 +924,7 @@ try {
 
 #### 自 Haxe 4.1
 
-既便再次擲回 `haxe.Exception` 的實例，其仍會保留所有原始資料，包括堆疊。
+既便再次擲回 `haxe.Exception` 的執行個體，其仍會保留所有原始資料，包括堆疊。
 
 ```haxe
 import haxe.Exception;
@@ -988,7 +988,7 @@ Main.hx:13: Rethrown native exception: Trying to get property 'callNonExistentMe
 
 #### 自 Haxe 4.1
 
-有時鏈接異常而不是再次擲回相同的例外狀況實例會很方便。要這樣做只需要將例外狀況傳遞至新的例外狀況實例：
+有時鏈接異常而不是再次擲回相同的例外狀況執行個體會很方便。要這樣做只需要將例外狀況傳遞至新的例外狀況執行個體：
 
 ```haxe
 try {
@@ -1013,7 +1013,7 @@ Main.hx:5: characters 5-18 : Called from here
 
 一個使用案例是使錯誤紀錄更可讀。
 
-鏈接的異常可以透過 `haxe.Exception` 實例的 `previous` 屬性取得：
+鏈接的異常可以透過 `haxe.Exception` 執行個體的 `previous` 屬性取得：
 
 ```haxe
 try {
@@ -1172,7 +1172,7 @@ class Main {
 }
 ```
 
-在此例中，我們首先將型式 `Child1` 的類別實例轉換為 `Base`，因為 `Child1` 是 `Base` 的[子類別](types-class-inheritance)所以會成功。然後我們嘗試將相同的類別實例轉換為 `Child2`，這是不容許的，因為 `Child2` 的實例不是 `Child1` 的實例。
+在此例中，我們首先將型式 `Child1` 的類別執行個體轉換為 `Base`，因為 `Child1` 是 `Base` 的[子類別](types-class-inheritance)所以會成功。然後我們嘗試將相同的類別執行個體轉換為 `Child2`，這是不容許的，因為 `Child2` 的執行個體不是 `Child1` 的執行個體。
 
 Haxe 編譯器會保障在這種情形下會擲回型式 `String` 的例外狀況。該例外狀況可以使用 [`try/catch` 塊段](expression-try-catch)捕捉。
 
@@ -1239,4 +1239,4 @@ Test.main();
 
 注意 `c` 會產生對函式的呼叫但 `d` 不會。對於內聯的良好候選者的常規警告同樣適用（見[內聯](class-field-inline)）。
 
-`inline new` 的呼叫可用於避免建立局部類別實例。更多細節可見[內聯建構式](lf-inline-constructor)。
+`inline new` 的呼叫可用於避免建立局部類別執行個體。更多細節可見[內聯建構式](lf-inline-constructor)。
