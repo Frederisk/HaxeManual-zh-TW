@@ -375,7 +375,7 @@ class Main {
 
 - 類別 `Base`，有一個方法 `myMethod` 和建構式。
 - 類別 `Child`，`extends Base` 並且也有一個方法 `myMethod` 以 `override` 宣告。
-- `Main` 類別的 `main` 方法建立了 `Child` 的實例，並將其指派至了型式為 `Base` 的變數 `child`，然後在其上呼叫了 `myMethod` 方法。
+- `Main` 類別的 `main` 方法建立了 `Child` 的執行個體，並將其指派至了型式為 `Base` 的變數 `child`，然後在其上呼叫了 `myMethod` 方法。
 
 變數 `child` 在此明確形式化為了 `Base`，這是為了突出一個重要區別：雖然編譯期可知其型式為 `Base`，但在執行期欄位呼叫仍會找到在類別 `Child` 中的正確方法 `myMethod`。這是由於欄位的存取是在執行期動態解析的。
 
@@ -655,7 +655,7 @@ class Main {
 <!--label:class-field-static-->
 ### 靜態
 
-除了使用 `static` 了的以外，其他所有的欄位會是成員欄位。靜態欄位「在類別中」使用，而非靜態欄位則「在類別實例中」使用：
+除了使用 `static` 了的以外，其他所有的欄位會是成員欄位。靜態欄位「在類別中」使用，而非靜態欄位則「在類別執行個體中」使用：
 
 <!-- [code asset](assets/StaticField.hx) -->
 ```haxe
