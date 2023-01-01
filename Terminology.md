@@ -21,9 +21,10 @@ alternative | 替代 |
 ambiguous | 模稜兩可 | 又：不明確、歧義
 and | 及 | gate
 anonymous | 匿名 |
-annotate | 標記 |
+annotate | 標記 | 又：標註 TODO:
 any | 任意 |
 apply | 套用 |
+appropriate | 適當 |
 arbitrary | 任意 |
 argument | 引數 |
 argument list | 引數清單 |
@@ -51,12 +52,13 @@ build macros | 構建巨集 | TODO:
 built-in | 內建 |
 bytecode | 位元組碼 | 又：二進位碼
 call | 呼叫 |
+capture | 擷取 |
 cast | 轉換 | 又：轉型 TODO:
 catch | 捕捉 |
 checker | 檢查器 |
 child class | 子類別 |
 class | 類別 |
-class instance | 類別實例 |
+class instance | 類別執行個體 |
 closure | 閉包 |
 code | 程式碼 |
 code completion | 程式碼完成 |
@@ -85,8 +87,9 @@ constant value | 定值 |
 constraint | 約束 |
 construct | 建構/構造 | v./n.
 constructor | 建構式 |
+context | 上下文 | 又：內容 TODO:
 contravariance | 反變數 |
-contravariant | 反變 | adj.  TODO:
+contravariant | 反變 | adj. TODO:
 control flow | 控制流程 |
 core-type | 核心型式 |
 correspond | 對應 |
@@ -111,6 +114,7 @@ derived class | 衍生類別 | NO
 descendant | 子系 |
 describe | 描述 |
 design pattern | 設計型樣 |
+detect | 偵測 |
 directional | 定向 |
 directory | 目錄 |
 division | 除法 |
@@ -123,7 +127,7 @@ emit | 發出 |
 enclosed | 括住 |
 enum | 枚舉 |
 enum case | 枚舉成員 | 又：枚舉案例 TODO:
-enum instance | 枚舉實例 |
+enum instance | 枚舉執行個體 |
 enumeration | 枚舉 |
 equal | 等於 | 又：相等
 equality operator | 等號比較運算子 |
@@ -132,6 +136,7 @@ error message | 錯誤訊息 |
 evaluate | 評估 |
 expect | 預期 |
 exception | 例外狀況 |
+exclusion | 排除 |
 execute | 執行 |
 exhaustiveness | 完整性 | TODO:
 explicit | 明確 |
@@ -180,9 +185,9 @@ initialization | 初始化 |
 initialize | 初始化 |
 inject | 插入 | 又：注入
 inline | 內聯 |
-instance | 實例 |
-instantiate | 實例化 |
-instantiation | 實例化 | TODO:
+instance | 執行個體 |
+instantiate | 具現化 |
+instantiation | 具現化 |
 integer | 整數 |
 interaction | 互動 |
 interface | 介面 |
@@ -194,6 +199,7 @@ invariant | 不變 | adj. TODO:
 inverter |
 invoke | 引動 |
 invocation | 引動 |
+iterable | 可疊代 |
 iterate | 疊代 |
 iteration | 疊代 |
 iterator | 疊代器 |
@@ -321,7 +327,6 @@ short-circuit | 短路 |
 signature | 簽章 |
 skip | 跳過 |
 snippets | 程式碼片段 |
-
 sourcecode | 原始碼 |
 specific | 特定 |
 specification | 規格 | 另：規範
@@ -340,7 +345,7 @@ structural sub-typing | 結構子型態 | TODO:
 structure | 結構 |
 sub-type | 子型式 |
 subclass | 次類別 | TODO:
-subject expression | 主體表達式 |
+subject expression | 主體運算式 |
 subtraction | 減法 |
 subvert | 顛覆 | TODO:
 support | 支援 |
