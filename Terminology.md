@@ -270,7 +270,7 @@ parameter | 參數 |
 parametrization | 參數化 |
 parent class | 父類別 |
 parser | 剖析器 |
-partial function | 部分函式
+partial function | 部分函式 |
 pattern matching | 模式匹配 |
 performance | 效能 |
 physical field | 實體欄位 |
