@@ -42,7 +42,18 @@ $termList | ForEach-Object -Process {
         [Char]12288,
         "$($term[0])($($term[1])|$($term[2]))".ToCharArray()
     );
-    [String]$regexString = '(?m)(?i)(?<!(?:`|`[\S\n\r][^`]*?|\[[\w\s\(\)\|]+\]\([^\)]*?|^\[code asset\].*?|<!--label:.*?))';
+    [String]$regexString = '(?x)(?m)(?i)
+        (?<!
+            (?:
+                `|# `target
+                `[\S][^`]*?|# `code target # [^`] allow \n\r
+                \[[\w\s\(\)\|]+\]\([^\)]*?|# [code](target)
+                ^\[code asset\].*?|
+                <!--label:.*?|
+                #<!--.*?|# <!-- target
+                \w
+            )
+        )';
     # replace
     $content = $content -replace ( $regexString + $sourceString), $termString;
 } | Out-Null;
